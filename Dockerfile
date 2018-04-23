@@ -1,4 +1,14 @@
-FROM 569325332953.dkr.ecr.us-east-1.amazonaws.com/gde-splash-page:ab305b1fed3aaf22c2527b143801cd11a83bf0b4
+FROM node:carbon
 
-EXPOSE 3000
+WORKDIR /app
 
+COPY package*.json ./
+COPY . /app
+
+RUN npm install
+# RUN npm run build:dll
+# RUN npm run build
+
+CMD [ "npm", "run", "start:production" ]
+
+EXPOSE 3001
