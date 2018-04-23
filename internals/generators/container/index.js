@@ -33,7 +33,7 @@ module.exports = {
     type: 'confirm',
     name: 'wantActionsAndReducer',
     default: true,
-    message: 'Do you want an actions/constants/selectors/reducer tuple for this container?',
+    message: 'Do you want an actions/selectors/reducer tuple for this container?',
   }, {
     type: 'confirm',
     name: 'wantSaga',
@@ -104,12 +104,13 @@ module.exports = {
       });
 
       // Constants
-      actions.push({
-        type: 'add',
-        path: '../../app/containers/{{properCase name}}/constants.js',
-        templateFile: './container/constants.js.hbs',
-        abortOnFail: true,
-      });
+      // Disabled as we are using redux-act
+      // actions.push({
+      //   type: 'add',
+      //   path: '../../app/containers/{{properCase name}}/constants.js',
+      //   templateFile: './container/constants.js.hbs',
+      //   abortOnFail: true,
+      // });
 
       // Selectors
       actions.push({
