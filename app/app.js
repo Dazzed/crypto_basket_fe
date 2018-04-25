@@ -23,8 +23,8 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 
 // image assets
 
-// import '!!style-loader!css-loader!./global-styles/bootstrap.min.css';
-// import '!!style-loader!css-loader!./global-styles/bootstrap-theme.min.css';
+import '!!style-loader!css-loader!./global-styles/bootstrap.min.css';
+import '!!style-loader!css-loader!./global-styles/fonts.css';
 import '!!style-loader!css-loader!./global-styles/styles.css';
 import '!!style-loader!css-loader!./global-styles/styles_2.css';
 
