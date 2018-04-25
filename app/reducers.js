@@ -6,6 +6,8 @@ import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
+import globalReducer from 'containers/App/reducer';
+
 /*
  * routeReducer
  *
@@ -42,6 +44,7 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     form: formReducer,
+    globalData: globalReducer,
     ...injectedReducers,
   });
 }
