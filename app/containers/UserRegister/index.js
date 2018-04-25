@@ -32,6 +32,7 @@ export class UserRegister extends React.Component {
       return (
         <UserRegisterForm
           onSubmit={this.onRegister}
+          {...this.props.userRegister}
         />
       );
     }
