@@ -22,6 +22,7 @@ import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 
 // image assets
+import '!file-loader?name=[name].[ext]!./img/step_one.png';
 
 import '!!style-loader!css-loader!./global-styles/bootstrap.min.css';
 import '!!style-loader!css-loader!./global-styles/fonts.css';
