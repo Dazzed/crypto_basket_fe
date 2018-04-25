@@ -12,6 +12,7 @@ import asyncValidate from './asyncValidate';
 class UserRegisterForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
+    isCreatingUser: PropTypes.bool.isRequired
   };
 
   render() {
@@ -78,16 +79,17 @@ class UserRegisterForm extends Component {
               </div>
               <div className="row mt-3">
                 <div className="col-sm-12">
-                  <button type="submit" className="btn-create-register">
-                    Create Account
-                  </button>
+                  {this.props.isCreatingUser ? <Loading /> :
+                    <button type="submit" className="btn-create-register">
+                      Create Account
+                  </button>}
                 </div>
               </div>
               <div className="row mt-3">
                 <div className="col-sm-12">
                   <p>Already have an account?
                   <Link className="signin_text ml-3" to="/user_login">
-                    Sign in.
+                      Sign in.
                   </Link>
                   </p>
                 </div>
