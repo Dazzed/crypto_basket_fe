@@ -11,6 +11,8 @@ import makeSelectUserLogin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+import LoginForm from './components/Form';
+
 export class UserLogin extends React.Component {
   render() {
     return (
@@ -19,7 +21,7 @@ export class UserLogin extends React.Component {
           <title>UserLogin</title>
           <meta name="description" content="Description of UserLogin" />
         </Helmet>
-        <p>Login works</p>
+        <LoginForm />
       </div>
     );
   }
