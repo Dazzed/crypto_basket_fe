@@ -6,11 +6,14 @@ import { stopSubmit } from 'redux-form';
 import {
   performCreatingUser,
   createUserSuccess,
-  createUserFailure
+  createUserFailure,
+  performEmailVerification,
+  emailVerificationSuccess
 } from './actions';
 
 export default function* main() {
   yield fork(createUserWatcher);
+  yield fork(emailVerificationWatcher);
 }
 
 function* createUserWatcher() {
@@ -27,14 +30,28 @@ function* createUserWatcher() {
         return payload.callback();
       }
     } catch ({ error }) {
-      console.log(30, error)
       if (error && error.message) {
-        console.log(32, error.message)
         if (error.message.includes('Email already exists')) {
           yield put(stopSubmit('user_register', { email: `${payload.user.email} is already in use` }));
         }
       }
       yield put(createUserFailure(error));
+    }
+  });
+}
+
+function* emailVerificationWatcher() {
+  yield takeLatest(performEmailVerification, function* handler({ payload: verificationToken }) {
+    try {
+      const requestURL = '/api/users/verifyEmail';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ verificationToken })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(emailVerificationSuccess(result));
+    } catch (error) {
+      window.location = '/';
     }
   });
 }

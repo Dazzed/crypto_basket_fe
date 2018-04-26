@@ -14,7 +14,7 @@ export default class StepTwo extends Component {
         <div className="row mt-5">
           <div className="col-sm-8 col-10 col-lg-5 m-auto">
             <h1 className="text-center w-100 success_acc_create">Your account has been created</h1>
-            <img src={StepTwoImage} className="mt-3" />
+            <img src={StepTwoImage} className="mt-3 img-fluid" />
             <div className="row mt-5">
               <div className="col-sm-12">
                 <p className="acc_create_text">

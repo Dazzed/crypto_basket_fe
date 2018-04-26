@@ -3,12 +3,17 @@ import { createReducer } from 'redux-act';
 import {
   performCreatingUser,
   createUserSuccess,
-  createUserFailure
+  createUserFailure,
+  performEmailVerification,
+  emailVerificationSuccess,
+  toggleEmailVerifiedFlag
 } from './actions';
 
 const initialState = {
   isCreatingUser: false,
-  user: null
+  isVerifyingEmail: false,
+  user: null,
+  emailVerfiedSuccessfully: false
 };
 
 const reducer = {
@@ -24,6 +29,19 @@ const reducer = {
   [createUserFailure]: state => ({
     ...state,
     isCreatingUser: false
+  }),
+  [performEmailVerification]: state => ({
+    ...state,
+    isVerifyingEmail: true,
+  }),
+  [emailVerificationSuccess]: state => ({
+    ...state,
+    isVerifyingEmail: false,
+    emailVerfiedSuccessfully: true
+  }),
+  [toggleEmailVerifiedFlag]: state => ({
+    ...state,
+    emailVerfiedSuccessfully: false
   })
 };
 
