@@ -22,7 +22,7 @@ class UserRegisterForm extends Component {
         <div className="row mt-5">
           <div className="col-sm-8 col-10 col-lg-5 m-auto">
             <h1 className="text-center w-100">Create a Melotic Account</h1>
-            <img src={StepOne} className="mt-3" />
+            <img src={StepOne} className="mt-3 img-fluid" />
             <form onSubmit={handleSubmit}>
               <div className="row mt-3">
                 <div className="col-sm-6">
@@ -79,7 +79,8 @@ class UserRegisterForm extends Component {
               </div>
               <div className="row mt-3">
                 <div className="col-sm-12">
-                  {this.props.isCreatingUser ? <Loading /> :
+                  {this.props.isCreatingUser ?
+                    <Loading /> :
                     <button type="submit" className="btn-create-register">
                       Create Account
                   </button>}

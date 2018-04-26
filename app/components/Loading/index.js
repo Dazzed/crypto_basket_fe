@@ -11,7 +11,7 @@ export default class Loading extends Component {
   render() {
     if (this.props.insideContainer) {
       return (
-        <div className="container">
+        <div className="container-fluid">
           <img src={LoadingSpinner} />
         </div>
       );
