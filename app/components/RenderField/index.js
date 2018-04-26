@@ -11,7 +11,7 @@ const RenderField = ({
   (
     <Fragment>
       <label className={`${label ? 'label_input' : 'label_empty_input'}`}>{label}</label>
-      <div className={`${asyncValidating ? 'async-validating' : ''}`}>
+      <div className={`${asyncValidating ? 'async-validating' : 'w-100'}`}>
         <input
           className={
             'field_input' +
