@@ -81,7 +81,7 @@ class UserRegisterForm extends Component {
                 <div className="col-sm-12">
                   {this.props.isCreatingUser ?
                     <Loading /> :
-                    <button type="submit" className="btn-create-register">
+                    <button type="submit" className="btn-create-register btn-block">
                       Create Account
                   </button>}
                 </div>

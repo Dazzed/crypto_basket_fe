@@ -1,48 +1,34 @@
-/**
- *
- * UserDashboard
- *
- */
-
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+
+import {
+  makeSelectLocation,
+  makeSelectGlobal
+} from 'containers/App/selectors';
+
 import makeSelectUserDashboard from './selectors';
-import reducer from './reducer';
+import reducer from './reducers';
 import saga from './saga';
 
-export class UserDashboard extends React.Component {
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>UserDashboard</title>
-          <meta name="description" content="Description of UserDashboard" />
-        </Helmet>
-      </div>
-    );
-  }
-}
+import UserDashboard from './UserDashboard';
 
-UserDashboard.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+import * as twoFactorActions from './actions/twoFactorAuthActions';
+import * as commonActions from './actions/common';
 
 const mapStateToProps = createStructuredSelector({
-  userdashboard: makeSelectUserDashboard(),
+  userDashboard: makeSelectUserDashboard(),
+  globalData: makeSelectGlobal(),
+  location: makeSelectLocation()
 });
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({
-
-  }, dispatch)
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ...commonActions,
+  ...twoFactorActions
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

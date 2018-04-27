@@ -101,7 +101,8 @@ p {
 
 .side_bar_style {
     border-right: 1px solid #eeeeee;
-    height: 300mvh;
+    height: 250mvh;
+    position: relative;
 }
 
 .bg_white {
@@ -118,12 +119,33 @@ p {
 }
 
 .btn-create-register {
-    width: 170px;
     height: 44px;
     font-size: 16px;
     border-radius: 2px;
     border: 1px solid #00b34a;
     background-color: #00b34a;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-create-admin {
+    width: 170px;
+    height: 44px;
+    font-size: 14px;
+    border-radius: 2px;
+    border: 1px solid #00b34a;
+    background-color: #00b34a;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-create-archive {
+    width: 170px;
+    height: 44px;
+    font-size: 14px;
+    border-radius: 2px;
+    border: 1px solid #fd6814;
+    background-color: #fd6814;
     color: #ffffff;
     cursor: pointer;
 }
@@ -185,7 +207,7 @@ input::placeholder {
     border: 1px solid #dd9333;
 }
 
-.avaliable_user {
+.available_user {
     background-image: url(../img/available_icon.png);
     background-position: right;
     background-repeat: no-repeat;
@@ -400,9 +422,132 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-@media (max-width: 576px) {}
+.users_list .table {
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0.5px 0 0 rgba(0, 0, 0, 0.1), 0 -0.5px 0 0 rgba(0, 0, 0, 0.1);
+}
 
-@media (max-width: 768px) {}
+.users_list .table th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #dee2e6;
+    border-top: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    color: #76837b;
+}
+
+.users_list .profile th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #dee2e6;
+    border-top: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    color: #76837b;
+}
+
+.users_list .table td {
+    font-size: 16px;
+    color: #3a3a3a;
+    vertical-align: bottom;
+    border-bottom: 1px solid #dee2e6;
+    border-top: 0px;
+    text-align: left;
+}
+
+.users_list .table td a {
+    color: #3a3a3a;
+    text-decoration: none;
+}
+
+.users_list .table td a:hover {
+    color: #3a3a3a;
+}
+
+.table_btn_info {
+    width: 90px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 2px;
+    background-color: #07b7bc;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.table_btn_default {
+    width: 90px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #3a3a3a;
+    border-radius: 2px;
+    background-color: #f6f8f7;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.table_btn_success {
+    width: 90px;
+    height: 24px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 2px;
+    background-color: #00b34a;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.frame_1 {
+    width: 370;
+    height: 232px;
+    border-radius: 2px;
+    border-radius: 2px;
+    background-color: #fbfbfb;
+    border: solid 1px #beccc2;
+}
+
+.error_verification {
+    background-color: #fff3c4;
+    padding: 23px;
+    margin-top: .5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c2c2c;
+}
+
+.success_verification {
+    padding: 23px;
+    margin-top: .5px;
+    background-color: #e7f9f2;
+}
+
+.success_verified_text {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: #2c2c2c !important;
+}
+
+@media (max-width: 320px) {
+    .active_tab_title {
+        width: 100px;
+    }
+    .tab_title {
+        width: 100px;
+    }
+    .tab_list {
+        margin-left: 30px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .set_verify {
+        margin-top: 10px;
+    }
+}
 
 @media (max-width: 992px) {}
 

@@ -24,7 +24,7 @@ export class App extends React.Component {
     this.props.verifyAuth();
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (!prevProps.globalData.isAuthenticated && this.props.globalData.isAuthenticated) {
       // perform stuff here when the user is authenticated
     }
@@ -50,13 +50,16 @@ export class App extends React.Component {
             history={this.props.history}
           />
           {PROTECTED_ROUTES(currentUser)}
-          <Footer />
+          {/* <Footer /> */}
         </div>
       );
     }
     return (
       <div>
-        <Navbar />
+        <Navbar
+          location={this.props.location}
+          history={this.props.history}
+        />
         {PUBLIC_ROUTES}
       </div>
     );
