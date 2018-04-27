@@ -1,6 +1,13 @@
 import { createReducer } from 'redux-act';
 
 import {
+  loginTFAEnableSuccess,
+  loginTFADisableSuccess,
+  withdrawalTFAEnableSuccess,
+  withdrawalTFADisableSuccess
+} from 'containers/UserDashboard/actions/twoFactorAuthActions';
+
+import {
   authSucess,
   authFailure,
   logOutRequest,
@@ -40,6 +47,35 @@ const reducer = {
   [logOutFailure]: state => ({
     ...state,
     isLoggingOut: false
+  }),
+  // TFA actions
+  [loginTFAEnableSuccess]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      twoFactorLoginEnabled: true
+    }
+  }),
+  [loginTFADisableSuccess]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      twoFactorLoginEnabled: false
+    }
+  }),
+  [withdrawalTFAEnableSuccess]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      twoFactorWithdrawalEnabled: true
+    }
+  }),
+  [withdrawalTFADisableSuccess]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      twoFactorWithdrawalEnabled: false
+    }
   })
 };
 
