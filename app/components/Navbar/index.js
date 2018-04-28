@@ -40,6 +40,12 @@ class AppNavbar extends React.Component {
     this.props.history.push(path);
   }
 
+  handleCreateAccountClick = () => {
+    if (this.props.location.pathname.includes('/user_register')) {
+      window.location.reload();
+    }
+  }
+
   render() {
     const {
       currentUser
@@ -59,9 +65,9 @@ class AppNavbar extends React.Component {
                 </li>
                 <li className="nav-item">
                   <Link to="/user_register" className="nav-link">
-                    <button className="btn btn-create">
+                    <button className="btn btn-create" onClick={this.handleCreateAccountClick}>
                       Create Account
-                  </button>
+                    </button>
                   </Link>
                 </li>
               </ul>
@@ -109,7 +115,7 @@ class AppNavbar extends React.Component {
                     <DropdownItem onClick={this.navigateTo.bind(this, '/')}>Send Feedback</DropdownItem>
                     <DropdownItem onClick={this.navigateTo.bind(this, '/')}>FAQs</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem onClick={this.navigateTo.bind(this, '/')}>Logout</DropdownItem>
+                    <DropdownItem onClick={this.props.logOutRequest}>Logout</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </ul>
@@ -124,7 +130,8 @@ class AppNavbar extends React.Component {
 AppNavbar.propTypes = {
   currentUser: PropTypes.object,
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  logOutRequest: PropTypes.func,
 };
 
 export default AppNavbar;

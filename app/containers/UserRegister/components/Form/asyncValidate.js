@@ -7,7 +7,7 @@ const asyncValidate = async values => {
       return;
     }
     const usernameResult = await request({
-      name: `/api/users/checkUsername?username=${enteredUsername}`,
+      name: `/api/users/checkUsername?username=${enteredUsername.toLowerCase()}`,
       method: 'GET'
     });
     if (usernameResult.inUse) {
