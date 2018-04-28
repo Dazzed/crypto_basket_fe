@@ -2,7 +2,6 @@ import {
   startEnablingTFALogin,
   startDisablingTFALogin,
   performEnablingTFALogin,
-  performDisablingTFALogin,
   loginTFAEnableSuccess,
   loginTFAEnableError,
   loginTFADisableSuccess,
@@ -10,7 +9,6 @@ import {
   startEnablingTFAWithdrawal,
   startDisablingTFAWithdrawal,
   performEnablingTFAWithdrawal,
-  performDisablingTFAWithdrawal,
   withdrawalTFAEnableSuccess,
   withdrawalTFAEnableError,
   withdrawalTFADisableSuccess,
@@ -36,10 +34,6 @@ export const twoFactorAuthReducer = {
   [performEnablingTFALogin]: state => ({
     ...state,
     isEnablingTFALogin: true
-  }),
-  [performDisablingTFALogin]: state => ({
-    ...state,
-    isDisablingTFALogin: true
   }),
   [loginTFAEnableSuccess]: state => ({
     ...state,
@@ -73,10 +67,6 @@ export const twoFactorAuthReducer = {
   [performEnablingTFAWithdrawal]: state => ({
     ...state,
     isEnablingTFAWithdrawal: true
-  }),
-  [performDisablingTFAWithdrawal]: state => ({
-    ...state,
-    isDisablingTFAWithdrawal: true
   }),
   [withdrawalTFAEnableSuccess]: state => ({
     ...state,

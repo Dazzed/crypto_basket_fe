@@ -56,7 +56,7 @@ class LoginForm extends Component {
               <div className="row mt-4">
                 <div className="col-sm-12">
                   {this.props.isLoggingIn ?
-                    <Loading /> :
+                    <Loading insideModal floatLeft /> :
                     <button
                       type="submit"
                       className={`btn-create-register ${pristine && 'btn-disabled'}`}

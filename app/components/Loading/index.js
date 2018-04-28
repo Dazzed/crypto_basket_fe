@@ -6,7 +6,8 @@ export default class Loading extends Component {
   static propTypes = {
     insideContainer: PropTypes.bool,
     center: PropTypes.bool,
-    insideModal: PropTypes.bool
+    insideModal: PropTypes.bool,
+    floatLeft: PropTypes.bool
   }
 
   render() {
@@ -26,7 +27,7 @@ export default class Loading extends Component {
     }
     if (this.props.insideModal) {
       return (
-        <img src={LoadingSpinner} className="loading-inside-modal" />
+        <img src={LoadingSpinner} className={`loading-inside-modal ${this.props.floatLeft ? 'float-left' : ''}`} />
       );
     }
     return (

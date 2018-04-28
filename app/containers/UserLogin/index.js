@@ -5,15 +5,23 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 
+import ToasterHOC from 'components/ToasterHOC';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectUserLogin from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import {
+  loginRequest
+} from './actions';
 
 import LoginForm from './components/Form';
 
 export class UserLogin extends React.Component {
+  submit = values => {
+    this.props.loginRequest(values, this.props.showToastSuccess, this.props.showToastError);
+  }
+
   render() {
     return (
       <div>
@@ -21,14 +29,20 @@ export class UserLogin extends React.Component {
           <title>UserLogin</title>
           <meta name="description" content="Description of UserLogin" />
         </Helmet>
-        <LoginForm />
+        <LoginForm
+          onSubmit={this.submit}
+          isLoggingIn={this.props.userLogin.isLoggingIn}
+        />
       </div>
     );
   }
 }
 
 UserLogin.propTypes = {
-
+  userLogin: PropTypes.object.isRequired,
+  showToastSuccess: PropTypes.func.isRequired,
+  showToastError: PropTypes.func.isRequired,
+  loginRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -37,7 +51,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
-
+    loginRequest
   }, dispatch)
 });
 
@@ -50,4 +64,5 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
+  ToasterHOC
 )(UserLogin);

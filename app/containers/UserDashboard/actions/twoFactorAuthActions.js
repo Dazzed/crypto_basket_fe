@@ -19,11 +19,6 @@ export const performEnablingTFALogin = createAction(
   })
 );
 
-// export const performDisablingTFALogin = createAction(
-//   `${PREFIX}_PERFORM_DISABLING_TFA_LOGIN`,
-//   otp => otp
-// );
-
 export const loginTFAEnableSuccess = createAction(
   `${PREFIX}_LOGIN_TFA_ENABLE_SUCCESS`
 );
@@ -56,11 +51,6 @@ export const performEnablingTFAWithdrawal = createAction(
     otp
   })
 );
-
-// export const performDisablingTFAWithdrawal = createAction(
-//   `${PREFIX}_PERFORM_DISABLING_TFA_WITHDRAWAL`,
-//   otp => otp
-// );
 
 export const withdrawalTFAEnableSuccess = createAction(
   `${PREFIX}_WITHDRAWAL_TFA_ENABLE_SUCCESS`
