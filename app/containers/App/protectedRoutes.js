@@ -23,7 +23,7 @@ const ROUTES = (currentUser) => {
         return (
           <Switch>
             <Route path="/dashboard" component={AdminDashboard} />
-            <Redirect from="/" to="/dashboard" />
+            <Redirect from="/" to="/dashboard/users" />
           </Switch>
         );
       case 'admin':
