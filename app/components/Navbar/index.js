@@ -46,36 +46,10 @@ class AppNavbar extends React.Component {
     }
   }
 
-  render() {
+  renderRegularUser = () => {
     const {
       currentUser
     } = this.props;
-    if (!currentUser) {
-      return (
-        <div className="header">
-          <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-            <Link to="/" className="navbar-brand">MELOTIC</Link>
-            <button className="navbar-toggler" type="button">
-              <span className="navbar-toggler-icon" />
-            </button>
-            <div className="collapse navbar-collapse" id="navbarText">
-              <ul className="nav navbar-nav ml-auto mr-5">
-                <li className="nav-item">
-                  <Link to="/user_login" className="nav-link signin">Sign In</Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/user_register" className="nav-link">
-                    <button className="btn btn-create" onClick={this.handleCreateAccountClick}>
-                      Create Account
-                    </button>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </div>
-      );
-    }
     return (
       <Fragment>
         <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
@@ -124,6 +98,101 @@ class AppNavbar extends React.Component {
         </div>
       </Fragment>
     );
+  }
+
+  renderAdmin = () => {
+    const {
+      currentUser
+    } = this.props;
+    return (
+      <Fragment>
+        <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
+          <NavbarBrand href="/">MELOTIC</NavbarBrand>
+          <NavbarToggler className="float-right" onClick={this.toggleMobile} />
+          <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children">
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/components/" className="black">Components</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://github.com/reactstrap/reactstrap" className="black">GitHub</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://github.com/reactstrap/reactstrap" className="black">GitHub</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="https://github.com/reactstrap/reactstrap" className="black">GitHub</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+        <div className="d-none d-md-none d-lg-block header">
+          <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+            <Link to="/" className="navbar-brand">MELOTIC ADMIN</Link>
+            <div className="collapse navbar-collapse" id="navbarText">
+              <ul className="nav navbar-nav ml-auto mr-5">
+                <li className="nav-item">
+                  <img src={AvatarPng} className="avatar_logo" />
+                </li>
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                  <DropdownToggle caret>
+                    {currentUser.firstName} {currentUser.lastName}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem onClick={this.props.logOutRequest}>Logout</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </Fragment>
+    );
+  }
+
+  render() {
+    const {
+      currentUser
+    } = this.props;
+    if (!currentUser) {
+      return (
+        <div className="header">
+          <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+            <Link to="/" className="navbar-brand">MELOTIC</Link>
+            <button className="navbar-toggler" type="button">
+              <span className="navbar-toggler-icon" />
+            </button>
+            <div className="collapse navbar-collapse" id="navbarText">
+              <ul className="nav navbar-nav ml-auto mr-5">
+                <li className="nav-item">
+                  <Link to="/user_login" className="nav-link signin">Sign In</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/user_register" className="nav-link">
+                    <button className="btn btn-create" onClick={this.handleCreateAccountClick}>
+                      Create Account
+                    </button>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      );
+    }
+    const {
+      roleMapping
+    } = currentUser;
+    if (!roleMapping) {
+      return this.renderRegularUser();
+    }
+    const {
+      role
+    } = roleMapping;
+    if (role.name === 'super_admin' || role.name === 'admin') {
+      return this.renderAdmin();
+    }
+    return null;
   }
 }
 

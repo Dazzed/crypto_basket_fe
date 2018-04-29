@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
 
+import ToasterHOC from 'components/ToasterHOC';
 import SideBar from 'components/SideBar';
 import navigationItems from './navigationItems';
 import Modals from './components/Modals';
 
 import Settings from './components/Settings';
 
-export default class UserDashboard extends React.Component {
+class UserDashboard extends React.Component {
   render() {
     const { match } = this.props;
     return (
@@ -36,4 +37,6 @@ UserDashboard.propTypes = {
   location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
+
+export default ToasterHOC(UserDashboard);
 

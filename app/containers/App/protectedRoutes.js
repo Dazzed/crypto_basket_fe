@@ -19,6 +19,13 @@ const ROUTES = (currentUser) => {
       }
     } = roleMapping;
     switch (roleName) {
+      case 'super_admin':
+        return (
+          <Switch>
+            <Route path="/dashboard" component={AdminDashboard} />
+            <Redirect from="/" to="/dashboard" />
+          </Switch>
+        );
       case 'admin':
         return (
           <Switch>

@@ -25,17 +25,18 @@ export class AdminDashboard extends React.Component {
           <title>AdminDashboard</title>
           <meta name="description" content="Description of AdminDashboard" />
         </Helmet>
+        <h1>Admin dashboard</h1>
       </div>
     );
   }
 }
 
 AdminDashboard.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  
 };
 
 const mapStateToProps = createStructuredSelector({
-  admindashboard: makeSelectAdminDashboard(),
+  adminDashboard: makeSelectAdminDashboard(),
 });
 
 const mapDispatchToProps = dispatch => ({

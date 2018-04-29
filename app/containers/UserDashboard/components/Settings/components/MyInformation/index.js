@@ -20,6 +20,7 @@ class MyInformation extends Component {
     handleSubmit: PropTypes.func.isRequired,
     setActiveTfaToggleKey: PropTypes.func.isRequired,
     openOTPModal: PropTypes.func.isRequired,
+    startChangingPassword: PropTypes.func.isRequired
   }
 
   renderTFALoginSwitch = () => {
@@ -170,7 +171,7 @@ class MyInformation extends Component {
           </div>
         </div>
         <div className="col-md-3 col-6 mt-4">
-          <span className="change_pwd_green_txt mt-2 cursor-pointer">
+          <span onClick={this.props.startChangingPassword} className="change_pwd_green_txt mt-2 cursor-pointer">
             Change Password
           </span>
         </div>
