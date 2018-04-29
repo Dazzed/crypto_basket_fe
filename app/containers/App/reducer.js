@@ -8,6 +8,10 @@ import {
 } from 'containers/UserDashboard/actions/twoFactorAuthActions';
 
 import {
+  patchUserSuccess
+} from 'containers/UserDashboard/actions/common';
+
+import {
   authSucess,
   authFailure,
   logOutRequest,
@@ -75,6 +79,13 @@ const reducer = {
     currentUser: {
       ...state.currentUser,
       twoFactorWithdrawalEnabled: false
+    }
+  }),
+  [patchUserSuccess]: (state, updatedUser) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      ...updatedUser
     }
   })
 };

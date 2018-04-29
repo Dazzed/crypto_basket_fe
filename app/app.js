@@ -27,6 +27,7 @@ import '!file-loader?name=[name].[ext]!./img/step_one.png';
 import '!!style-loader!css-loader!./global-styles/bootstrap.min.css';
 import '!!style-loader!css-loader!./global-styles/fonts.css';
 import '!!style-loader!css-loader!./global-styles/styles.css';
+import '!!style-loader!css-loader!react-datepicker/dist/react-datepicker.min.css';
 import '!!style-loader!css-loader!./global-styles/styles_2.css';
 
 /* eslint-enable import/no-unresolved, import/extensions */

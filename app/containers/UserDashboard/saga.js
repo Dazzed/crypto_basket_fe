@@ -1,7 +1,7 @@
 import { put, take, fork, call, cancel, takeEvery } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
-import { stopSubmit } from 'redux-form';
+import { stopSubmit, destroy } from 'redux-form';
 
 import {
   startEnablingTFALogin,
@@ -20,6 +20,18 @@ import {
   updateTfaEnabledWithOtp
 } from './actions/twoFactorAuthActions';
 
+import {
+  confirmChangingPassword,
+  changePasswordSuccess,
+  changePasswordError
+} from './actions/changePassword';
+
+import {
+  performPatchingUser,
+  patchUserSuccess,
+  patchUserError
+} from './actions/common';
+
 export default function* main() {
   yield fork(tfaLoginEnableWatcherInitial);
   yield fork(tfaLoginEnableWatcherFinal);
@@ -28,6 +40,8 @@ export default function* main() {
   yield fork(tfaWithdrawalEnableWatcherFinal);
 
   yield fork(updateFlagWithOTP);
+  yield fork(changePasswordWatcher);
+  yield fork(patchUserWatcher);
 }
 
 function* tfaLoginEnableWatcherInitial() {
@@ -145,6 +159,51 @@ function* updateFlagWithOTP() {
         }
       }
       yield put(stopSubmit('otp_form', { otp: 'Invalid OTP' }));
+    }
+  });
+}
+
+function* changePasswordWatcher() {
+  yield takeLatest(confirmChangingPassword, function* handler({ payload }) {
+    try {
+      const requestURL = '/api/users/change-password';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      };
+      yield call(request, { name: requestURL }, params);
+      yield put(changePasswordSuccess());
+      payload.toastSuccessCallBack('Password Changed Successfully!');
+    } catch (error) {
+      yield put(changePasswordError());
+      yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
+    }
+  });
+}
+
+function* patchUserWatcher() {
+  yield takeLatest(performPatchingUser, function* handler({ payload }) {
+    try {
+      const {
+        user,
+        values
+      } = payload;
+      if (values.dob) {
+        values.dob = values.dob.format('YYYY-MM-DD');
+      }
+      const requestURL = `/api/users/${user.id}`;
+      const params = {
+        method: 'PATCH',
+        body: JSON.stringify(values)
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(patchUserSuccess(result));
+      // yield put(destroy('user_verification'));
+      payload.toastSuccessCallBack('Your information is updated successfully!');
+    } catch (error) {
+      yield put(patchUserError());
+      // yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
+      payload.toastErrorCallBack('There was an error');
     }
   });
 }

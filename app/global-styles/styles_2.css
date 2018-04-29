@@ -44,3 +44,24 @@
     left: 45%;
     text-align: center;
 }
+
+.hidden {
+    display: none;
+}
+
+.melotic-datepicker {
+    height: 44px;
+    border-radius: 2px;
+    border: 1px solid #ced4da;
+    background-color: rgba(251, 251, 251, 0);
+    display: block;
+    width: 100%;
+}
+
+.react-datepicker-wrapper {
+    display: block;
+}
+
+.react-datepicker__input-container {
+    display: block;
+}
