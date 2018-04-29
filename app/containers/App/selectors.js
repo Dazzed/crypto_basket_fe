@@ -31,3 +31,22 @@ export const isAdmin = () => createSelector(
     return name === 'admin';
   }
 );
+
+export const isSuperAdmin = () => createSelector(
+  state => state,
+  state => {
+    if (!state.globalData.currentUser || !state.globalData.currentUser.roleMapping) {
+      return false;
+    }
+    const {
+      currentUser: {
+        roleMapping: {
+          role: {
+            name
+          }
+        }
+      }
+    } = state.globalData;
+    return name === 'super_admin';
+  }
+);
