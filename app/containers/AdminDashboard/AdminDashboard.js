@@ -8,6 +8,7 @@ import SideBar from 'components/SideBar';
 import navigationItems from './navigationItems';
 
 import Users from './components/Users';
+import Modals from './components/Modals';
 
 class AdminDashboard extends React.Component {
   render() {
@@ -17,6 +18,7 @@ class AdminDashboard extends React.Component {
         <Helmet>
           <title>Admin Dashboard</title>
         </Helmet>
+        <Modals {...this.props} />
         <div className="row h-100 sidebar_melotic">
           <SideBar navigationItems={navigationItems} />
           <Switch>

@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import ChangePasswordModal from 'components/ChangePasswordModal';
-
-import TwoFactorEnableModal from './components/TwoFactorEnableModal';
-import OtpModal from './components/OtpModal';
+import OtpModal from 'components/OtpModal';
+import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
 
 export default class Modals extends Component {
   static propTypes = {
