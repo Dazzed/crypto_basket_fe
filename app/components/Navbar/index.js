@@ -107,7 +107,7 @@ class AppNavbar extends React.Component {
     return (
       <Fragment>
         <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
-          <NavbarBrand href="/">MELOTIC</NavbarBrand>
+          <NavbarBrand href="/">MELOTIC ADMIN</NavbarBrand>
           <NavbarToggler className="float-right" onClick={this.toggleMobile} />
           <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children">
             <Nav className="ml-auto" navbar>
@@ -158,7 +158,7 @@ class AppNavbar extends React.Component {
       return (
         <div className="header">
           <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-            <Link to="/" className="navbar-brand">MELOTIC</Link>
+            <Link to="/" className="navbar-brand">MELOTIC {this.props.location.pathname.includes('admin') && 'ADMIN'}</Link>
             <button className="navbar-toggler" type="button">
               <span className="navbar-toggler-icon" />
             </button>

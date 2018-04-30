@@ -1,6 +1,40 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Users extends Component {
+  renderCreateAdminButton = () => {
+    const {
+      isSuperAdmin,
+      globalData: {
+        currentUser: {
+          twoFactorCreateAdminEnabled,
+          twoFactorToken
+        }
+      },
+      startCreatingAdmin,
+      startEnablingTFAAdmin
+    } = this.props;
+    if (isSuperAdmin) {
+      let onClick;
+      if (twoFactorCreateAdminEnabled) {
+        onClick = startCreatingAdmin;
+      } else {
+        onClick = startEnablingTFAAdmin.bind(this, twoFactorToken);
+      }
+      return (
+        <div className="col-md-2 col-4 mt-3">
+          <button
+            type="button"
+            className="btn-create-admin w-100"
+            onClick={onClick}
+          >
+            Create Admin
+          </button>
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
@@ -9,11 +43,9 @@ export default class Users extends Component {
             <h2 className="p-4">Users</h2>
           </div>
           <div className="col-md-2 col-4 mt-3">
-            <button type="button" data-toggle="modal" data-target="#create_popup_user" className="btn-create-admin w-100">Create User</button>
+            <button type="button" className="btn-create-admin w-100">Create User</button>
           </div>
-          <div className="col-md-2 col-4 mt-3">
-            <button type="button" data-toggle="modal" data-target="#create_popup_admin" className="btn-create-admin w-100">Create Admin</button>
-          </div>
+          {this.renderCreateAdminButton()}
         </div>
         <div className="row mt-3  bg_white">
           <div className="col-lg-12">
@@ -220,3 +252,15 @@ export default class Users extends Component {
     );
   }
 }
+
+Users.propTypes = {
+  globalData: PropTypes.object.isRequired,
+  adminDashboard: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  isSuperAdmin: PropTypes.bool.isRequired,
+  startEnablingTFAAdmin: PropTypes.func.isRequired,
+  openOtpModal: PropTypes.func.isRequired,
+  showToastSuccess: PropTypes.func.isRequired,
+  showToastError: PropTypes.func.isRequired,
+  startCreatingAdmin: PropTypes.func.isRequired
+};

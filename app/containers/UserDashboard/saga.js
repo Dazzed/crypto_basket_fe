@@ -1,7 +1,7 @@
 import { put, take, fork, call, cancel, takeEvery } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
-import { stopSubmit, destroy } from 'redux-form';
+import { stopSubmit } from 'redux-form';
 
 import {
   startEnablingTFALogin,

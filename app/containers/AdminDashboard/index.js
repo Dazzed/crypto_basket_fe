@@ -14,6 +14,10 @@ import {
 import makeSelectAdminDashboard from './selectors';
 import reducer from './reducers';
 import saga from './saga';
+import * as commonActions from './actions/common';
+import * as tfaActions from './actions/twoFactorAuth';
+import * as userActions from './actions/user';
+import * as createAdminActions from './actions/createAdmin';
 
 import AdminDashboard from './AdminDashboard';
 
@@ -25,11 +29,12 @@ const mapStateToProps = createStructuredSelector({
   location: makeSelectLocation()
 });
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({
-
-  }, dispatch)
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ...commonActions,
+  ...tfaActions,
+  ...userActions,
+  ...createAdminActions
+}, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
