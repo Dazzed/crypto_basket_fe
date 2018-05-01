@@ -21,7 +21,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { handleSubmit, pristine, loginFailed} = this.props;
+    const { handleSubmit, pristine, loginFailed, tfaRequired} = this.props;
     const onChange = e => {
       this.setState({captcha: true});
     }
@@ -64,6 +64,21 @@ class LoginForm extends Component {
                   </Link>
                 </div>
               </div>
+
+              { (loginFailed && tfaRequired) ? (
+                <div className="row mt-3">
+                  <div className="col-sm-12">
+                    <Field
+                        name="otp"
+                        type="string"
+                        component={RenderField}
+                        label="Google Authenticator Code"
+                        placeholder="Google Auth Code"
+                      />
+                  </div>
+                </div>
+                ) : null }
+
               {loginFailed ? (
               <div className="row mt-3">
                 <div className="col-sm-12">
@@ -78,7 +93,7 @@ class LoginForm extends Component {
                     <button
                       type="submit"
                       disabled={loginFailed && !this.state.captcha}
-                      className={`btn-create-register ${pristine && 'btn-disabled'}`}
+                      className={`btn-create-register ${pristine && 'btn-disabled'} ${(loginFailed && !this.state.captcha) && 'btn-disabled'}`}
                     >
                       Cool,Lets log in
                   </button>}

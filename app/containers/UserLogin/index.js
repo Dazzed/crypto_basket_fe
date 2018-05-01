@@ -19,7 +19,7 @@ import LoginForm from './components/Form';
 
 export class UserLogin extends React.Component {
   submit = values => {
-    this.props.loginRequest(values, this.props.showToastSuccess, this.props.showToastError);
+    this.props.loginRequest(values, this.props.showToastSuccess, this.props.showToastError, this.props.userLogin.tfaRequired, this.props.userLogin.tfaToken);
   }
 
   render() {
@@ -33,6 +33,7 @@ export class UserLogin extends React.Component {
           onSubmit={this.submit}
           isLoggingIn={this.props.userLogin.isLoggingIn}
           loginFailed={this.props.userLogin.loginFailed}
+          tfaRequired={this.props.userLogin.tfaRequired}
         />
       </div>
     );

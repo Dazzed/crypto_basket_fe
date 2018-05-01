@@ -3,12 +3,15 @@ import { createReducer } from 'redux-act';
 import {
   loginRequest,
   loginSuccess,
-  loginFailed
+  loginFailed,
+  loginTFANeeded
 } from './actions';
 
 const initialState = {
   loginFailed: false,
-  isLoggingIn: false
+  isLoggingIn: false,
+  tfaRequired: false,
+  tfaToken: ""
 };
 
 const reducer = {
@@ -24,7 +27,15 @@ const reducer = {
   }),
   [loginSuccess]: state => ({
     ...state,
-    isLoggingIn: false
+    isLoggingIn: false, 
+    tfaRequired: false
+  }),
+  [loginTFANeeded]: (state, action) => ({
+    ...state,
+    isLoggingIn: false,
+    tfaRequired: true, 
+    loginFailed: true,
+    tfaToken: action.tfaToken
   })
 };
 
