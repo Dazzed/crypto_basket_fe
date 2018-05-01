@@ -6,15 +6,18 @@ import { Link } from 'react-router-dom';
 import RenderField from 'components/RenderField';
 import Loading from 'components/Loading';
 import validate from './validate';
+import Recaptcha from 'react-recaptcha';
 
 class LoginForm extends Component {
   static propTypes = {
     isLoggingIn: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequiredm,
+    loginFailed: PropTypes.bool.isRequired
   }
 
   render() {
-    const { handleSubmit, pristine } = this.props;
+    const { handleSubmit, pristine, loginFailed} = this.props;
+    console.log('loginfailed', loginFailed);
     return (
       <div className="container-fluid">
         <div className="row mt-5">
@@ -65,6 +68,7 @@ class LoginForm extends Component {
                   </button>}
                 </div>
               </div>
+              {loginFailed ? <Recaptcha sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu"/> : null}
               <div className="row mt-3">
                 <div className="col-sm-12">
                   <p>

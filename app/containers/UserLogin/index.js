@@ -32,6 +32,7 @@ export class UserLogin extends React.Component {
         <LoginForm
           onSubmit={this.submit}
           isLoggingIn={this.props.userLogin.isLoggingIn}
+          loginFailed={this.props.userLogin.loginFailed}
         />
       </div>
     );
