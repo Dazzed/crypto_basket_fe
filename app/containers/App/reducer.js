@@ -8,6 +8,14 @@ import {
 } from 'containers/UserDashboard/actions/twoFactorAuthActions';
 
 import {
+  tfaAdminEnableSuccess
+} from 'containers/AdminDashboard/actions/twoFactorAuth';
+
+import {
+  patchUserSuccess
+} from 'containers/UserDashboard/actions/common';
+
+import {
   authSucess,
   authFailure,
   logOutRequest,
@@ -75,6 +83,20 @@ const reducer = {
     currentUser: {
       ...state.currentUser,
       twoFactorWithdrawalEnabled: false
+    }
+  }),
+  [tfaAdminEnableSuccess]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      twoFactorCreateAdminEnabled: true
+    }
+  }),
+  [patchUserSuccess]: (state, updatedUser) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      ...updatedUser
     }
   })
 };

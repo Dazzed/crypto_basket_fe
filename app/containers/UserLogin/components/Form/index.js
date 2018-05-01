@@ -7,6 +7,7 @@ import RenderField from 'components/RenderField';
 import Loading from 'components/Loading';
 import validate from './validate';
 import Recaptcha from 'react-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -14,10 +15,17 @@ class LoginForm extends Component {
     handleSubmit: PropTypes.func.isRequiredm,
     loginFailed: PropTypes.bool.isRequired
   }
+  constructor(){
+    super();
+    this.state = {captcha: false};
+  }
 
   render() {
     const { handleSubmit, pristine, loginFailed} = this.props;
-    console.log('loginfailed', loginFailed);
+    const onChange = e => {
+      this.setState({captcha: true});
+    }
+    console.log('loginfailed', loginFailed, 'captcha', this.state.captcha);
     return (
       <div className="container-fluid">
         <div className="row mt-5">
@@ -56,19 +64,26 @@ class LoginForm extends Component {
                   </Link>
                 </div>
               </div>
+              {loginFailed ? (
+              <div className="row mt-3">
+                <div className="col-sm-12">
+                <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange}/>
+                </div>
+              </div>
+                ) : null}
               <div className="row mt-4">
                 <div className="col-sm-12">
                   {this.props.isLoggingIn ?
                     <Loading insideModal floatLeft /> :
                     <button
                       type="submit"
+                      disabled={loginFailed && !this.state.captcha}
                       className={`btn-create-register ${pristine && 'btn-disabled'}`}
                     >
                       Cool,Lets log in
                   </button>}
                 </div>
               </div>
-              {loginFailed ? <Recaptcha sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu"/> : null}
               <div className="row mt-3">
                 <div className="col-sm-12">
                   <p>

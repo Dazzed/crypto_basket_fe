@@ -17,6 +17,7 @@ import saga from './saga';
 import UserDashboard from './UserDashboard';
 
 import * as twoFactorActions from './actions/twoFactorAuthActions';
+import * as changePasswordActions from './actions/changePassword';
 import * as commonActions from './actions/common';
 
 const mapStateToProps = createStructuredSelector({
@@ -27,7 +28,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   ...commonActions,
-  ...twoFactorActions
+  ...twoFactorActions,
+  ...changePasswordActions
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

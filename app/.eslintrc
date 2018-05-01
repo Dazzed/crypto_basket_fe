@@ -62,6 +62,8 @@
     "no-use-before-define": 0,
     "no-throw-literal": 0,
     "no-useless-escape": 0,
+    "one-var": 0,
+    "one-var-declaration-per-line": 0,
     "prefer-template": 2,
     "react/forbid-prop-types": 0,
     "react/jsx-first-prop-new-line": [

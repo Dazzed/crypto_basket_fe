@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import TwoFactorEnableModal from './components/TwoFactorEnableModal';
-import OtpModal from './components/OtpModal';
+import ChangePasswordModal from 'components/ChangePasswordModal';
+import OtpModal from 'components/OtpModal';
+import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
 
 export default class Modals extends Component {
   static propTypes = {
@@ -15,6 +16,9 @@ export default class Modals extends Component {
     performEnablingTFAWithdrawal: PropTypes.func.isRequired,
     updateTfaEnabledWithOtp: PropTypes.func.isRequired,
     unsetActiveTfaToggleKey: PropTypes.func.isRequired,
+    confirmChangingPassword: PropTypes.func.isRequired,
+    showToastSuccess: PropTypes.func.isRequired,
+    showToastError: PropTypes.func.isRequired,
   };
 
   onSubmitOtp = ({ otp: thizOtp }) => {
@@ -54,6 +58,14 @@ export default class Modals extends Component {
         updateTfaEnabledWithOtp(userId, 'twoFactorWithdrawalEnabled', true, otp);
       }
     }
+  }
+
+  onChangePassword = values => {
+    this.props.confirmChangingPassword(
+      values.oldPassword,
+      values.newPassword,
+      this.props.showToastSuccess
+    );
   }
 
   render() {
@@ -133,6 +145,19 @@ export default class Modals extends Component {
           manualCode={manualCode}
           globalData={globalData}
           openOTPModal={openOTPModal}
+        />
+      );
+    }
+
+    if (userDashboard.changingPassword) {
+      const {
+        isChangingPassword
+      } = userDashboard;
+      return (
+        <ChangePasswordModal
+          loading={isChangingPassword}
+          onCancel={cancelOperation}
+          onSubmit={this.onChangePassword}
         />
       );
     }
