@@ -119,5 +119,6 @@ class LoginForm extends Component {
 
 export default (reduxForm({
   form: 'user_login',
+  destroyOnUnmount: false,
   validate
 })(LoginForm));
