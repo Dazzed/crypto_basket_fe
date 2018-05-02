@@ -147,6 +147,7 @@ class MyInformation extends Component {
                 component={RenderField}
                 label="Email Address"
                 placeholder="Email Address"
+                disabled
               />
             </div>
             <div className="col-md-12 mt-3 input-group">

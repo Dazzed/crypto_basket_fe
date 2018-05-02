@@ -6,7 +6,8 @@ const RenderField = ({
   label,
   type,
   placeholder,
-  meta: { touched, error, asyncValidating }
+  meta: { touched, error, asyncValidating },
+  disabled
 }) =>
   (
     <Fragment>
@@ -16,11 +17,14 @@ const RenderField = ({
           className={
             'field_input' +
             `${error && touched ? ' error_input' : ''}` +
-            `${(input.name === 'username' && !asyncValidating && !error && touched) ? ' avaliable_user' : ''}`
+            `${(input.name === 'username' && !asyncValidating && !error && touched) ? ' avaliable_user' : ''}` +
+            `${disabled ? ' field_read_only' : ''}`
           }
           {...input}
           placeholder={placeholder}
           type={type}
+          disabled={disabled}
+          style={disabled ? { cursor: 'not-allowed' } : {}}
         />
       </div>
       {touched &&
@@ -39,6 +43,7 @@ RenderField.propTypes = {
   type: PropTypes.string,
   meta: PropTypes.object,
   placeholder: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default RenderField;
