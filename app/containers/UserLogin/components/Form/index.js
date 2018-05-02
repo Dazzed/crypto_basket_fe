@@ -2,28 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import Recaptcha from 'react-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import RenderField from 'components/RenderField';
 import Loading from 'components/Loading';
 import validate from './validate';
-import Recaptcha from 'react-recaptcha';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 class LoginForm extends Component {
   static propTypes = {
     isLoggingIn: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequiredm,
+    handleSubmit: PropTypes.func.isRequired,
     loginFailed: PropTypes.bool.isRequired
   }
-  constructor(){
+  constructor() {
     super();
-    this.state = {captcha: false};
+    this.state = { captcha: false };
   }
 
   render() {
-    const { handleSubmit, pristine, loginFailed, tfaRequired} = this.props;
+    const { handleSubmit, pristine, loginFailed, tfaRequired } = this.props;
     const onChange = e => {
-      this.setState({captcha: true});
+      this.setState({ captcha: true });
     }
     console.log('loginfailed', loginFailed, 'captcha', this.state.captcha);
     return (
@@ -65,27 +65,27 @@ class LoginForm extends Component {
                 </div>
               </div>
 
-              { (loginFailed && tfaRequired) ? (
+              {(loginFailed && tfaRequired) ? (
                 <div className="row mt-3">
                   <div className="col-sm-12">
                     <Field
-                        name="otp"
-                        type="string"
-                        component={RenderField}
-                        label="Google Authenticator Code"
-                        placeholder="Google Auth Code"
-                      />
+                      name="otp"
+                      type="string"
+                      component={RenderField}
+                      label="Google Authenticator Code"
+                      placeholder="Google Auth Code"
+                    />
                   </div>
                 </div>
-                ) : null }
+              ) : null}
 
               {loginFailed ? (
-              <div className="row mt-3">
-                <div className="col-sm-12">
-                <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange}/>
+                <div className="row mt-3">
+                  <div className="col-sm-12">
+                    <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} />
+                  </div>
                 </div>
-              </div>
-                ) : null}
+              ) : null}
               <div className="row mt-4">
                 <div className="col-sm-12">
                   {this.props.isLoggingIn ?
@@ -95,7 +95,7 @@ class LoginForm extends Component {
                       disabled={loginFailed && !this.state.captcha}
                       className={`btn-create-register ${pristine && 'btn-disabled'} ${(loginFailed && !this.state.captcha) && 'btn-disabled'}`}
                     >
-                      Cool,Lets log in
+                      Sign In
                   </button>}
                 </div>
               </div>

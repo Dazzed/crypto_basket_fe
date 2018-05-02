@@ -85,7 +85,7 @@ class AppNavbar extends React.Component {
                     {currentUser.firstName} {currentUser.lastName}
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem onClick={this.navigateTo.bind(this, '/')}>Settings</DropdownItem>
+                    <DropdownItem onClick={this.navigateTo.bind(this, '/dashboard/settings')}>Settings</DropdownItem>
                     <DropdownItem onClick={this.navigateTo.bind(this, '/')}>Send Feedback</DropdownItem>
                     <DropdownItem onClick={this.navigateTo.bind(this, '/')}>FAQs</DropdownItem>
                     <DropdownItem divider />

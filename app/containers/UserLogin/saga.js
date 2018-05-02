@@ -2,15 +2,10 @@
 import { put, fork, call } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
-import { storeAuthDetails } from 'helpers/localStorage';
 
 import {
   authSucess
 } from 'containers/App/actions';
-
-import {
-  getCurrentUser
-} from 'containers/App/sagas';
 
 import {
   loginFailed,
@@ -27,42 +22,40 @@ function* loginFormWatcher() {
   yield takeLatest(loginRequest, function* handler({ payload }) {
     const {
       credentials,
-      toastErrorCallBack, 
-      tfaRequired, 
+      toastErrorCallBack,
+      tfaRequired,
       twoFactorToken
     } = payload;
     try {
-      if(tfaRequired){
+      if (tfaRequired) {
         const requestURL = '/api/users/verifyTwoFactor';
         const params = {
           method: 'POST',
-          body: JSON.stringify({twoFactorToken: twoFactorToken, otp: parseInt(credentials.otp), type: "login"})
+          body: JSON.stringify({ twoFactorToken: twoFactorToken, otp: credentials.otp, type: "login" })
         };
         const tfaResponse = yield call(request, { name: requestURL }, params);
         const { userId, id: access_token } = tfaResponse.accessToken;
-        storeAuthDetails({ userId, access_token });
-        const currentUser = yield call(getCurrentUser);
-        yield put(authSucess(currentUser));
+        window.access_token = access_token;
+        yield put(authSucess(tfaResponse.user));
         yield put(loginSuccess());
-      }else{
+      } else {
         const requestURL = '/api/users/login';
         const params = {
           method: 'POST',
           body: JSON.stringify(credentials)
         };
         const loginResponse = yield call(request, { name: requestURL }, params);
-        if(loginResponse.twoFactorRequired){
+        if (loginResponse.twoFactorRequired) {
           const twoFactorToken = loginResponse.user.twoFactorToken;
           yield put(loginTFANeeded(twoFactorToken));
-        }else{
+        } else {
           const { userId, id: access_token } = loginResponse;
-          storeAuthDetails({ userId, access_token });
-          const currentUser = yield call(getCurrentUser);
-          yield put(authSucess(currentUser));
+          window.access_token = access_token;
+          yield put(authSucess(loginResponse.user));
           yield put(loginSuccess());
         }
       }
-    } catch ({error}) {
+    } catch ({ error }) {
       yield put(loginFailed());
       if (toastErrorCallBack) {
         toastErrorCallBack(error ? error.message : 'Invalid credentials.');

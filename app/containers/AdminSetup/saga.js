@@ -58,7 +58,7 @@ function* completeOnboardingWatcher() {
           verificationToken,
           username,
           password,
-          otp: Number(otp)
+          otp
         })
       };
       const result = yield call(request, { name: requestURL }, params);
