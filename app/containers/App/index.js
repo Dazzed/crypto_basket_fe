@@ -23,6 +23,12 @@ export class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.globalData.isAuthenticated && this.props.globalData.isAuthenticated) {
       // perform stuff here when the user is authenticated
+      // const {
+      //   currentUser
+      // } = this.props.globalData;
+      // if (currentUser.isLoggingInFirstTime) {
+      //   this.props.history.push('/tfa_setup');
+      // }
     }
   }
 

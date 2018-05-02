@@ -1,4 +1,4 @@
-import { put, take, fork, call, cancel, takeEvery } from 'redux-saga/effects';
+import { put, fork, call } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
 import { stopSubmit } from 'redux-form';
