@@ -20,10 +20,6 @@ import {
 } from './selectors';
 
 export class App extends React.Component {
-  componentWillMount() {
-    this.props.verifyAuth();
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.globalData.isAuthenticated && this.props.globalData.isAuthenticated) {
       // perform stuff here when the user is authenticated
@@ -67,7 +63,6 @@ export class App extends React.Component {
 }
 
 App.propTypes = {
-  verifyAuth: PropTypes.func.isRequired,
   logOutRequest: PropTypes.func.isRequired,
   globalData: PropTypes.shape({
     isAuthenticated: PropTypes.bool.isRequired,

@@ -31,7 +31,7 @@ export default class StepTwo extends Component {
             <div className="row mt-3">
               <div className="col-sm-12">
                 <Link className="btn btn-create-register" to="/user_login">
-                  Cool,Lets log in
+                  Cool, lets login
                 </Link>
               </div>
             </div>
