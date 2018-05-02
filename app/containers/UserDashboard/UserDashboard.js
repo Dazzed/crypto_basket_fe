@@ -11,6 +11,16 @@ import Modals from './components/Modals';
 import Settings from './components/Settings';
 
 class UserDashboard extends React.Component {
+  componentWillMount() {
+    const {
+      currentUser
+    } = this.props.globalData;
+    // only for regular user, not for admins/super admins
+    if (currentUser.isLoggingInFirstTime) {
+      this.props.history.push('/tfa_setup');
+    }
+  }
+
   render() {
     const { match } = this.props;
     return (
@@ -35,7 +45,8 @@ UserDashboard.propTypes = {
   userDashboard: PropTypes.object.isRequired,
   globalData: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default ToasterHOC(UserDashboard);

@@ -16,6 +16,10 @@ import {
 } from 'containers/UserDashboard/actions/common';
 
 import {
+  loginTFAEnableSuccess as toggleFirstTimeLogin
+} from 'containers/UserTFAFirstTimeSetup/actions';
+
+import {
   authSucess,
   authFailure,
   logOutRequest,
@@ -36,12 +40,31 @@ const reducer = {
     isAuthenticating: false,
     isAuthenticated: false
   }),
-  [authSucess]: (state, currentUser) => ({
-    ...state,
-    isAuthenticating: false,
-    isAuthenticated: true,
-    currentUser
-  }),
+  [authSucess]: (state, currentUser) => {
+    const roleObject = {};
+    if (!currentUser) {
+      return {
+        ...state
+      };
+    }
+    const { roleMapping } = currentUser;
+    if (roleMapping) {
+      if (roleMapping.role.name === 'SUPER_ADMIN') {
+        roleObject.isSuperAdmin = true;
+      } else if (roleMapping.role.name === 'ADMIN') {
+        roleObject.isAdmin = true;
+      }
+    }
+    return {
+      ...state,
+      isAuthenticating: false,
+      isAuthenticated: true,
+      currentUser: {
+        ...currentUser,
+        ...roleObject
+      },
+    };
+  },
   [logOutRequest]: state => ({
     ...state,
     isLoggingOut: true
@@ -97,6 +120,13 @@ const reducer = {
     currentUser: {
       ...state.currentUser,
       ...updatedUser
+    }
+  }),
+  [toggleFirstTimeLogin]: state => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      isLoggingInFirstTime: false
     }
   })
 };

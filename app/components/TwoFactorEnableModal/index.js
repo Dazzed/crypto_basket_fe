@@ -14,7 +14,7 @@ export default class TwoFactorEnableModal extends Component {
     qrCode: PropTypes.string,
     manualCode: PropTypes.string,
     purpose: PropTypes.string,
-    hideClose: PropTypes.bool,
+    hideClose: PropTypes.bool, // If we wanna hide the close button (Used in forcing admins to enroll in TFA)
   };
 
   renderModalContent = () => {

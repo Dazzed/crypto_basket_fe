@@ -6,6 +6,7 @@ import AdminDashboard from 'containers/AdminDashboard/Loadable';
 
 // User imports
 import UserDashboard from 'containers/UserDashboard/Loadable';
+import UserTFAFirstTimeSetup from 'containers/UserTFAFirstTimeSetup';
 
 // Common imports
 
@@ -40,6 +41,7 @@ const ROUTES = (currentUser) => {
   return (
     <Switch>
       <Route path="/dashboard" component={UserDashboard} />
+      <Route exact path="/tfa_setup" component={UserTFAFirstTimeSetup} />
       <Redirect from="/" to="/dashboard" />
     </Switch>
   );
