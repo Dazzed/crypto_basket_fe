@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Users extends Component {
+  constructor(props){
+    super(props);
+    this.state = {query: ""};
+  }
   componentWillMount() {
-    this.props.fetchUsers("");
+    if(!this.props.adminDashboard.users)
+      this.props.fetchUsers("");
   }
   renderCreateAdminButton = () => {
     const {
@@ -37,9 +42,13 @@ export default class Users extends Component {
       );
     }
   }
+  onChangeSearch = (e) => {
+    const value = e.target.value;
+    this.setState({query: value});
+    this.props.fetchUsers(value);
+  }
 
   render() {
-    console.log('this.props', this.props);
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <div className="row">
@@ -55,7 +64,7 @@ export default class Users extends Component {
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
               <div className="col-lg-6 col-md-12">
-                <input type="text" className="field_input" placeholder="Search by name, email address or username" />
+                <input type="text" className="field_input" placeholder="Search by name, email address or username" value={this.state.query} onChange={this.onChangeSearch}/>
               </div>
             </div>
           </div>
@@ -79,7 +88,7 @@ export default class Users extends Component {
                     </thead>
                     <tbody>
                       
-                      {this.props.adminDashboard.users.map(elem=>{
+                      {this.props.adminDashboard.users ? this.props.adminDashboard.users.map(elem=>{
 
                         return (
                           <tr>
@@ -96,7 +105,7 @@ export default class Users extends Component {
                               </td>
                           </tr>
                         );
-                      })}
+                      }) : null}
                     </tbody>
                   </table>
                 </div>
