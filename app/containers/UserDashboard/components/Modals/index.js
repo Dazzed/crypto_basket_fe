@@ -22,7 +22,7 @@ export default class Modals extends Component {
   };
 
   onSubmitOtp = ({ otp: thizOtp }) => {
-    const otp = Number(thizOtp);
+    const otp = String(thizOtp);
     const {
       enablingTFALogin,
       enablingTFAWithdrawal,
