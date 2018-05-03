@@ -9,7 +9,7 @@ export const fetchUsers = createAction(
 );
 export const fetchUsersSuccess = createAction(
   `${PREFIX}_FETCH_USERS_SUCCESS`,
-  users => users
+  (users) => ({ users })
 );
 export const fetchUsersError = createAction(
   `${PREFIX}_FETCH_USERS_ERROR`

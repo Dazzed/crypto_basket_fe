@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Users extends Component {
+  constructor(props){
+    super(props);
+    this.state = {query: ""};
+  }
+  componentWillMount() {
+    if(!this.props.adminDashboard.users)
+      this.props.fetchUsers("");
+  }
   renderCreateAdminButton = () => {
     const {
       isSuperAdmin,
@@ -34,6 +42,11 @@ export default class Users extends Component {
       );
     }
   }
+  onChangeSearch = (e) => {
+    const value = e.target.value;
+    this.setState({query: value});
+    this.props.fetchUsers(value);
+  }
 
   render() {
     return (
@@ -51,7 +64,7 @@ export default class Users extends Component {
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
               <div className="col-lg-6 col-md-12">
-                <input type="text" className="field_input" placeholder="Search by name, email address or username" />
+                <input type="text" className="field_input" placeholder="Search by name, email address or username" value={this.state.query} onChange={this.onChangeSearch}/>
               </div>
             </div>
           </div>
@@ -59,6 +72,7 @@ export default class Users extends Component {
             <div className="row mt-4 p-4">
               <div className="col-lg-12 col-md-12">
                 {/* visible medium and large devices */}
+                
                 <div className="users_list table-responsive d-none d-sm-none d-md-block">
                   <table className="table">
                     <thead>
@@ -73,174 +87,25 @@ export default class Users extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <a href="admin_user_profile.html"> a@mail.com
-                    </a>
-                        </td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_info">
-                            REGISTERED
-                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>a@mail.com</td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_default">VERIFIED
-                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>a@mail.com</td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_success">SUBMITTED
-                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>a@mail.com</td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_success">SUBMITTED
-                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>a@mail.com</td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_success">SUBMITTED
-                    </span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>a@mail.com</td>
-                        <td>Rory</td>
-                        <td>Reiff</td>
-                        <td>roryreiff</td>
-                        <td className="text-center">
-                          <span className="table_btn_default">VERIFIED
-                    </span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div className="users_list table-responsive d-block d-md-none d-lg-none">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th>Account</th>
-                        <th className="text-right">
-                          Verification Status:All
-                    <i className="fa fa-caret-down ml-1" />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_info">REGISTERED
-                      </span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_default">VERIFIED
-                      </span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_success">SUBMITTED
-                      </span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_success">SUBMITTED
-                      </span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_success">SUBMITTED
-                      </span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          roryreiff
-                    <div className="mt-1">
-                            a@mail.com
-                    </div>
-                        </td>
-                        <td className="text-right">
-                          Rory Reiff
-                    <div className="mt-1">
-                            <span className="table_btn_default">VERIFIED</span>
-                          </div>
-                        </td>
-                      </tr>
+                      
+                      {this.props.adminDashboard.users ? this.props.adminDashboard.users.map(elem=>{
+
+                        return (
+                          <tr>
+                              <td>
+                                <a href="admin_user_profile.html"> {elem.email}</a>
+                              </td>
+                              <td>{elem.firstName}</td>
+                              <td>{elem.lastName}</td>
+                              <td>{elem.username}</td>
+                              <td className="text-center">
+                                <span className="table_btn_info">
+                                  {elem.verificationStatus.toUpperCase()}
+                                </span>
+                              </td>
+                          </tr>
+                        );
+                      }) : null}
                     </tbody>
                   </table>
                 </div>
