@@ -17,10 +17,36 @@ import {
   createAdminError
 } from './actions/createAdmin';
 
+
+import {
+  fetchUsers,
+  fetchUsersSuccess,
+  fetchUsersError
+} from './actions/user';
+
 export default function* main() {
   yield fork(tfaAdminEnableWatcherInitial);
   yield fork(tfaAdminEnableWatcherFinal);
   yield fork(createAdminWatcher);
+  yield fork(fetchUsersWatcher);
+}
+
+function* fetchUsersWatcher(){
+  yield takeLatest(fetchUsers, function* handler({ payload: query }){
+    try{
+      console.log('query', query);
+      const baseRequestURL = `/api/users/`;
+      const requestURL = query.filter ? `/api/users/search/` + query.filter : baseRequestURL;
+      const params = {
+        method: 'GET', 
+        headers: {'Authorization': window.access_token}
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(fetchUsersSuccess(result));
+    }catch(error){
+      yield put(fetchUsersError(error));
+    }
+  });
 }
 
 function* tfaAdminEnableWatcherInitial() {
