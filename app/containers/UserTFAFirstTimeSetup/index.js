@@ -93,7 +93,7 @@ export class UserTFAFirstTimeSetup extends React.Component {
         {this.renderModals()}
         <div className="row mt-5">
           <div className="col-sm-8 col-10 col-lg-4 m-auto">
-            <h1 className="text-center w-100">Hey,would you like to setup Google Auth right now?</h1>
+            <h1 className="text-center w-100">Hey, would you like to setup Google Auth right now?</h1>
             <p className="acc_create_text">
               You will need 2-factor authentication to withdraw
             </p>
@@ -117,7 +117,7 @@ export class UserTFAFirstTimeSetup extends React.Component {
             <div className="row mt-2">
               <div className="col-sm-12">
                 <p>
-                  <a onClick={this.onIgnoreTFA} className="resend_email_label">No thanks,I will setup later.</a>
+                  <a onClick={this.onIgnoreTFA} className="resend_email_label">No thanks, I will setup later.</a>
                 </p>
               </div>
             </div>
