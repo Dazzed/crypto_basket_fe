@@ -11,7 +11,8 @@ import {
   loginFailed,
   loginRequest,
   loginSuccess,
-  loginTFANeeded
+  loginTFANeeded,
+  TFAFailed
 } from './actions';
 
 export default function* main() {
@@ -24,7 +25,7 @@ function* loginFormWatcher() {
       credentials,
       toastErrorCallBack,
       tfaRequired,
-      twoFactorToken
+      twoFactorToken, 
     } = payload;
     try {
       if (tfaRequired) {
@@ -38,6 +39,7 @@ function* loginFormWatcher() {
         window.access_token = access_token;
         yield put(authSucess(tfaResponse.user));
         yield put(loginSuccess());
+        
       } else {
         const requestURL = '/api/users/login';
         const params = {
@@ -56,9 +58,15 @@ function* loginFormWatcher() {
         }
       }
     } catch ({ error }) {
-      yield put(loginFailed());
+      if(!tfaRequired)
+        yield put(loginFailed());
+      else
+        yield put(TFAFailed(twoFactorToken));
       if (toastErrorCallBack) {
-        toastErrorCallBack(error ? error.message : 'Invalid credentials.');
+        if(tfaRequired)
+          toastErrorCallBack('Invalid OPT.');
+        else
+          toastErrorCallBack(error ? error.message : 'Invalid credentials.');
       }
     }
   });

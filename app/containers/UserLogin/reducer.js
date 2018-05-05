@@ -4,7 +4,8 @@ import {
   loginRequest,
   loginSuccess,
   loginFailed,
-  loginTFANeeded
+  loginTFANeeded,
+  TFAFailed
 } from './actions';
 
 const initialState = {
@@ -35,6 +36,11 @@ const reducer = {
     isLoggingIn: false,
     tfaRequired: true, 
     loginFailed: false,
+    tfaToken: action.tfaToken
+  }),
+  [TFAFailed]: (state, action) => ({
+    isLoggingIn: false,
+    tfaRequired: true,
     tfaToken: action.tfaToken
   })
 };

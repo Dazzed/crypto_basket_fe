@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import ResetForm from '../Form';
 export default class ResetPassword extends React.Component {
   submit = data => {
-    this.props.resetUserPassword(data);
+    this.props.setUserPassword(data, this.props.location.search.split("=")[1]);
+    this.props.history.push(`/user_login`);
   }
 
   render() {

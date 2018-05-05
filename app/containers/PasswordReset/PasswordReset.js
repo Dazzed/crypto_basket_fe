@@ -8,6 +8,7 @@ import SideBar from 'components/SideBar';
 
 import ResetPassword from './components/ResetPassword';
 import NewPassword from './components/NewPassword';
+import RemindUsername from './components/RemindUsername';
 
 class PasswordReset extends React.Component {
   render() {
@@ -15,8 +16,9 @@ class PasswordReset extends React.Component {
     return (
       <div className="container-fluid">
         <Switch>
-          <Route path={`/reset`} render={props => <ResetPassword {...this.props} {...props} />} />
+          <Route exact path={`/reset`} render={props => <ResetPassword {...this.props} {...props} />} />
           <Route path={`/reset_password`} render={props => <NewPassword {...this.props} {...props} />} />
+          <Route path={`/forgot_username`} render={props => <RemindUsername {...this.props} {...props} />} />
         </Switch>
       </div>
     );

@@ -43,8 +43,8 @@ class LoginForm extends Component {
                   />
                 </div>
                 <div className="col-sm-12">
-                  <Link className="forgot_link mt-2" to="/">
-                    Forgot your email address?
+                  <Link className="forgot_link mt-2" to="/forgot_username">
+                    Forgot your username?
                   </Link>
                 </div>
               </div>
@@ -59,13 +59,13 @@ class LoginForm extends Component {
                   />
                 </div>
                 <div className="col-sm-12">
-                  <Link className="forgot_link mt-2" to="/">
+                  <Link className="forgot_link mt-2" to="/reset">
                     Forgot your password?
                   </Link>
                 </div>
               </div>
 
-              {(loginFailed && tfaRequired) ? (
+              {(tfaRequired) ? (
                 <div className="row mt-3">
                   <div className="col-sm-12">
                     <Field
@@ -80,9 +80,9 @@ class LoginForm extends Component {
               ) : null}
 
               {loginFailed ? (
-                <div className="row mt-3">
+                <div className="row mt-4">
                   <div className="col-sm-12">
-                    <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} />
+                    <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} className="captcha"/>
                   </div>
                 </div>
               ) : null}

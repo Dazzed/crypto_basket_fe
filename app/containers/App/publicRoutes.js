@@ -13,6 +13,7 @@ const ROUTES = (
     <Route path="/user_login" component={UserLoginPage} />
     <Route path="/reset" component={PasswordReset} />
     <Route path="/reset_password" component={PasswordReset} />
+    <Route path="/forgot_username" component={PasswordReset} />
     <Route path="/user_register" component={UserRegistrationPage} />
     <Route path="/admin_setup" component={AdminSetupPage} />
     <Route path="" component={LandingPage} />

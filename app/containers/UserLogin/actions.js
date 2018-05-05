@@ -16,4 +16,9 @@ export const loginTFANeeded = createAction(
         tfaToken
     })
 );
-
+export const TFAFailed = createAction(
+    `${PREFIX}_TFA_DOUBLE_FAILURE`, 
+    (tfaToken) => ({
+        tfaToken
+    })
+);
