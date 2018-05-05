@@ -3,9 +3,19 @@ import { createAction } from 'redux-act';
 export const PREFIX = 'APP_ADMIN_DASHBOARD';
 
 // actions related to admin managing users
+export const updateSearch = createAction(
+  `${PREFIX}_UPDATE_SEARCH`,
+  (search) => ({ search })
+);
+export const filterVerification = createAction(
+  `${PREFIX}_FILTER_VERIFICATION`,
+  (verification) => ({ verification })
+);
+export const swapOrdering = createAction(
+  `${PREFIX}_SWAP_ORDER`
+);
 export const fetchUsers = createAction(
-  `${PREFIX}_FETCH_USERS`,
-  (filter) => ({ filter })
+  `${PREFIX}_FETCH_USERS`
 );
 export const fetchUsersSuccess = createAction(
   `${PREFIX}_FETCH_USERS_SUCCESS`,

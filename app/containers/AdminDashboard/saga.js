@@ -1,4 +1,4 @@
-import { put, take, fork, call, cancel } from 'redux-saga/effects';
+import { put, take, fork, call, cancel, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
 import { stopSubmit } from 'redux-form';
@@ -21,7 +21,10 @@ import {
 import {
   fetchUsers,
   fetchUsersSuccess,
-  fetchUsersError
+  fetchUsersError, 
+  updateSearch,
+  filterVerification,
+  swapOrdering
 } from './actions/user';
 
 export default function* main() {
@@ -29,19 +32,46 @@ export default function* main() {
   yield fork(tfaAdminEnableWatcherFinal);
   yield fork(createAdminWatcher);
   yield fork(fetchUsersWatcher);
+  yield fork(updateSearchWatcher);
+  yield fork(filterVerificationWatcher);
+  yield fork(swapOrderWatcher);
+}
+
+export const getSearch = state => state.adminDashboard.usersSearch;
+export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* updateSearchWatcher(){
+  yield takeLatest(updateSearch, function* handler({ payload }){
+    yield put(fetchUsers());
+  });
+}
+
+function* filterVerificationWatcher(){
+  yield takeLatest(filterVerification, function* handler({ payload }){
+    console.log('fetching users');
+    yield put(fetchUsers());
+  });
+}
+
+function* swapOrderWatcher(){
+  yield takeLatest(swapOrdering, function* handler({ payload }){
+    yield put(fetchUsers());
+  });
 }
 
 function* fetchUsersWatcher(){
-  yield takeLatest(fetchUsers, function* handler({ payload: query }){
+  yield takeLatest(fetchUsers, function* handler({ payload }){
     try{
-      console.log('query', query);
+      const searchQuery = yield select(getSearch);
+      const filterQuery = yield select(getFilter);
       const baseRequestURL = `/api/users/`;
-      const requestURL = query.filter ? `/api/users/search/` + query.filter : baseRequestURL;
+      const requestURL = searchQuery ? `/api/users/search/` + searchQuery : baseRequestURL;
+      const args = '?' + (filterQuery.where ? `filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[order]=${filterQuery.order}` : "")
       const params = {
         method: 'GET', 
         headers: {'Authorization': window.access_token}
       };
-      const result = yield call(request, { name: requestURL }, params);
+      const result = yield call(request, { name: requestURL + args }, params);
       yield put(fetchUsersSuccess(result));
     }catch(error){
       yield put(fetchUsersError(error));

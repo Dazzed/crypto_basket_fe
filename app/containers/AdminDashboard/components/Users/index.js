@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
+import { Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
+
+const upGlyph = (
+  <FontAwesome
+    name='caret-up'
+  />);
+
+const downGlyph = (
+  <FontAwesome
+    name='caret-down'
+  />);
 
 export default class Users extends Component {
   constructor(props){
     super(props);
-    this.state = {query: ""};
+    this.state = {query: "", dropdownOpen: false};
   }
   componentWillMount() {
     if(!this.props.adminDashboard.users)
-      this.props.fetchUsers("");
+      this.props.fetchUsers();
   }
   renderCreateAdminButton = () => {
     const {
@@ -45,9 +61,44 @@ export default class Users extends Component {
   onChangeSearch = (e) => {
     const value = e.target.value;
     this.setState({query: value});
-    this.props.fetchUsers(value);
+    this.props.updateSearch(value);
   }
 
+  filterAll = () => {
+    this.props.filterVerification("all");
+  }
+
+  filterVerified = () => {
+    this.props.filterVerification("fully_verified");
+  }
+
+  filterUnverified = () => {
+    this.props.filterVerification("unverified");
+  }
+
+  filterPending = () => {
+    this.props.filterVerification("verification_pending");
+  }
+
+  toggle = () => {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  }
+
+  reorder = () => {
+    this.props.swapOrdering();
+  }
+
+  getColor = value => {
+    const colorMap = {'fully_verified': 'table_btn_default', 'unverified': 'table_btn_info', 'verification_pending': 'table_btn_success'};
+    return colorMap[value];
+  }
+
+  getVerificationString = value => {
+    const stringMap = {'fully_verified': 'VERIFIED', 'unverified': 'REGISTERED', 'verification_pending': 'SUBMITTED', 'all': 'ALL'};
+    return stringMap[value];
+  }
   render() {
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
@@ -77,12 +128,23 @@ export default class Users extends Component {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Email Address</th>
+                        <th onClick={this.reorder}>Email Address {this.props.adminDashboard.usersOrder === 'email ASC' ? upGlyph : downGlyph}</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>User ID</th>
-                        <th className="text-center">Verification Status:All
-                    <i className="fa fa-caret-down ml-1" />
+                        <th className="text-center">
+                          <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
+                            <DropdownToggle caret>
+                              Verification Status: {this.getVerificationString(this.props.adminDashboard.usersVerification)}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem onClick={this.filterAll}>ALL</DropdownItem>
+                              <DropdownItem onClick={this.filterUnverified}>REGISTERED</DropdownItem>
+                              <DropdownItem onClick={this.filterVerified}>Verified</DropdownItem>
+                              <DropdownItem onClick={this.filterPending}>SUBMITTED</DropdownItem>
+                            </DropdownMenu>
+                          </Dropdown>
+                          {/*<i className="fa fa-caret-down ml-1" />*/}
                         </th>
                       </tr>
                     </thead>
@@ -97,10 +159,10 @@ export default class Users extends Component {
                               </td>
                               <td>{elem.firstName}</td>
                               <td>{elem.lastName}</td>
-                              <td>{elem.username}</td>
+                              <td>{elem.id}</td>
                               <td className="text-center">
-                                <span className="table_btn_info">
-                                  {elem.verificationStatus.toUpperCase()}
+                                <span className={this.getColor(elem.verificationStatus)}>
+                                  {this.getVerificationString(elem.verificationStatus)}
                                 </span>
                               </td>
                           </tr>

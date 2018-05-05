@@ -437,6 +437,20 @@ input:checked+.slider:before {
     color: #76837b;
 }
 
+.users_list .verification-dropdown button{
+    vertical-align: bottom;
+    border-bottom: none;
+    border-top: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    color: #76837b;
+    background-color: transparent;
+    border-right: none;
+    border-left: none;
+    padding: 0;
+}
+
 .users_list .profile th {
     vertical-align: bottom;
     border-bottom: 1px solid #dee2e6;
