@@ -24,7 +24,9 @@ import {
   fetchUsersError, 
   updateSearch,
   filterVerification,
-  swapOrdering
+  swapOrdering, 
+  resetUserPassword,
+  archiveUser
 } from './actions/user';
 
 export default function* main() {
@@ -35,10 +37,50 @@ export default function* main() {
   yield fork(updateSearchWatcher);
   yield fork(filterVerificationWatcher);
   yield fork(swapOrderWatcher);
+  yield fork(resetPasswordWater);
+  yield fork(archiveUserWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* resetPasswordWater(){
+  yield takeLatest(resetUserPassword, function* handler({ payload: email }){
+    try{
+      const requestURL = `/api/users/reset`;
+      const params = {
+        method: 'POST',
+        headers: {'Authorization': window.access_token},
+        body: JSON.stringify({
+          email: email.email
+        })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      console.log('password reset result', result);
+    }catch(e){
+      yield put(fetchUsersError(e));
+    }
+  })
+}
+
+function* archiveUserWatcher(){
+  yield takeLatest(archiveUser, function* handler({ payload: id }){
+    try{
+      const requestURL = `/api/users/archive/${id}`;
+      const params = {
+        method: 'POST',
+        headers: {'Authorization': window.access_token},
+        body: JSON.stringify({
+          options:{ email: email }
+        })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      console.log('archive user result', result);
+    }catch(e){
+      yield put(fetchUsersError(e));
+    }
+  })
+}
 
 function* updateSearchWatcher(){
   yield takeLatest(updateSearch, function* handler({ payload }){

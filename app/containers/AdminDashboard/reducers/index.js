@@ -9,13 +9,14 @@ const initialState = {
   // users
   creatingUser: false,
   isCreatingUser: false,
-  users: null,
+  users: [],
   usersFilter: { order: "email ASC" },
   usersVerification: "all",
   usersOrder: "email ASC",
   usersSearch: "",
+  usersPage: 1,
   fetchingUsers: false,
-  editingUser: null,
+  editingUser: {},
   isEditingUser: false,
   // tfa
   initiatingTfaForAdmin: false,

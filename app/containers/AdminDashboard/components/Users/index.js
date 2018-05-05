@@ -4,8 +4,14 @@ import FontAwesome from 'react-fontawesome';
 import { Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Pagination, 
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
+import { BrowserRouter as Router } from 'react-router-dom'
+
+import _ from 'lodash';
 
 const upGlyph = (
   <FontAwesome
@@ -23,8 +29,7 @@ export default class Users extends Component {
     this.state = {query: "", dropdownOpen: false};
   }
   componentWillMount() {
-    if(!this.props.adminDashboard.users)
-      this.props.fetchUsers();
+    this.props.fetchUsers();
   }
   renderCreateAdminButton = () => {
     const {
@@ -99,7 +104,34 @@ export default class Users extends Component {
     const stringMap = {'fully_verified': 'VERIFIED', 'unverified': 'REGISTERED', 'verification_pending': 'SUBMITTED', 'all': 'ALL'};
     return stringMap[value];
   }
+
+  incrementPage = () => {
+    if(this.props.adminDashboard.usersPage < Math.floor(this.props.adminDashboard.users.length/10) + 1){
+      this.props.changePage(this.props.adminDashboard.usersPage + 1);
+    }
+  }
+
+  decrementPage = () => {
+    if(this.props.adminDashboard.usersPage > 1){
+      this.props.changePage(this.props.adminDashboard.usersPage - 1);
+    }
+  }
+
+  firstPage = () => {
+    this.props.changePage(1);
+  }
+
+  lastPage = () => {
+    this.props.changePage(Math.floor(this.props.adminDashboard.users.length/10) + 1);
+  }
+
+  openUser = user => {
+    this.props.startEditingUser(user);
+    this.props.history.push(`/dashboard/user/${user.id}`);
+  }
   render() {
+    const maxPage = Math.floor(this.props.adminDashboard.users.length/10) + 1;
+    const page = this.props.adminDashboard.usersPage;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <div className="row">
@@ -151,9 +183,11 @@ export default class Users extends Component {
                     <tbody>
                       
                       {this.props.adminDashboard.users ? this.props.adminDashboard.users.map(elem=>{
-
+                        const changeUser = () => {
+                          this.openUser(elem);
+                        }
                         return (
-                          <tr>
+                          <tr onClick={changeUser}>
                               <td>
                                 <a href="admin_user_profile.html"> {elem.email}</a>
                               </td>
@@ -171,6 +205,51 @@ export default class Users extends Component {
                     </tbody>
                   </table>
                 </div>
+
+                <Pagination>
+                  <PaginationItem onClick={this.decrementPage}>
+                    <PaginationLink previous />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink onClick={this.firstPage}>
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                    {page>3 ? (<PaginationItem>
+                    <PaginationLink>
+                      ...
+                    </PaginationLink>
+                  </PaginationItem>) : null}
+                  {}
+                  <PaginationItem onClick={this.decrementPage}>
+                    <PaginationLink>
+                      {Math.max(2, page-1)}
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem className="selected" >
+                    <PaginationLink>
+                      {Math.max(3, page)}
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem onClick={this.incrementPage} >
+                    <PaginationLink>
+                      {Math.max(4, page+1)}
+                    </PaginationLink>
+                  </PaginationItem>
+                  { (page < maxPage - 3) ? (<PaginationItem>
+                    <PaginationLink>
+                      ...
+                    </PaginationLink>
+                  </PaginationItem>) : null}
+                  <PaginationItem onClick={this.lastPage}>
+                    <PaginationLink>
+                      {maxPage}
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink next onClick={this.incrementPage}/>
+                  </PaginationItem>
+                </Pagination>
               </div>
             </div>
           </div>

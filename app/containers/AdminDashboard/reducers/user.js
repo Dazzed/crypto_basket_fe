@@ -4,7 +4,10 @@ import {
   fetchUsersError,
   filterVerification,
   swapOrdering,
-  updateSearch
+  updateSearch, 
+  changePage,
+  startEditingUser,
+  fetchUserSuccess
 } from '../actions/user';
 
 export const userReducer = {
@@ -41,5 +44,17 @@ export const userReducer = {
   [fetchUsersError]: state => ({
     ...state,
     fetchingUsers: false
+  }),
+  [changePage]: (state, action) => ({
+    ...state,
+    usersPage: action.page
+  }),
+  [startEditingUser]: (state, action) => ({
+    ...state,
+    editingUser: action.user
+  }),
+  [fetchUserSuccess]: (state, action) => ({
+    ...state,
+    editingUser: action.user
   })
 };

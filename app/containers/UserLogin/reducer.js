@@ -34,7 +34,7 @@ const reducer = {
     ...state,
     isLoggingIn: false,
     tfaRequired: true, 
-    loginFailed: true,
+    loginFailed: false,
     tfaToken: action.tfaToken
   })
 };
