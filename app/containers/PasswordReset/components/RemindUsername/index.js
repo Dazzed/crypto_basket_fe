@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ResetForm from '../Form';
 export default class UsernameForm extends React.Component {
   submit = data => {
-    this.props.resetUserPassword(data);
+    this.props.resetUsername(data);
     this.props.history.push(`/user_login`);
   }
 
