@@ -134,6 +134,7 @@ export default class Users extends Component {
   render() {
     const maxPage = Math.floor(this.props.adminDashboard.users.length/10) + 1;
     const page = this.props.adminDashboard.usersPage;
+    console.log('page', page);
     const users = this.props.adminDashboard.users ? _.slice(this.props.adminDashboard.users, (page-1)*10, page*10) : []
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
@@ -224,28 +225,19 @@ export default class Users extends Component {
                           ...
                         </PaginationLink>
                       </PaginationItem>) : null}
-                      {}
-                      {maxPage >= Math.max(2, page-1) ? (<PaginationItem onClick={this.decrementPage}>
-                        <PaginationLink  className={page === Math.max(2, page-1) ? "selected" : ""}>
-                          {Math.max(2, page-1)}
-                        </PaginationLink>
-                      </PaginationItem>):null}
-                      {maxPage >= Math.max(3, page) ? (<PaginationItem>
-                        <PaginationLink className={page === Math.max(3, page) ? "selected" : ""}>
-                          {Math.max(3, page)}
-                        </PaginationLink>
-                      </PaginationItem>) : null }
-                      {maxPage >= Math.max(4, page+1) ? (<PaginationItem onClick={this.incrementPage}>
-                        <PaginationLink className={page === Math.max(4, page+1) ? "selected" : ""}>
-                          {Math.max(4, page+1)}
-                        </PaginationLink>
-                      </PaginationItem>) : null }
-                      { (page < maxPage - 3) ? (<PaginationItem>
-                        <PaginationLink>
-                          ...
-                        </PaginationLink>
-                      </PaginationItem>) : null}
-                      {maxPage > Math.max(4, page+1) ? (<PaginationItem onClick={this.lastPage}>
+                      { _.map([1,2,3], elem => {
+                        const currentPage = page > 3 ? page+(elem-2) : elem+1;
+                        const changePage = () => {
+                          this.props.changePage(currentPage);
+                        }
+                        console.log('elem+1', elem+1, 'page-(elem-2)', page-(elem-2), 'elem-2', elem-2, 'out', currentPage);
+                        return maxPage >= currentPage ? (<PaginationItem onClick={changePage}>
+                          <PaginationLink  className={page === currentPage ? "selected" : ""}>
+                            {currentPage}
+                          </PaginationLink>
+                        </PaginationItem>):null;
+                      }) }
+                      { maxPage > Math.max(4, page+1) ? (<PaginationItem onClick={this.lastPage}>
                         <PaginationLink className={page === maxPage ? "selected" : ""}>
                           {maxPage}
                         </PaginationLink>

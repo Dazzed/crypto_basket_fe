@@ -408,9 +408,15 @@ input::placeholder {
     transition: .4s;
 }
 
-.selected {
-    background-color: #00B34A;
+.page-link{
+    color: #00B34A!important;
+    border: none;
 }
+.page-item .selected {
+    background-color: #00B34A;
+    color: white!important;
+}
+
 
 input:checked+.slider {
     background-color: #00b34a;
