@@ -193,7 +193,7 @@ export default class Users extends Component {
                         return (
                           <tr onClick={changeUser}>
                               <td>
-                                <a href="admin_user_profile.html"> {elem.email}</a>
+                                {elem.email}
                               </td>
                               <td>{elem.firstName}</td>
                               <td>{elem.lastName}</td>
