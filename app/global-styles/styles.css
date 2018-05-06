@@ -157,6 +157,11 @@ p {
 
 .captcha {
     width: 100%;
+    transform:scale(1.75, 1.5);
+    -webkit-transform:scale(1.75, 1.5);
+    transform-origin:0 0;
+    -webkit-transform-origin:0 0;
+    margin-bottom: 40px;
 }
 
 input::placeholder {
