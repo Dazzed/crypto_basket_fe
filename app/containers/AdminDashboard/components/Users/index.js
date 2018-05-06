@@ -7,7 +7,9 @@ import { Dropdown,
   DropdownItem,
   Pagination, 
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Row,
+  Col
 } from 'reactstrap';
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -132,6 +134,7 @@ export default class Users extends Component {
   render() {
     const maxPage = Math.floor(this.props.adminDashboard.users.length/10) + 1;
     const page = this.props.adminDashboard.usersPage;
+    const users = this.props.adminDashboard.users ? _.slice(this.props.adminDashboard.users, (page-1)*10, page*10) : []
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <div className="row">
@@ -182,7 +185,7 @@ export default class Users extends Component {
                     </thead>
                     <tbody>
                       
-                      {this.props.adminDashboard.users ? this.props.adminDashboard.users.map(elem=>{
+                      { users.map(elem=>{
                         const changeUser = () => {
                           this.openUser(elem);
                         }
@@ -193,7 +196,7 @@ export default class Users extends Component {
                               </td>
                               <td>{elem.firstName}</td>
                               <td>{elem.lastName}</td>
-                              <td>{elem.id}</td>
+                              <td>{elem.username}</td>
                               <td className="text-center">
                                 <span className={this.getColor(elem.verificationStatus)}>
                                   {this.getVerificationString(elem.verificationStatus)}
@@ -201,55 +204,58 @@ export default class Users extends Component {
                               </td>
                           </tr>
                         );
-                      }) : null}
+                      })}
                     </tbody>
                   </table>
                 </div>
-
-                <Pagination>
-                  <PaginationItem onClick={this.decrementPage}>
-                    <PaginationLink previous />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink onClick={this.firstPage}>
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
-                    {page>3 ? (<PaginationItem>
-                    <PaginationLink>
-                      ...
-                    </PaginationLink>
-                  </PaginationItem>) : null}
-                  {}
-                  <PaginationItem onClick={this.decrementPage}>
-                    <PaginationLink>
-                      {Math.max(2, page-1)}
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem className="selected" >
-                    <PaginationLink>
-                      {Math.max(3, page)}
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem onClick={this.incrementPage} >
-                    <PaginationLink>
-                      {Math.max(4, page+1)}
-                    </PaginationLink>
-                  </PaginationItem>
-                  { (page < maxPage - 3) ? (<PaginationItem>
-                    <PaginationLink>
-                      ...
-                    </PaginationLink>
-                  </PaginationItem>) : null}
-                  <PaginationItem onClick={this.lastPage}>
-                    <PaginationLink>
-                      {maxPage}
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next onClick={this.incrementPage}/>
-                  </PaginationItem>
-                </Pagination>
+                <Row>
+                  <Col sm={{ size: 1, order: 1, offset: 5 }} >
+                    <Pagination>
+                      <PaginationItem onClick={this.decrementPage}>
+                        <PaginationLink previous />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink onClick={this.firstPage} className={page===1 ? "selected" : ""}>
+                          1
+                        </PaginationLink>
+                      </PaginationItem>
+                        {page>3 ? (<PaginationItem>
+                        <PaginationLink>
+                          ...
+                        </PaginationLink>
+                      </PaginationItem>) : null}
+                      {}
+                      {maxPage >= Math.max(2, page-1) ? (<PaginationItem onClick={this.decrementPage}>
+                        <PaginationLink  className={page === Math.max(2, page-1) ? "selected" : ""}>
+                          {Math.max(2, page-1)}
+                        </PaginationLink>
+                      </PaginationItem>):null}
+                      {maxPage >= Math.max(3, page) ? (<PaginationItem>
+                        <PaginationLink className={page === Math.max(3, page) ? "selected" : ""}>
+                          {Math.max(3, page)}
+                        </PaginationLink>
+                      </PaginationItem>) : null }
+                      {maxPage >= Math.max(4, page+1) ? (<PaginationItem onClick={this.incrementPage}>
+                        <PaginationLink className={page === Math.max(4, page+1) ? "selected" : ""}>
+                          {Math.max(4, page+1)}
+                        </PaginationLink>
+                      </PaginationItem>) : null }
+                      { (page < maxPage - 3) ? (<PaginationItem>
+                        <PaginationLink>
+                          ...
+                        </PaginationLink>
+                      </PaginationItem>) : null}
+                      {maxPage > Math.max(4, page+1) ? (<PaginationItem onClick={this.lastPage}>
+                        <PaginationLink className={page === maxPage ? "selected" : ""}>
+                          {maxPage}
+                        </PaginationLink>
+                      </PaginationItem>) : null}
+                      <PaginationItem>
+                        <PaginationLink next onClick={this.incrementPage}/>
+                      </PaginationItem>
+                    </Pagination>
+                  </Col>
+                </Row>
               </div>
             </div>
           </div>

@@ -408,6 +408,10 @@ input::placeholder {
     transition: .4s;
 }
 
+.selected {
+    background-color: #00B34A;
+}
+
 input:checked+.slider {
     background-color: #00b34a;
 }
