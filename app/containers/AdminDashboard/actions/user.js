@@ -3,9 +3,19 @@ import { createAction } from 'redux-act';
 export const PREFIX = 'APP_ADMIN_DASHBOARD';
 
 // actions related to admin managing users
+export const updateSearch = createAction(
+  `${PREFIX}_UPDATE_SEARCH`,
+  (search) => ({ search })
+);
+export const filterVerification = createAction(
+  `${PREFIX}_FILTER_VERIFICATION`,
+  (verification) => ({ verification })
+);
+export const swapOrdering = createAction(
+  `${PREFIX}_SWAP_ORDER`
+);
 export const fetchUsers = createAction(
-  `${PREFIX}_FETCH_USERS`,
-  (filter) => ({ filter })
+  `${PREFIX}_FETCH_USERS`
 );
 export const fetchUsersSuccess = createAction(
   `${PREFIX}_FETCH_USERS_SUCCESS`,
@@ -19,7 +29,15 @@ export const startCreatingUser = createAction(
 );
 export const startEditingUser = createAction(
   `${PREFIX}_START_EDITING_USER`,
-  user => user
+  (user) => ({ user })
+);
+export const fetchUser = createAction(
+  `${PREFIX}_FETCH_USER`,
+  (id) => ({ id })
+);
+export const fetchUserSuccess = createAction(
+  `${PREFIX}_FETCH_USER_SUCESS`,
+  (user) => ({ user })
 );
 export const startDeletingUser = createAction(
   `${PREFIX}_START_DELETING_USER`,
@@ -33,5 +51,17 @@ export const performCreatingUser = createAction(
     toastSuccessCallBack,
     toastErrorCallBack
   })
+);
+export const changePage = createAction(
+  `${PREFIX}_CHANGE_PAGE`,
+  (page) => ({ page })
+);
+export const resetUserPassword = createAction(
+  `${PREFIX}_RESET_USER_PASSWORD`,
+  (email) => ({ email })
+);
+export const archiveUser = createAction(
+  `${PREFIX}_ARCHIVE_USER`,
+  (id) => ({ id })
 );
 // END actions related to admin managing users

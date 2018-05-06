@@ -8,6 +8,7 @@ import SideBar from 'components/SideBar';
 import navigationItems from './navigationItems';
 
 import Users from './components/Users';
+import User from './components/User';
 import Modals from './components/Modals';
 
 class AdminDashboard extends React.Component {
@@ -23,6 +24,7 @@ class AdminDashboard extends React.Component {
           <SideBar navigationItems={navigationItems} />
           <Switch>
             <Route path={`${match.url}/users`} render={props => <Users {...this.props} {...props} />} />
+            <Route path={`${match.url}/user/:id`} render={props => <User {...this.props} {...props} />} />
           </Switch>
         </div>
       </div>
