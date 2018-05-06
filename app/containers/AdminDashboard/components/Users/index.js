@@ -237,6 +237,11 @@ export default class Users extends Component {
                           </PaginationLink>
                         </PaginationItem>):null;
                       }) }
+                      {page < maxPage-2 ? (<PaginationItem>
+                        <PaginationLink>
+                          ...
+                        </PaginationLink>
+                      </PaginationItem>) : null}
                       { maxPage > Math.max(4, page+1) ? (<PaginationItem onClick={this.lastPage}>
                         <PaginationLink className={page === maxPage ? "selected" : ""}>
                           {maxPage}
