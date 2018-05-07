@@ -137,7 +137,7 @@ export default class User extends Component {
                     <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
                     Username
                     </Col>
-                    <Col sm={{ size: 1, order: 2, offset: 7 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 5 }} className="right">
                       {user.username}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -148,7 +148,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Email Address
                     </Col>
-                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
+                    <Col sm={{ size: 4, order: 2, offset: 3 }} className="right">
                       {user.email}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -159,7 +159,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     State of Residence
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
                       {user.state}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -170,7 +170,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Date of Birth
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 4, order: 2, offset: 3 }} className="right">
                       {user.dob}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -181,7 +181,7 @@ export default class User extends Component {
                     <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
                     Country
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 6 }} className="right">
+                    <Col sm={{ size: 4, order: 2, offset: 4 }} className="right">
                       {user.country}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -192,7 +192,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Verification Status
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
                       {user.verificationStatus}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -203,7 +203,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Withdrawal Limit
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
                       0
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -214,7 +214,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     BTC Wallet Value
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
                       0
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
@@ -225,7 +225,7 @@ export default class User extends Component {
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     ETH Wallet Value
                     </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 5 }} className="right">
+                    <Col sm={{ size: 3, order: 2, offset: 4 }} className="right">
                       0
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
