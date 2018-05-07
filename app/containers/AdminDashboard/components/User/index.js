@@ -54,6 +54,14 @@ const cryptoNames = {
   zec: "ZCash"
 };
 
+function round(number, precision) {
+  var shift = function (number, precision) {
+    var numArray = ("" + number).split("e");
+    return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+  return shift(Math.round(shift(number, +precision)), -precision);
+}
+
 export default class User extends Component {
   constructor(props){
     super(props);
@@ -237,11 +245,11 @@ export default class User extends Component {
                       <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
                         {cryptoNames[wallet.assetId]}
                       </Col>
-                      <Col sm={{ size: 2, order: 3, offset: 5 }} className="asset-row-usd right"> 
-                        ${wallet.usdPrice} USD
+                      <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
+                        ${round(wallet.usdPrice, 2)} USD
                       </Col>
-                      <Col sm={{ size: 2, order: 4, offset: 0 }} className="asset-row-btc"> 
-                        {wallet.btcPrice} BTC
+                      <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
+                        {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
                       </Col>
                     </Row>);
                 })}
