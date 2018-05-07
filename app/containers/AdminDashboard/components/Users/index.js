@@ -28,7 +28,7 @@ const downGlyph = (
 export default class Users extends Component {
   constructor(props){
     super(props);
-    this.state = {query: "", dropdownOpen: false};
+    this.state = {dropdownOpen: false};
   }
   componentWillMount() {
     this.props.fetchUsers();
@@ -67,7 +67,6 @@ export default class Users extends Component {
   }
   onChangeSearch = (e) => {
     const value = e.target.value;
-    this.setState({query: value});
     this.props.updateSearch(value);
   }
 
@@ -152,7 +151,7 @@ export default class Users extends Component {
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
               <div className="col-lg-6 col-md-12">
-                <input type="text" className="field_input" placeholder="Search by name, email address or username" value={this.state.query} onChange={this.onChangeSearch}/>
+                <input type="text" className="field_input" placeholder="Search by name, email address or username" value={this.props.adminDashboard.usersSearch} onChange={this.onChangeSearch}/>
               </div>
             </div>
           </div>
