@@ -108,7 +108,7 @@ function* fetchUsersWatcher(){
       const filterQuery = yield select(getFilter);
       const baseRequestURL = `/api/users/`;
       const requestURL = searchQuery ? `/api/users/search/` + searchQuery : baseRequestURL;
-      const args = '?' + (filterQuery.where ? `filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[order]=${filterQuery.order}` : "")
+      const args = '?' + (filterQuery.where ? `filter[include]=wallets&filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[include]=wallets&filter[order]=${filterQuery.order}` : "")
       const params = {
         method: 'GET', 
         headers: {'Authorization': window.access_token}
