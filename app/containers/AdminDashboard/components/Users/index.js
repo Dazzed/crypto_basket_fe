@@ -176,7 +176,7 @@ export default class Users extends Component {
                             <DropdownMenu>
                               <DropdownItem onClick={this.filterAll}>ALL</DropdownItem>
                               <DropdownItem onClick={this.filterUnverified}>REGISTERED</DropdownItem>
-                              <DropdownItem onClick={this.filterVerified}>Verified</DropdownItem>
+                              <DropdownItem onClick={this.filterVerified}>VERIFIED</DropdownItem>
                               <DropdownItem onClick={this.filterPending}>SUBMITTED</DropdownItem>
                             </DropdownMenu>
                           </Dropdown>
