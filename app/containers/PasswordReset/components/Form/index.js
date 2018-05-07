@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 
 import RenderField from 'components/RenderField';
+import validate from './validate';
 
 const resetHeading = "Forgot your password?";
 const setPasswordHeading = "Reset your password";
@@ -65,4 +66,5 @@ class PasswordResetForm extends Component {
 
 export default (reduxForm({
   form: 'password_reset',
+  validate
 })(PasswordResetForm));
