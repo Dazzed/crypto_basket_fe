@@ -26,7 +26,9 @@ import {
   filterVerification,
   swapOrdering, 
   resetUserPassword,
-  archiveUser
+  archiveUser,
+  fetchUser,
+  fetchUserSuccess
 } from './actions/user';
 
 export default function* main() {
@@ -39,11 +41,27 @@ export default function* main() {
   yield fork(swapOrderWatcher);
   yield fork(resetPasswordWater);
   yield fork(archiveUserWatcher);
+  yield fork(fetchSingleUserWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
 
+function* fetchSingleUserWatcher(){
+  yield takeLatest(fetchUser, function* handler({payload: id}){
+    try{
+      const baseRequestURL = `/api/users/${id.id}/?filter[include]=wallets`;
+      const params = {
+        method: 'GET', 
+        headers: {'Authorization': window.access_token}
+      };
+      const result = yield call(request, { name: baseRequestURL }, params);
+      yield put(fetchUserSuccess(result));
+    }catch(error){
+      yield put(fetchUsersError(error));
+    }
+  });
+}
 function* resetPasswordWater(){
   yield takeLatest(resetUserPassword, function* handler({ payload: email }){
     try{
@@ -60,7 +78,7 @@ function* resetPasswordWater(){
     }catch(e){
       yield put(fetchUsersError(e));
     }
-  })
+  });
 }
 
 function* archiveUserWatcher(){
@@ -108,7 +126,7 @@ function* fetchUsersWatcher(){
       const filterQuery = yield select(getFilter);
       const baseRequestURL = `/api/users/`;
       const requestURL = searchQuery ? `/api/users/search/` + searchQuery : baseRequestURL;
-      const args = '?' + (filterQuery.where ? `filter[include]=wallets&filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[include]=wallets&filter[order]=${filterQuery.order}` : "")
+      const args = '?' + (filterQuery.where ? `filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[order]=${filterQuery.order}` : "")
       const params = {
         method: 'GET', 
         headers: {'Authorization': window.access_token}

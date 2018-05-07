@@ -129,6 +129,7 @@ export default class Users extends Component {
 
   openUser = user => {
     this.props.startEditingUser(user);
+    this.props.fetchUser(user.id);
     this.props.history.push(`/dashboard/user/${user.id}`);
   }
   render() {
