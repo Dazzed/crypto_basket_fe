@@ -81,7 +81,7 @@ class LoginForm extends Component {
 
               {loginFailed ? (
                 <div className="row mt-4">
-                  <div className="col-sm-12">
+                  <div className="col-sm-12 centered">
                     <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} className="captcha"/>
                   </div>
                 </div>
