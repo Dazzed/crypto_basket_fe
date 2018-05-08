@@ -62,7 +62,7 @@ class SettingsModal extends React.Component {
             {fieldText[this.props.fieldName]}
           </Row>
           {this.props.fieldName!=='verificationStatus' ? (
-            <form onSubmit={this.props.onSubmit}>
+            <form onSubmit={this.props.handleSubmit}>
               {this.props.fieldName!=='archive' && this.props.fieldName!=='activate' ? (<div className="row mt-3">
                 <div className="field-wrapper"> 
                   <div className="col-sm-12">
