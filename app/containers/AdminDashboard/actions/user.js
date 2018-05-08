@@ -58,10 +58,19 @@ export const changePage = createAction(
 );
 export const resetUserPassword = createAction(
   `${PREFIX}_RESET_USER_PASSWORD`,
-  (email) => ({ email })
+  (email) => ({ 
+    email,
+    toastSuccessCallBack,
+    toastErrorCallBack
+  })
 );
 export const archiveUser = createAction(
   `${PREFIX}_ARCHIVE_USER`,
   (id) => ({ id })
+);
+
+export const updateUser = createAction(
+  `${PREFIX}_UPDATE_USER_SUCESS`,
+  (data, id) => ({ data, id })
 );
 // END actions related to admin managing users

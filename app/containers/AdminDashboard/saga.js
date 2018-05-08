@@ -28,7 +28,8 @@ import {
   resetUserPassword,
   archiveUser,
   fetchUser,
-  fetchUserSuccess
+  fetchUserSuccess,
+  updateUser
 } from './actions/user';
 
 export default function* main() {
@@ -42,10 +43,31 @@ export default function* main() {
   yield fork(resetPasswordWater);
   yield fork(archiveUserWatcher);
   yield fork(fetchSingleUserWatcher);
+  yield fork(updateUserWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* updateUserWatcher(){
+  yield takeLatest(updateUser, function* handler({ payload: {data, id} }){
+    try{
+      console.log('data', data, 'id', id);
+      const baseRequestURL = `/api/users/${id}/`;
+      const params = {
+        method: 'PATCH', 
+        headers: {'Authorization': window.access_token}, 
+        body: JSON.stringify(
+          data
+        )
+      };
+      const result = yield call(request, { name: baseRequestURL }, params);
+      yield put(fetchUserSuccess(result));
+    }catch(error){
+      yield put(fetchUsersError(error));
+    }
+  });
+}
 
 function* fetchSingleUserWatcher(){
   yield takeLatest(fetchUser, function* handler({payload: id}){
@@ -63,8 +85,9 @@ function* fetchSingleUserWatcher(){
   });
 }
 function* resetPasswordWater(){
-  yield takeLatest(resetUserPassword, function* handler({ payload: email }){
+  yield takeLatest(resetUserPassword, function* handler({ payload }){
     try{
+      console.log('payload', payload);
       const requestURL = `/api/users/reset`;
       const params = {
         method: 'POST',
@@ -74,9 +97,10 @@ function* resetPasswordWater(){
         })
       };
       const result = yield call(request, { name: requestURL }, params);
+      // toastSuccessCallBack('Password reset email sent.');
       console.log('password reset result', result);
     }catch(e){
-      yield put(fetchUsersError(e));
+      // toastErrorCallBack('Action could not be completed at this time.');
     }
   });
 }
@@ -84,18 +108,16 @@ function* resetPasswordWater(){
 function* archiveUserWatcher(){
   yield takeLatest(archiveUser, function* handler({ payload: id }){
     try{
-      const requestURL = `/api/users/archive/${id}`;
+      console.log('ID', id);
+      const requestURL = `/api/users/archive/${id.id}/`;
       const params = {
         method: 'POST',
         headers: {'Authorization': window.access_token},
-        body: JSON.stringify({
-          options:{ email: email }
-        })
       };
       const result = yield call(request, { name: requestURL }, params);
       console.log('archive user result', result);
     }catch(e){
-      yield put(fetchUsersError(e));
+      // yield put(fetchUsersError(e));
     }
   })
 }
