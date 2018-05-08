@@ -52,18 +52,21 @@ class SettingsModal extends React.Component {
     this.props.onSubmit(this.state);
   }
   render() {
-    const changeText = `Please enter a new ${this.props.fieldNameText}. This will not change the users current verification status, and they will not be notified of this change.`;
+    const isActivating = this.props.fieldName==='archive' || this.props.fieldName==='activate';
       return (
-        <Modal isOpen={this.props.isOpen} className="settings-modal">
+        <Modal isOpen={this.props.isOpen} className={isActivating ? "archive-settings-modal" : "settings-modal"}>
+        <button onClick={this.props.closeModal} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
           <Row  className="field-name">
-            Are you sure you want to change this user's {fieldName[this.props.fieldName]}?
+            {isActivating ? `Are you sure you want to ${fieldName[this.props.fieldName]} this user?` : `Are you sure you want to change this user's ${fieldName[this.props.fieldName]}?`}
           </Row>
           <Row className="field-desc">
             {fieldText[this.props.fieldName]}
           </Row>
           {this.props.fieldName!=='verificationStatus' ? (
             <form onSubmit={this.props.handleSubmit}>
-              {this.props.fieldName!=='archive' && this.props.fieldName!=='activate' ? (<div className="row mt-3">
+              { !isActivating ? (<div className="row mt-3">
                 <div className="field-wrapper"> 
                   <div className="col-sm-12">
                     <Field
@@ -80,7 +83,7 @@ class SettingsModal extends React.Component {
               type="submit"
               className="btn-field-wrapper"
             >
-              {this.props.fieldName==='archive' || this.props.fieldName==='activate' ? fieldName[this.props.fieldName] : "Submit"}
+              {isActivating ? fieldName[this.props.fieldName] : "Submit"}
             </button>
           </form>
           ): (
@@ -125,6 +128,7 @@ SettingsModal.propTypes = {
   onSubmit: PropTypes.object,
   fieldName: PropTypes.object.isRequired,
   isOpen: PropTypes.func,
+  closeModal: PropTypes.func
 };
 
 

@@ -660,11 +660,15 @@ input:checked+.slider:before {
 
 .settings-modal .modal-content{
     width: 700px;
-    height: 450px;
+    height: 500px;
     margin-left: -100px;
 }
 
-    /*background: #76837B;*/
+.archive-settings-modal .modal-content{
+    width: 700px;
+    height: 300px;
+    margin-left: -100px;
+}
 
 .settings-modal .field-name {
     font-family: Lato;
@@ -674,7 +678,7 @@ input:checked+.slider:before {
     letter-spacing: 0;
     text-align: center;
     line-height: 28px;
-    padding: 30px;
+    padding: 40px;
     width: 500px;
     margin: 0 auto;
 }
@@ -715,6 +719,67 @@ input:checked+.slider:before {
 }
 
 .settings-modal .field-desc {
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 14px;
+    color: #3A3A3A;
+    letter-spacing: 0;
+    line-height: 22px;
+    padding: 30px;
+    width: 600px;
+    margin: 0 auto;
+    
+}
+
+.archive-settings-modal .field-name {
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 18px;
+    color: #76837B;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 28px;
+    padding: 40px;
+    width: 500px;
+    margin: 0 auto;
+}
+.archive-settings-modal .field-wrapper{
+    width: 400px;
+    margin: 20px auto;
+}
+
+.archive-settings-modal .btn-field-wrapper{
+    width: 170px;
+    height: 44px;
+    font-size: 14px;
+    border-radius: 2px;
+    border: 1px solid #00b34a;
+    background-color: #00b34a;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 20px auto;
+}
+
+.archive-settings-modal .btn-field-selector{
+    width: 170px;
+    height: 44px;
+    font-size: 14px;
+    background-color: #00692B;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 20px 0px;
+    /* Button: */
+}
+
+.archive-settings-modal .selected{
+    background-color: #00b34a;
+}
+
+.archive-settings-modal .btn-wrapper{
+    margin: 10px auto;
+}
+
+.archive-settings-modal .field-desc {
     font-family: Lato;
     font-weight: normal;
     font-size: 14px;

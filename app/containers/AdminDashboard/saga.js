@@ -93,14 +93,14 @@ function* resetPasswordWater(){
         method: 'POST',
         headers: {'Authorization': window.access_token},
         body: JSON.stringify({
-          email: email.email
+          email: payload.email
         })
       };
       const result = yield call(request, { name: requestURL }, params);
-      // toastSuccessCallBack('Password reset email sent.');
+      payload.toastSuccessCallBack('Password reset email sent.');
       console.log('password reset result', result);
     }catch(e){
-      // toastErrorCallBack('Action could not be completed at this time.');
+      payload.toastErrorCallBack('Action could not be completed at this time.');
     }
   });
 }
@@ -115,7 +115,7 @@ function* archiveUserWatcher(){
         headers: {'Authorization': window.access_token},
       };
       const result = yield call(request, { name: requestURL }, params);
-      console.log('archive user result', result);
+      yield put(fetchUserSuccess(result));
     }catch(e){
       // yield put(fetchUsersError(e));
     }

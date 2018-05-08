@@ -58,7 +58,7 @@ export const changePage = createAction(
 );
 export const resetUserPassword = createAction(
   `${PREFIX}_RESET_USER_PASSWORD`,
-  (email) => ({ 
+  (email, toastSuccessCallBack, toastErrorCallBack) => ({ 
     email,
     toastSuccessCallBack,
     toastErrorCallBack

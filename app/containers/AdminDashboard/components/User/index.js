@@ -128,12 +128,17 @@ export default class User extends Component {
   changeCountryModal = () => {
     this.setState({modalField: "country", modalOpen: true});
   }
+
+  closeModal = () => {
+    this.setState({modalOpen: false});
+  }
   render() {
     console.log('user', this.props.adminDashboard.editingUser);
+    console.log('isDeleted', this.props.adminDashboard.editingUser.isDeleted);
     const user = this.props.adminDashboard.editingUser;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
-      <SettingsModal onSubmit={this.submitModal} fieldName={this.state.modalField ? this.state.modalField : "email"} isOpen={this.state.modalOpen}/>
+      <SettingsModal onSubmit={this.submitModal} closeModal={this.closeModal} fieldName={this.state.modalField ? this.state.modalField : "email"} isOpen={this.state.modalOpen}/>
         <div className="row">
           <div className="col-md-8 col-4">
             <h2 className="p-4">{user.firstName} {user.lastName}</h2>
