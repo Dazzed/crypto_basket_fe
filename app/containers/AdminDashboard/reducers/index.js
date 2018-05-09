@@ -3,6 +3,7 @@ import { createReducer } from 'redux-act';
 import { commonReducer } from './common';
 import { twoFactorAuthReducer } from './twoFactorAuth';
 import { userReducer } from './user';
+import { assetsReducer } from './asset';
 import { createAdminReducer } from './createAdmin';
 
 const initialState = {
@@ -26,14 +27,18 @@ const initialState = {
   manualCode: null,
   // admins
   creatingAdmin: false,
-  isCreatingAdmin: false
+  isCreatingAdmin: false,
+  // assets
+  assets: [],
+  fetchingAssets: false
 };
 
 const reducer = {
   ...commonReducer,
   ...twoFactorAuthReducer,
+  ...assetsReducer,
   ...userReducer,
-  ...createAdminReducer
+  ...createAdminReducer,
 };
 
 export default createReducer(reducer, initialState);

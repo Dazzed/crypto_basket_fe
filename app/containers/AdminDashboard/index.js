@@ -17,6 +17,7 @@ import saga from './saga';
 import * as commonActions from './actions/common';
 import * as tfaActions from './actions/twoFactorAuth';
 import * as userActions from './actions/user';
+import * as assetActions from './actions/asset';
 import * as createAdminActions from './actions/createAdmin';
 
 import AdminDashboard from './AdminDashboard';
@@ -33,7 +34,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   ...commonActions,
   ...tfaActions,
   ...userActions,
-  ...createAdminActions
+  ...createAdminActions,
+  ...assetActions
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

@@ -32,6 +32,12 @@ import {
   updateUser
 } from './actions/user';
 
+import {
+  fetchAssets,
+  fetchAssetsSuccess,
+  fetchAssetsError
+} from './actions/asset';
+
 export default function* main() {
   yield fork(tfaAdminEnableWatcherInitial);
   yield fork(tfaAdminEnableWatcherFinal);
@@ -44,10 +50,27 @@ export default function* main() {
   yield fork(archiveUserWatcher);
   yield fork(fetchSingleUserWatcher);
   yield fork(updateUserWatcher);
+  yield fork(fetchAssetsWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* fetchAssetsWatcher(){
+  yield takeLatest(fetchAssets, function* handler({ payload }){
+    try{
+      const baseRequestURL = `/api/assets?filter=%7B%22custom_include%22%3A%5B%22populateValueAndMinimumPurchase%22%2C%20%22populateCommunityValues%22%2C%20%22populateCommunityQuantity%22%2C%20%22populatePrices%22%5D%7D`;
+      const params = {
+        method: 'GET', 
+        headers: {'Authorization': window.access_token}
+      };
+      const result = yield call(request, { name: baseRequestURL }, params);
+      yield put(fetchAssetsSuccess(result));
+    }catch(error){
+      yield put(fetchAssetsError(error));
+    }
+  });
+}
 
 function* updateUserWatcher(){
   yield takeLatest(updateUser, function* handler({ payload: {data, id} }){
