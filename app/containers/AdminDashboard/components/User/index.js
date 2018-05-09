@@ -134,7 +134,10 @@ export default class User extends Component {
   }
   render() {
     console.log('user', this.props.adminDashboard.editingUser);
-    console.log('isDeleted', this.props.adminDashboard.editingUser.isDeleted);
+    const walletValues = _.reduce((this.props.adminDashboard.editingUser && this.props.adminDashboard.editingUser.wallets) || [],  (accumulator, elem) => {
+      accumulator[elem.assetId] = elem.balance;
+      return accumulator;
+    },{})
     const user = this.props.adminDashboard.editingUser;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
@@ -262,7 +265,7 @@ export default class User extends Component {
                     BTC Wallet Value
                     </Col>
                     <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      0
+                      {walletValues.btc || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                       <Button>Change</Button>
@@ -273,7 +276,7 @@ export default class User extends Component {
                     ETH Wallet Value
                     </Col>
                     <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      0
+                      {walletValues.eth || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                       <Button>Change</Button>
