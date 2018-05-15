@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import ChangePasswordModal from 'components/ChangePasswordModal';
 import OtpModal from 'components/OtpModal';
 import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
+import PurchaseUnsuccessfulModal from '../BuyPage/PurchaseUnsuccessfulModal';
+import ConfirmPurchaseModal from '../BuyPage/ConfirmPurchaseModal';
+import PurchaseSuccessfulModal from '../BuyPage/PurchaseSuccessfulModal';
 
 export default class Modals extends Component {
   static propTypes = {
@@ -17,6 +20,10 @@ export default class Modals extends Component {
     updateTfaEnabledWithOtp: PropTypes.func.isRequired,
     unsetActiveTfaToggleKey: PropTypes.func.isRequired,
     confirmChangingPassword: PropTypes.func.isRequired,
+    hidePurchaseUnsuccessfulModal: PropTypes.func.isRequired,
+    hideConfirmPurchaseModal: PropTypes.func.isRequired,
+    performInitiatingTrade: PropTypes.func.isRequired,
+    closeTradeSuccessModal: PropTypes.func.isRequired,
     showToastSuccess: PropTypes.func.isRequired,
     showToastError: PropTypes.func.isRequired,
   };
@@ -28,7 +35,7 @@ export default class Modals extends Component {
       enablingTFAWithdrawal,
       disablingTFALogin,
       disablingTFAWithdrawal,
-      activeTfaToggleKey
+      activeTfaToggleKey,
     } = this.props.userDashboard;
 
     const {
@@ -76,13 +83,23 @@ export default class Modals extends Component {
         enablingTFAWithdrawal,
         isOTPModalOpen,
         qrCode,
-        manualCode
+        manualCode,
+        purchaseUnsuccessfulModalOpen,
+        purchaseUnsuccessfulModalContent,
+        isConfirmPurchaseModalOpen,
+        estimateTradeResult,
+        isTradeSuccessModalOpen,
+        isInitiatingTrade
       },
       cancelOperation,
       openOTPModal,
       closeOTPModal,
       unsetActiveTfaToggleKey,
-      globalData
+      globalData,
+      hidePurchaseUnsuccessfulModal,
+      hideConfirmPurchaseModal,
+      performInitiatingTrade,
+      closeTradeSuccessModal
     } = this.props;
 
     if (isOTPModalOpen) {
@@ -158,6 +175,35 @@ export default class Modals extends Component {
           loading={isChangingPassword}
           onCancel={cancelOperation}
           onSubmit={this.onChangePassword}
+        />
+      );
+    }
+
+    if (purchaseUnsuccessfulModalOpen) {
+      return (
+        <PurchaseUnsuccessfulModal
+          onCancel={hidePurchaseUnsuccessfulModal}
+          purchaseUnsuccessfulModalContent={purchaseUnsuccessfulModalContent}
+        />
+      );
+    }
+
+    if (isConfirmPurchaseModalOpen) {
+      return (
+        <ConfirmPurchaseModal
+          estimateTradeResult={estimateTradeResult}
+          onCancel={hideConfirmPurchaseModal}
+          onConfirm={performInitiatingTrade}
+          isInitiatingTrade={isInitiatingTrade}
+        />
+      );
+    }
+
+    if (isTradeSuccessModalOpen) {
+      return (
+        <PurchaseSuccessfulModal
+          closeTradeSuccessModal={closeTradeSuccessModal}
+          onNavigateToActivity={() => alert('in progress')}
         />
       );
     }

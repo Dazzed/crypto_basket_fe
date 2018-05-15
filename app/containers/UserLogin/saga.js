@@ -39,7 +39,6 @@ function* loginFormWatcher() {
         window.access_token = access_token;
         yield put(authSucess(tfaResponse.user));
         yield put(loginSuccess());
-        
       } else {
         const requestURL = '/api/users/login';
         const params = {

@@ -2,7 +2,10 @@ import {
   cancelOperation,
   performPatchingUser,
   patchUserSuccess,
-  patchUserError
+  patchUserError,
+  fetchAllAssets,
+  fetchAllAssetsSuccess,
+  fetchAllAssetsError
 } from '../actions/common';
 
 export const commonReducer = {
@@ -26,5 +29,20 @@ export const commonReducer = {
   [patchUserError]: state => ({
     ...state,
     isPatchingUser: false
+  }),
+  [fetchAllAssets]: state => ({
+    ...state,
+    isFetchingAssets: true,
+    errorFetchingAllAssets: false
+  }),
+  [fetchAllAssetsSuccess]: (state, allAssets) => ({
+    ...state,
+    allAssets,
+    isFetchingAssets: false
+  }),
+  [fetchAllAssetsError]: state => ({
+    ...state,
+    isFetchingAssets: false,
+    errorFetchingAllAssets: true
   })
 };

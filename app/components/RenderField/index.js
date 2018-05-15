@@ -43,7 +43,7 @@ RenderField.propTypes = {
   type: PropTypes.string,
   meta: PropTypes.object,
   placeholder: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool
 };
 
 export default RenderField;

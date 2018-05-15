@@ -1,4 +1,4 @@
-import { put, fork, call } from 'redux-saga/effects';
+import { put, fork, call, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
 import { stopSubmit } from 'redux-form';
@@ -27,9 +27,23 @@ import {
 } from './actions/changePassword';
 
 import {
+  showPurchaseUnsuccessfulModal,
+  hidePurchaseUnsuccessfulModal,
+  performEstimatingTrade,
+  estimateTradeSuccess,
+  estimateTradeError,
+  performInitiatingTrade,
+  initiateTradeSuccess,
+  initiateTradeError
+} from './actions/buyActions';
+
+import {
   performPatchingUser,
   patchUserSuccess,
-  patchUserError
+  patchUserError,
+  fetchAllAssets,
+  fetchAllAssetsSuccess,
+  fetchAllAssetsError,
 } from './actions/common';
 
 export default function* main() {
@@ -42,6 +56,19 @@ export default function* main() {
   yield fork(updateFlagWithOTP);
   yield fork(changePasswordWatcher);
   yield fork(patchUserWatcher);
+  yield fork(fetchAssetsWather);
+
+  yield fork(estimateTradeWatcher);
+  yield fork(initiateTradeWatcher);
+}
+
+function constructErrorMessage(type, minMax, ticker) {
+  if (type === 'generic') {
+    return 'We\'re sorry, but you don\'t currently have enough funds to complete this ' +
+      'transaction. Please make a deposit, or try again with a different amount.';
+  }
+  return `We\'re sorry, but this ${type} amount violates ${minMax} trade amount for ` +
+    `${ticker}. Please try again with a different amount`;
 }
 
 function* tfaLoginEnableWatcherInitial() {
@@ -204,6 +231,140 @@ function* patchUserWatcher() {
       yield put(patchUserError());
       // yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
       payload.toastErrorCallBack('There was an error');
+    }
+  });
+}
+
+function* fetchAssetsWather() {
+  yield takeLatest(fetchAllAssets, function* handler({ payload }) {
+    try {
+      const requestURL = '/api/assets';
+      const params = {
+        method: 'GET'
+      };
+      const results = yield call(request, { name: requestURL }, params);
+      yield put(fetchAllAssetsSuccess(results.filter(({ hidden }) => !hidden)));
+    } catch (error) {
+      yield put(fetchAllAssetsError());
+      payload.toastErrorCallBack('There was an error fetching details. Reload your page.');
+    }
+  });
+}
+
+function* estimateTradeWatcher() {
+  yield takeLatest(performEstimatingTrade, function* handler({ payload }) {
+    const {
+      fromAssetId,
+      toAssetId,
+      fromAssetAmount,
+      toAssetAmount,
+      tradeType,
+      successCallback,
+      errorCallback,
+      callback
+    } = payload;
+    try {
+      // 1. Perform validations
+      const {
+        globalData: {
+          currentUser: {
+            wallets: myWallets
+          }
+        },
+        userDashboard: {
+          allAssets
+        }
+      } = yield select();
+      const fromAsset = allAssets.find(({ id }) => id === fromAssetId);
+      const toAsset = allAssets.find(({ id }) => id === toAssetId);
+      const myFromWallet = myWallets.find(({ assetId }) => assetId === fromAsset.ticker);
+      const myToWallet = myWallets.find(({ assetId }) => assetId === toAsset.ticker);
+
+      if ((fromAssetAmount > myFromWallet.balance)) {
+        return yield put(
+          showPurchaseUnsuccessfulModal(
+            constructErrorMessage('generic')
+          )
+        );
+      } else if (toAssetAmount < toAsset.minPurchaseAmount) {
+        return yield put(
+          showPurchaseUnsuccessfulModal(
+            constructErrorMessage('purchase', 'minimum', toAsset.ticker.toUpperCase())
+          )
+        );
+      } else if (toAssetAmount > toAsset.maxPurchaseAmount) {
+        return yield put(
+          showPurchaseUnsuccessfulModal(
+            constructErrorMessage('purchase', 'maximum', toAsset.ticker.toUpperCase())
+          )
+        );
+      }
+      // 2. Call estimate trade API
+      const requestURL = '/api/trades/estimateTrade';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          fromAssetId,
+          toAssetId,
+          fromAssetAmount,
+          toAssetAmount,
+          tradeType
+        })
+      };
+      const { message: results } = yield call(request, { name: requestURL }, params);
+      yield put(estimateTradeSuccess(results));
+    } catch (error) {
+      console.log(error);
+      if (error.message) {
+        yield put(
+          showPurchaseUnsuccessfulModal(
+            constructErrorMessage('generic')
+          )
+        );
+      } else {
+        errorCallback('There was an error estimating details. Reload your page.');
+      }
+      yield put(estimateTradeError());
+    }
+  });
+}
+
+function* initiateTradeWatcher() {
+  yield takeLatest(performInitiatingTrade, function* handler({ payload }) {
+    const {
+      errorCallback,
+    } = payload;
+    try {
+      // 1. Perform validations
+      const {
+        userDashboard: {
+          estimateTradeResult
+        }
+      } = yield select();
+
+      // 2. Call estimate trade API
+      const requestURL = '/api/trades/initiateTrade';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          ...estimateTradeResult,
+          tradeType: 'buy'
+        })
+      };
+      const { message: results, myWallets } = yield call(request, { name: requestURL }, params);
+      yield put(initiateTradeSuccess({ results, myWallets }));
+    } catch (error) {
+      console.log(error);
+      if (error.message) {
+        yield put(
+          showPurchaseUnsuccessfulModal(
+            constructErrorMessage('generic')
+          )
+        );
+      } else {
+        errorCallback('There was an error initiating trade. Reload your page.');
+      }
+      yield put(initiateTradeError());
     }
   });
 }
