@@ -29,3 +29,19 @@ export const patchUserSuccess = createAction(
 export const patchUserError = createAction(
   `${PREFIX}_PATCH_USER_ERROR`
 );
+
+export const fetchAllAssets = createAction(
+  `${PREFIX}_FETCH_ALL_ASSETS`,
+  (toastSuccessCallBack, toastErrorCallBack) => ({
+    toastSuccessCallBack,
+    toastErrorCallBack
+  })
+);
+
+export const fetchAllAssetsSuccess = createAction(
+  `${PREFIX}_FETCH_ALL_ASSETS_SUCCESS`
+);
+
+export const fetchAllAssetsError = createAction(
+  `${PREFIX}_FETCH_ALL_ASSETS_ERROR`
+);

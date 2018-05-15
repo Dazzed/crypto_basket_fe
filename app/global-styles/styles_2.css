@@ -65,3 +65,13 @@
 .react-datepicker__input-container {
     display: block;
 }
+
+.red {
+    color: red;
+}
+
+.naked-green-btn {
+    color: #00b34a !important; 
+    background: none !important; 
+    border: none !important;
+}

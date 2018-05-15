@@ -20,6 +20,10 @@ import {
 } from 'containers/UserTFAFirstTimeSetup/actions';
 
 import {
+  initiateTradeSuccess
+} from 'containers/UserDashboard/actions/buyActions';
+
+import {
   authSucess,
   authFailure,
   logOutRequest,
@@ -127,6 +131,14 @@ const reducer = {
     currentUser: {
       ...state.currentUser,
       isLoggingInFirstTime: false
+    }
+  }),
+  [initiateTradeSuccess]: (state, { results, myWallets }) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      trades: state.currentUser.trades.concat(results),
+      wallets: myWallets
     }
   })
 };

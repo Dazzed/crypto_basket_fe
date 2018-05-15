@@ -3,6 +3,7 @@ import { createReducer } from 'redux-act';
 import { commonReducer } from './common';
 import { twoFactorAuthReducer } from './twoFactorAuthReducer';
 import { changePasswordReducer } from './changePasswordReducer';
+import { buyReducer } from './buy';
 
 const initialState = {
   enablingTFALogin: false,
@@ -22,13 +23,25 @@ const initialState = {
   changingPassword: false,
   isChangingPassword: false,
   // user keys
-  isPatchingUser: false
+  isPatchingUser: false,
+  isFetchingAssets: false,
+  allAssets: [],
+  errorFetchingAllAssets: false,
+  // buy actions
+  purchaseUnsuccessfulModalOpen: false,
+  purchaseUnsuccessfulModalContent: null,
+  isEstimatingTrade: false,
+  estimateTradeResult: null,
+  isConfirmPurchaseModalOpen: false,
+  isInitiatingTrade: false,
+  isTradeSuccessModalOpen: false
 };
 
 const reducer = {
   ...commonReducer,
   ...twoFactorAuthReducer,
-  ...changePasswordReducer
+  ...changePasswordReducer,
+  ...buyReducer
 };
 
 export default createReducer(reducer, initialState);

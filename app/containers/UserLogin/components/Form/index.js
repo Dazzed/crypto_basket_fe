@@ -17,7 +17,7 @@ class LoginForm extends Component {
   }
   constructor() {
     super();
-    this.state = { captcha: false };
+    this.state = { captcha: true };
   }
 
   render() {
