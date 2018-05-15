@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
-import Recaptcha from 'react-recaptcha';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import RenderField from 'components/RenderField';
@@ -17,14 +16,14 @@ class LoginForm extends Component {
   }
   constructor() {
     super();
-    this.state = { captcha: true };
+    this.state = { captcha: false };
   }
 
   render() {
     const { handleSubmit, pristine, loginFailed, tfaRequired } = this.props;
     const onChange = e => {
       this.setState({ captcha: true });
-    }
+    };
     console.log('loginfailed', loginFailed, 'captcha', this.state.captcha);
     return (
       <div className="container-fluid">
@@ -82,7 +81,7 @@ class LoginForm extends Component {
               {loginFailed ? (
                 <div className="row mt-4">
                   <div className="col-sm-12 centered">
-                    <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} className="captcha"/>
+                    <ReCAPTCHA sitekey="6LfsHVYUAAAAAMtUy6xcuz01uVkAP92zGXtjsstu" onChange={onChange} className="captcha" />
                   </div>
                 </div>
               ) : null}
