@@ -35,7 +35,9 @@ import {
 import {
   fetchAssets,
   fetchAssetsSuccess,
-  fetchAssetsError
+  fetchAssetsError,
+  updateAsset,
+  fetchAssetSuccess
 } from './actions/asset';
 
 export default function* main() {
@@ -51,10 +53,33 @@ export default function* main() {
   yield fork(fetchSingleUserWatcher);
   yield fork(updateUserWatcher);
   yield fork(fetchAssetsWatcher);
+  yield fork(updateAssetWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* updateAssetWatcher(){
+  yield takeLatest(updateAsset, function* handler({ payload: {data, id} }){
+    try{
+      console.log('in asset watcher update');
+      const baseRequestURL = `/api/assets/${id}/`;
+      const params = {
+        method: 'PATCH', 
+        headers: {'Authorization': window.access_token}, 
+        body: JSON.stringify(
+          data
+        )
+      };
+      const result = yield call(request, { name: baseRequestURL }, params);
+      console.log('result', result);
+      yield put(fetchAssetSuccess(result));
+    }catch(error){
+      console.log('got error', error);
+      yield put(fetchAssetsError(error));
+    }
+  });
+}
 
 function* fetchAssetsWatcher(){
   yield takeLatest(fetchAssets, function* handler({ payload }){
