@@ -37,9 +37,9 @@ class AdminDashboard extends React.Component {
 }
 
 AdminDashboard.propTypes = {
-  adminDashboard: PropTypes.object.isRequired,
-  globalData: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
+  // adminDashboard: PropTypes.object.isRequired,
+  // globalData: PropTypes.object.isRequired,
+  // location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 

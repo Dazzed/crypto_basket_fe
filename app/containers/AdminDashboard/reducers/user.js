@@ -4,10 +4,14 @@ import {
   fetchUsersError,
   filterVerification,
   swapOrdering,
-  updateSearch, 
+  updateSearch,
   changePage,
   startEditingUser,
-  fetchUserSuccess
+  fetchUserSuccess,
+  startCreatingUser,
+  performCreatingUser,
+  createUserSuccess,
+  createUserError
 } from '../actions/user';
 
 export const userReducer = {
@@ -20,7 +24,7 @@ export const userReducer = {
     usersSearch: action.search
   }),
   [filterVerification]: (state, action) => {
-    const newFilter = action.verification !== 'all' ? { where: { verificationStatus: action.verification }, order: state.usersOrder } : {order: state.usersOrder};
+    const newFilter = action.verification !== 'all' ? { where: { verificationStatus: action.verification }, order: state.usersOrder } : { order: state.usersOrder };
     return {
       ...state,
       usersFilter: newFilter,
@@ -29,7 +33,7 @@ export const userReducer = {
   },
   [swapOrdering]: (state) => {
     const newOrder = state.usersOrder === 'email ASC' ? 'email DESC' : 'email ASC';
-    const newFilter = state.usersVerification !== 'all' ? { where: { verificationStatus: state.usersVerification }, order: newOrder } : {order: newOrder};
+    const newFilter = state.usersVerification !== 'all' ? { where: { verificationStatus: state.usersVerification }, order: newOrder } : { order: newOrder };
     return {
       ...state,
       usersFilter: newFilter,
@@ -56,5 +60,23 @@ export const userReducer = {
   [fetchUserSuccess]: (state, action) => ({
     ...state,
     editingUser: action.user
+  }),
+  [startCreatingUser]: (state) => ({
+    ...state,
+    creatingUser: true
+  }),
+  [performCreatingUser]: (state) => ({
+    ...state,
+    isCreatingUser: true
+  }),
+  [createUserSuccess]: (state, createdUser) => ({
+    ...state,
+    users: state.users.concat(createdUser),
+    creatingUser: false,
+    isCreatingUser: false
+  }),
+  [createUserError]: state => ({
+    ...state,
+    isCreatingUser: false
   })
 };

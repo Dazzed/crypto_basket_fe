@@ -52,6 +52,14 @@ export const performCreatingUser = createAction(
     toastErrorCallBack
   })
 );
+export const createUserSuccess = createAction(
+  `${PREFIX}_CREATE_USER_SUCCESS`,
+  user => user
+);
+export const createUserError = createAction(
+  `${PREFIX}_CREATE_USER_ERROR`
+);
+
 export const changePage = createAction(
   `${PREFIX}_CHANGE_PAGE`,
   (page) => ({ page })
