@@ -241,11 +241,27 @@ input::placeholder {
     color: #76837b;
 }
 
+.icon_datepickers {
+    position: absolute;
+    margin-left: 85%;
+    top: 5px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    z-index: 999;
+    color: #76837b;
+}
+
 .text_icon {
     padding-left: 25px;
     font-size: 12px;
     color: #76837b;
     /*//height: 20px;*/
+}
+
+.text_icon::placeholder {
+    font-size: 12px;
+    color: #76837b;
 }
 
 .buy_margin .dropdown-menu {
@@ -941,15 +957,79 @@ input:checked+.slider:before {
     font-family: courier;
 }
 
-@media (max-width: 320px) {
-    .active_tab_title {
-        width: 100px;
+.deny_btn {
+    border-radius: 2px;
+    background-color: #fd6814;
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+    /*width:100px;*/
+    padding: 2px 5px;
+}
+
+.accept_btn {
+    border-radius: 2px;
+    background-color: #00b34a;
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+    /*width:100px; */
+    padding: 2px 5px;
+}
+
+.small_activity_space {
+    word-spacing: 9px;
+}
+
+@media (max-width: 768px) {
+    .col_act_6 {
+        margin-top: 10px;
     }
-    .tab_title {
-        width: 100px;
+    .col_act_6_2 {
+        margin-top: 10px;
     }
-    .tab_list {
-        margin-left: 30px !important;
+    .col_act_6_3 {
+        margin-top: 10px;
+    }
+    .icon_datepickers {
+        margin-left: 90%;
+    }
+    .table_data_activity {
+        margin: 1px !important;
+    }
+    .purchase_content {
+        margin-top: -15px !important;
+    }
+    .overflow-content {}
+    .tab_activity {
+        overflow-x: scroll;
+        white-space: nowrap;
+        height: 60px;
+        top: 10px !important;
+        position: relative;
+        overflow-y: hidden;
+        /*overflow: -moz-scrollbars-none;*/
+        -ms-overflow-style: none;
+        /*-moz-scrollbars-vertical: hidden !important;*/
+        /*overflow: -moz-scrollbars-none;*/
+    }
+    ::-webkit-scrollbar {
+        width: 0px !important;
+        /* remove scrollbar space */
+        background: none !important;
+        /* optional: just make scrollbar invisible */
+    }
+    .set_verify {
+        margin-top: 10px;
+    }
+    .border_buy {
+        border-left: 0px solid #eeeeee;
+    }
+    .activity_table .w-25 {
+        width: 25% !important;
+    }
+    .activity_table .w-25 {
+        width: 75% !important;
     }
 }
 
@@ -977,73 +1057,26 @@ input:checked+.slider:before {
     .icon_datepicker {
         margin-left: 85%;
     }
-}
-@-moz-document url-prefix(http://),url-prefix(https://) {
-    scrollbar {
-       -moz-appearance: none !important;
-       background: rgb(0,255,0) !important;
-    }
-    thumb,scrollbarbutton {
-       -moz-appearance: none !important;
-       background-color: rgb(0,0,255) !important;
-    }
-
-    thumb:hover,scrollbarbutton:hover {
-       -moz-appearance: none !important;
-       background-color: rgb(255,0,0) !important;
-    }
-    scrollbarbutton {
-       display: none !important;
-    }
-    scrollbar[orient="vertical"] {
-      min-width: 15px !important;
+    .icon_datepickers {
+        margin-left: 80%;
     }
 }
-@media (max-width: 768px) {
-    .table_data_activity {
-        margin: 1px !important;
-    }
-    .purchase_content {
-        margin-top: -15px !important;
-    }
-    .overflow-content{
-        
-    }
-    .tab_activity {
-        overflow-x: scroll;
-        white-space: nowrap;
-        height: 60px;
-        top: 10px !important;
-        position: relative;
-        overflow-y:hidden;
-        /*overflow: -moz-scrollbars-none;*/
-        -ms-overflow-style: none; 
-         
-        /*-moz-scrollbars-vertical: hidden !important;*/
-        /*overflow: -moz-scrollbars-none;*/
 
+@media (max-width: 320px) {
+    .active_tab_title {
+        width: 100px;
     }
-
-    
-    ::-webkit-scrollbar {
-        width: 0px!important;
+    .tab_title {
+        width: 100px;
+    }
+    .tab_list {
+        margin-left: 30px !important;
+    }
+    /*.icon_datepickers {
         
-        /* remove scrollbar space */
-        background: none!important;
-        /* optional: just make scrollbar invisible */
-    }
-    
-    .set_verify {
-        margin-top: 10px;
-    }
-    .border_buy {
-        border-left: 0px solid #eeeeee;
-    }
-    .activity_table .w-25 {
-        width: 25% !important;
-    }
-    .activity_table .w-25 {
-        width: 75% !important;
+    }*/
+    #pickers_one {
+        margin-left: 75 !important;
     }
 }
 
