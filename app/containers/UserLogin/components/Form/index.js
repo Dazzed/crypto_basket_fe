@@ -16,7 +16,9 @@ class LoginForm extends Component {
   }
   constructor() {
     super();
-    this.state = { captcha: false };
+    this.state = {
+      captcha: process.env.NODE_ENV === 'development'
+    };
   }
 
   render() {

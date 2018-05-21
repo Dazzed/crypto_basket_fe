@@ -10,6 +10,5 @@ export const commonReducer = {
     initiatingTfaForAdmin: false,
     isOTPModalOpen: false,
     creatingAdmin: false,
-    isCreatingAdmin: false
   }),
 };
