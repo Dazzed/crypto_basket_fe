@@ -19,7 +19,13 @@ const fieldText = {
   state: "Please enter a new State of Residence. This will not change the users current verification status, and they will not be notified of this change.",
   dob: "Please enter a new Date of Birth. This will not change the users current verification status, and they will not be notified of this change.",
   country: "Please enter a new Country. This will not change the users current verification status, and they will not be notified of this change.",
-  verificationStatus: "Please update the users verification status below. Please make sure their withdrawal limit accurately reflects their new verification status before updating. An email will be triggered to the user notifying them of their status change with their current withdrawal limit."
+  verificationStatus: "Please update the users verification status below. Please make sure their withdrawal limit accurately reflects their new verification status before updating. An email will be triggered to the user notifying them of their status change with their current withdrawal limit.",
+  unavailable: "Choosing this option will render this asset un-actionable throughout the site. Users will still be able to view the asset, but all other functionality related to it will be disabled. Please select \"Make asset unavailable\" to continue.",
+  available: "Choosing this option will allow this asset to become actionable once again. Users will still now be able to trade on this asset. Please select \"Make asset available\" to continue.",
+  minPurchaseAmount: "Please enter the lowest amount you wish for a user to be able to purchase of this asset.",
+  maxPurchaseAmount: "Please enter the maximum amount you wish for a user to be able to purchase of this asset.",
+  buyMargin: "Please enter the percentage of each purchase you wish for Melotic to collect for this asset.",
+  saleMargin: "Please enter the percentage of each sale you wish for Melotic to collect for this asset."
 }
 
 const fieldName = {
@@ -31,7 +37,31 @@ const fieldName = {
   state: "State of Residence",
   dob: "Date of Birth",
   country: "Country of Residence",
-  verificationStatus: "Verification Status"
+  verificationStatus: "Verification Status",
+  available: "Change availability",
+  unavailable: "Change availability",
+  minPurchaseAmount: "Min Purchase Amount",
+  maxPurchaseAmount: "Max Purchase Amount",
+  buyMargin: "Buy Margin",
+  saleMargin: "Sale Margin"
+}
+
+const typeMap = {
+  email: "text",
+  archive: "text",
+  activate: "text",
+  withdrawal: "text",
+  username: "text",
+  state: "text",
+  dob: "date",
+  country: "text",
+  verificationStatus: "text",
+  available: "text",
+  unavailable: "text",
+  minPurchaseAmount: "number",
+  maxPurchaseAmount: "number",
+  buyMargin: "number",
+  saleMargin: "number"
 }
 
 class SettingsModal extends React.Component {
@@ -53,6 +83,7 @@ class SettingsModal extends React.Component {
   }
   render() {
     const isActivating = this.props.fieldName==='archive' || this.props.fieldName==='activate';
+    const isAvailability = this.props.fieldName==='available' || this.props.fieldName==='unavailable';
       return (
         <Modal isOpen={this.props.isOpen} className={isActivating ? "archive-settings-modal" : "settings-modal"}>
         <button onClick={this.props.closeModal} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
@@ -66,12 +97,12 @@ class SettingsModal extends React.Component {
           </Row>
           {this.props.fieldName!=='verificationStatus' ? (
             <form onSubmit={this.props.handleSubmit}>
-              { !isActivating ? (<div className="row mt-3">
+              { !isActivating && !isAvailability ? (<div className="row mt-3">
                 <div className="field-wrapper"> 
                   <div className="col-sm-12">
                     <Field
                       name={this.props.fieldName}
-                      type="text"
+                      type={typeMap[this.props.fieldName]}
                       component={RenderField}
                       label={fieldName[this.props.fieldName]}
                       placeholder=""
@@ -83,7 +114,7 @@ class SettingsModal extends React.Component {
               type="submit"
               className="btn-field-wrapper"
             >
-              {isActivating ? fieldName[this.props.fieldName] : "Submit"}
+              {isActivating || isAvailability ? fieldName[this.props.fieldName] : "Submit"}
             </button>
           </form>
           ): (
@@ -125,9 +156,9 @@ class SettingsModal extends React.Component {
 }
 
 SettingsModal.propTypes = {
-  onSubmit: PropTypes.object,
-  fieldName: PropTypes.object.isRequired,
-  isOpen: PropTypes.func,
+  onSubmit: PropTypes.func,
+  fieldName: PropTypes.string.isRequired,
+  isOpen: PropTypes.boolean,
   closeModal: PropTypes.func
 };
 

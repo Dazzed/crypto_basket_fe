@@ -29,14 +29,12 @@ export default class Assets extends Component {
   componentWillMount() {
     this.props.fetchAssets();
   }
-  // openUser = user => {
-  //   this.props.startEditingUser(user);
-  //   this.props.fetchUser(user.id);
-  //   this.props.history.push(`/dashboard/user/${user.id}`);
-  // }
+  openAsset = asset => {
+    this.props.startEditingAsset(asset);
+    this.props.history.push(`/dashboard/asset/${asset.id}`);
+  }
   render() {
     const assets = this.props.adminDashboard.assets;
-    console.log('assets', this.props.adminDashboard);
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <div className="row">
@@ -65,11 +63,11 @@ export default class Assets extends Component {
                     <tbody>
                       
                       { _.map(assets, elem=>{
-                        {/*const changeUser = () => {
-                          this.openUser(elem);
-                        }*/}
+                        const changeAsset = () => {
+                          this.openAsset(elem);
+                        }
                         return (
-                          <tr>
+                          <tr onClick={changeAsset}>
                               <td>
                                 {elem.name}
                               </td>

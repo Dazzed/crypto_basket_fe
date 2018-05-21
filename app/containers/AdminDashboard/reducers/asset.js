@@ -1,7 +1,9 @@
 import {
   fetchAssets,
   fetchAssetsSuccess,
-  fetchAssetsError
+  fetchAssetsError,
+  startEditingAsset,
+  fetchAssetSuccess
 } from '../actions/asset';
 
 export const assetsReducer = {
@@ -17,5 +19,14 @@ export const assetsReducer = {
   [fetchAssetsError]: state => ({
     ...state,
     fetchingAssets: false
+  }),
+  [startEditingAsset]: (state, action) => ({
+    ...state,
+    editingAsset: action.asset
+  }),
+  [fetchAssetSuccess]: (state, action) => ({
+    ...state,
+    editingAsset: action.asset
   })
+
 };

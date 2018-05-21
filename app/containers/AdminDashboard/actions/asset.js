@@ -12,3 +12,15 @@ export const fetchAssetsSuccess = createAction(
 export const fetchAssetsError = createAction(
   `${PREFIX}_FETCH_ASSETS_ERROR`
 );
+export const startEditingAsset = createAction(
+  `${PREFIX}_START_EDITING_ASSET`,
+  (asset) => ({ asset })
+);
+export const updateAsset = createAction(
+  `${PREFIX}_UPDATE_ASSET_SUCESS`,
+  (data, id) => ({ data, id })
+);
+export const fetchAssetSuccess = createAction(
+  `${PREFIX}_FETCH_ASSET_SUCESS`,
+  (asset) => ({ asset })
+);
