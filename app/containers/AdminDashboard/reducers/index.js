@@ -30,7 +30,8 @@ const initialState = {
   isCreatingAdmin: false,
   // assets
   assets: [],
-  fetchingAssets: false
+  fetchingAssets: false,
+  editingAsset: {}
 };
 
 const reducer = {

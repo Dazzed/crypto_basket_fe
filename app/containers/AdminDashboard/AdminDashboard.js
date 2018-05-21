@@ -10,6 +10,7 @@ import navigationItems from './navigationItems';
 import Users from './components/Users';
 import User from './components/User';
 import Assets from './components/Assets';
+import Asset from './components/Asset';
 import Modals from './components/Modals';
 
 class AdminDashboard extends React.Component {
@@ -27,6 +28,7 @@ class AdminDashboard extends React.Component {
             <Route path={`${match.url}/users`} render={props => <Users {...this.props} {...props} />} />
             <Route path={`${match.url}/user/:id`} render={props => <User {...this.props} {...props} />} />
             <Route path={`${match.url}/assets`} render={props => <Assets {...this.props} {...props} />} />
+            <Route path={`${match.url}/asset/:id`} render={props => <Asset {...this.props} {...props} />} />
           </Switch>
         </div>
       </div>
