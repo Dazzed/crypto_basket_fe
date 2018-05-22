@@ -751,6 +751,12 @@ input:checked+.slider:before {
     width: 40px;
     padding-top: 5px;
 }
+.left{
+    text-align: left;
+}
+.right{
+    text-align: right;
+}
 
 .asset-row-name {
     padding-top: 10px;
@@ -1010,6 +1016,39 @@ input:checked+.slider:before {
 
 .small_activity_space {
     word-spacing: 9px;
+}
+
+.assets-header{
+    font-family: Lato;
+    font-weight: bold;
+    font-size: 12px;
+    color: #76837B;
+    letter-spacing: 0;
+    text-align: left;
+    margin: 40px 40px;
+}
+
+.asset-list{
+    margin: 40px 40px;
+}
+
+.dashboard-heading{
+    font-family: Lato;
+    font-weight: bold;
+    font-size: 12px;
+    color: #76837B;
+    letter-spacing: 0;
+    text-align: left;
+    margin: 30px 20px;
+}
+
+.dashboard-value{
+    font-family: Courier;
+    font-size: 32px;
+    color: #3A3A3A;
+    letter-spacing: 0;
+    margin: 30px 20px;
+    text-align: left;
 }
 
 @media (max-width: 768px) {
