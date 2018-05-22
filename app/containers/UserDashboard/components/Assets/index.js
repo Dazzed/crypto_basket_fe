@@ -165,11 +165,11 @@ export default class AssetsPage extends Component {
         </div>
         <div className="row mt-3  bg_white clear-top-padding">
           <div className="assets-wrapper">
-            <div>
-              <div className="assets-header left">My Portfolio</div>
-              <div className="dropdown right">
-                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
-                  <DropdownToggle caret>
+            <Row>
+              <Col className="assets-header left">My Portfolio</Col>
+              <Col className="assets-dropdown right">
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="assets-dropdown">
+                  <DropdownToggle caret className="dropdown-toggle">
                     Show in {this.state.showIn.toUpperCase()}
                   </DropdownToggle>
                   <DropdownMenu>
@@ -178,9 +178,9 @@ export default class AssetsPage extends Component {
                     <DropdownItem onClick={this.showETH}>ETH</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
-              </div>
+              </Col>
 
-            </div>
+            </Row>
             <div className="asset-list">
               {_.map(user.wallets, wallet => {
                 if(wallet.assetId!=='btc' && wallet.assetId!=='eth'){

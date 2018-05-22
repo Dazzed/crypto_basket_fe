@@ -1028,6 +1028,23 @@ input:checked+.slider:before {
     margin: 40px 40px;
 }
 
+.assets-dropdown{
+    padding: 30px 30px;
+}
+
+.assets-dropdown .dropdown-toggle{
+
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 12px;
+    color: #76837B;
+    letter-spacing: 0;
+    text-align: right;
+    background: #FBFBFB;
+    border: 1px solid #BECCC2;
+    border-radius: 2px;
+}
+
 .asset-list{
     margin: 40px 40px;
 }
