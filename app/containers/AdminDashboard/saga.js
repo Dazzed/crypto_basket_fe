@@ -21,15 +21,18 @@ import {
 import {
   fetchUsers,
   fetchUsersSuccess,
-  fetchUsersError, 
+  fetchUsersError,
   updateSearch,
   filterVerification,
-  swapOrdering, 
+  swapOrdering,
   resetUserPassword,
   archiveUser,
   fetchUser,
   fetchUserSuccess,
-  updateUser
+  updateUser,
+  performCreatingUser,
+  createUserSuccess,
+  createUserError
 } from './actions/user';
 
 import {
@@ -54,19 +57,20 @@ export default function* main() {
   yield fork(updateUserWatcher);
   yield fork(fetchAssetsWatcher);
   yield fork(updateAssetWatcher);
+  yield fork(createUserWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
 
-function* updateAssetWatcher(){
-  yield takeLatest(updateAsset, function* handler({ payload: {data, id} }){
-    try{
+function* updateAssetWatcher() {
+  yield takeLatest(updateAsset, function* handler({ payload: { data, id } }) {
+    try {
       console.log('in asset watcher update');
       const baseRequestURL = `/api/assets/${id}/`;
       const params = {
-        method: 'PATCH', 
-        headers: {'Authorization': window.access_token}, 
+        method: 'PATCH',
+        headers: { 'Authorization': window.access_token },
         body: JSON.stringify(
           data
         )
@@ -74,72 +78,72 @@ function* updateAssetWatcher(){
       const result = yield call(request, { name: baseRequestURL }, params);
       console.log('result', result);
       yield put(fetchAssetSuccess(result));
-    }catch(error){
+    } catch (error) {
       console.log('got error', error);
       yield put(fetchAssetsError(error));
     }
   });
 }
 
-function* fetchAssetsWatcher(){
-  yield takeLatest(fetchAssets, function* handler({ payload }){
-    try{
+function* fetchAssetsWatcher() {
+  yield takeLatest(fetchAssets, function* handler({ payload }) {
+    try {
       const baseRequestURL = `/api/assets?filter=%7B%22custom_include%22%3A%5B%22populateValueAndMinimumPurchase%22%2C%20%22populateCommunityValues%22%2C%20%22populateCommunityQuantity%22%2C%20%22populatePrices%22%5D%7D`;
       const params = {
-        method: 'GET', 
-        headers: {'Authorization': window.access_token}
+        method: 'GET',
+        headers: { 'Authorization': window.access_token }
       };
       const result = yield call(request, { name: baseRequestURL }, params);
       yield put(fetchAssetsSuccess(result));
-    }catch(error){
+    } catch (error) {
       yield put(fetchAssetsError(error));
     }
   });
 }
 
-function* updateUserWatcher(){
-  yield takeLatest(updateUser, function* handler({ payload: {data, id} }){
-    try{
+function* updateUserWatcher() {
+  yield takeLatest(updateUser, function* handler({ payload: { data, id } }) {
+    try {
       console.log('data', data, 'id', id);
       const baseRequestURL = `/api/users/${id}/`;
       const params = {
-        method: 'PATCH', 
-        headers: {'Authorization': window.access_token}, 
+        method: 'PATCH',
+        headers: { 'Authorization': window.access_token },
         body: JSON.stringify(
           data
         )
       };
       const result = yield call(request, { name: baseRequestURL }, params);
       yield put(fetchUserSuccess(result));
-    }catch(error){
+    } catch (error) {
       yield put(fetchUsersError(error));
     }
   });
 }
 
-function* fetchSingleUserWatcher(){
-  yield takeLatest(fetchUser, function* handler({payload: id}){
-    try{
+function* fetchSingleUserWatcher() {
+  yield takeLatest(fetchUser, function* handler({ payload: id }) {
+    try {
       const baseRequestURL = `/api/users/${id.id}/?filter[include]=wallets`;
       const params = {
-        method: 'GET', 
-        headers: {'Authorization': window.access_token}
+        method: 'GET',
+        headers: { 'Authorization': window.access_token }
       };
       const result = yield call(request, { name: baseRequestURL }, params);
       yield put(fetchUserSuccess(result));
-    }catch(error){
+    } catch (error) {
       yield put(fetchUsersError(error));
     }
   });
 }
-function* resetPasswordWater(){
-  yield takeLatest(resetUserPassword, function* handler({ payload }){
-    try{
+function* resetPasswordWater() {
+  yield takeLatest(resetUserPassword, function* handler({ payload }) {
+    try {
       console.log('payload', payload);
       const requestURL = `/api/users/reset`;
       const params = {
         method: 'POST',
-        headers: {'Authorization': window.access_token},
+        headers: { 'Authorization': window.access_token },
         body: JSON.stringify({
           email: payload.email
         })
@@ -147,63 +151,63 @@ function* resetPasswordWater(){
       const result = yield call(request, { name: requestURL }, params);
       payload.toastSuccessCallBack('Password reset email sent.');
       console.log('password reset result', result);
-    }catch(e){
+    } catch (e) {
       payload.toastErrorCallBack('Action could not be completed at this time.');
     }
   });
 }
 
-function* archiveUserWatcher(){
-  yield takeLatest(archiveUser, function* handler({ payload: id }){
-    try{
+function* archiveUserWatcher() {
+  yield takeLatest(archiveUser, function* handler({ payload: id }) {
+    try {
       console.log('ID', id);
       const requestURL = `/api/users/archive/${id.id}/`;
       const params = {
         method: 'POST',
-        headers: {'Authorization': window.access_token},
+        headers: { 'Authorization': window.access_token },
       };
       const result = yield call(request, { name: requestURL }, params);
       yield put(fetchUserSuccess(result));
-    }catch(e){
+    } catch (e) {
       // yield put(fetchUsersError(e));
     }
   })
 }
 
-function* updateSearchWatcher(){
-  yield takeLatest(updateSearch, function* handler({ payload }){
+function* updateSearchWatcher() {
+  yield takeLatest(updateSearch, function* handler({ payload }) {
     yield put(fetchUsers());
   });
 }
 
-function* filterVerificationWatcher(){
-  yield takeLatest(filterVerification, function* handler({ payload }){
+function* filterVerificationWatcher() {
+  yield takeLatest(filterVerification, function* handler({ payload }) {
     console.log('fetching users');
     yield put(fetchUsers());
   });
 }
 
-function* swapOrderWatcher(){
-  yield takeLatest(swapOrdering, function* handler({ payload }){
+function* swapOrderWatcher() {
+  yield takeLatest(swapOrdering, function* handler({ payload }) {
     yield put(fetchUsers());
   });
 }
 
-function* fetchUsersWatcher(){
-  yield takeLatest(fetchUsers, function* handler({ payload }){
-    try{
+function* fetchUsersWatcher() {
+  yield takeLatest(fetchUsers, function* handler({ payload }) {
+    try {
       const searchQuery = yield select(getSearch);
       const filterQuery = yield select(getFilter);
       const baseRequestURL = `/api/users/`;
       const requestURL = searchQuery ? `/api/users/search/` + searchQuery : baseRequestURL;
       const args = '?' + (filterQuery.where ? `filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[order]=${filterQuery.order}` : "")
       const params = {
-        method: 'GET', 
-        headers: {'Authorization': window.access_token}
+        method: 'GET',
+        headers: { 'Authorization': window.access_token }
       };
       const result = yield call(request, { name: requestURL + args }, params);
       yield put(fetchUsersSuccess(result));
-    }catch(error){
+    } catch (error) {
       yield put(fetchUsersError(error));
     }
   });
@@ -258,13 +262,40 @@ function* createAdminWatcher() {
       const createdAdmin = yield call(request, { name: requestURL }, params);
       yield put(createAdminSuccess(createdAdmin));
       payload.toastSuccessCallBack('Invite sent to the email address successfully!');
-    } catch ({error}) {
+    } catch ({ error }) {
       yield put(createAdminError(error));
       if (error && error.message) {
         if (error.message.includes('Email already exists')) {
           yield put(stopSubmit('create_admin', { email: `${payload.admin.email} is already in use` }));
         } else if (error.message.includes('Invalid OTP')) {
           yield put(stopSubmit('create_admin', { otp: error.message }));
+        }
+      } else {
+        payload.toastErrorCallBack('There was an error. Please Try again later');
+      }
+    }
+  });
+}
+
+function* createUserWatcher() {
+  yield takeLatest(performCreatingUser, function* handler({ payload }) {
+    try {
+      const requestURL = '/api/users';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          ...payload.user,
+          adminCreatingUser: true
+        })
+      };
+      const createdUser = yield call(request, { name: requestURL }, params);
+      yield put(createUserSuccess(createdUser));
+      payload.toastSuccessCallBack('Invite sent to the email address successfully!');
+    } catch ({ error }) {
+      yield put(createUserError(error));
+      if (error && error.message) {
+        if (error.message.includes('Email already exists')) {
+          yield put(stopSubmit('create_user', { email: `${payload.user.email} is already in use` }));
         }
       } else {
         payload.toastErrorCallBack('There was an error. Please Try again later');

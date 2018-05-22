@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import OtpModal from 'components/OtpModal';
 import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
 import CreateAdminModal from './CreateAdmin';
+import CreateUserModal from './CreateUser';
 
 export default class Modals extends Component {
   onSubmitOtp = ({ otp: thizOtp }) => {
@@ -35,6 +36,18 @@ export default class Modals extends Component {
     );
   }
 
+  onCreateUser = values => {
+    const {
+      performCreatingUser
+    } = this.props;
+    performCreatingUser(
+      values,
+      null,
+      this.props.showToastSuccess,
+      this.props.showToastError
+    );
+  }
+
   render() {
     const {
       adminDashboard: {
@@ -44,7 +57,9 @@ export default class Modals extends Component {
         qrCode,
         manualCode,
         creatingAdmin,
-        isCreatingAdmin
+        isCreatingAdmin,
+        creatingUser,
+        isCreatingUser
       },
       globalData,
       isSuperAdmin,
@@ -88,6 +103,15 @@ export default class Modals extends Component {
         />
       );
     }
+    if (creatingUser) {
+      return (
+        <CreateUserModal
+          loading={isCreatingUser}
+          onSubmit={this.onCreateUser}
+          onCancel={cancelOperation}
+        />
+      );
+    }
     return null;
   }
 }
@@ -102,6 +126,7 @@ Modals.propTypes = {
   closeOtpModal: PropTypes.func.isRequired,
   performEnablingTFAAdmin: PropTypes.func.isRequired,
   performCreatingAdmin: PropTypes.func.isRequired,
+  performCreatingUser: PropTypes.func.isRequired,
   showToastSuccess: PropTypes.func.isRequired,
   showToastError: PropTypes.func.isRequired,
 };
