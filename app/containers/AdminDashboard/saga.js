@@ -1,7 +1,11 @@
-import { put, take, fork, call, cancel, select } from 'redux-saga/effects';
+import { put, fork, call, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
 import { stopSubmit } from 'redux-form';
+
+import {
+  genericFetcher
+} from 'containers/App/genericSagas';
 
 import {
   startEnablingTFAAdmin,
@@ -16,7 +20,6 @@ import {
   createAdminSuccess,
   createAdminError
 } from './actions/createAdmin';
-
 
 import {
   fetchUsers,
@@ -43,6 +46,12 @@ import {
   fetchAssetSuccess
 } from './actions/asset';
 
+import {
+  fetchActivities,
+  fetchActivitiesSuccess,
+  fetchActivitiesError
+} from './actions/activity';
+
 export default function* main() {
   yield fork(tfaAdminEnableWatcherInitial);
   yield fork(tfaAdminEnableWatcherFinal);
@@ -58,6 +67,8 @@ export default function* main() {
   yield fork(fetchAssetsWatcher);
   yield fork(updateAssetWatcher);
   yield fork(createUserWatcher);
+
+  yield fork(fetchActivitiesWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
@@ -171,7 +182,7 @@ function* archiveUserWatcher() {
     } catch (e) {
       // yield put(fetchUsersError(e));
     }
-  })
+  });
 }
 
 function* updateSearchWatcher() {
@@ -300,6 +311,42 @@ function* createUserWatcher() {
       } else {
         payload.toastErrorCallBack('There was an error. Please Try again later');
       }
+    }
+  });
+}
+
+function* fetchActivitiesWatcher() {
+  yield takeLatest(fetchActivities, function* handler({ payload }) {
+    // const { globalData: { showSuccessSnackBar, showErrorSnackBar } } = yield select();
+    try {
+      const { filter = {} } = payload;
+
+      const transformedFilter = {};
+      if (filter.include) {
+        transformedFilter.include = filter.include;
+      }
+      transformedFilter.limit = filter.limit || 10;
+      transformedFilter.offset = filter.offset || 0;
+      if (filter.orderBy) {
+        if (!filter.order) {
+          throw new Error('filter.orderBy is given, But not filer.order');
+        }
+        transformedFilter.order = `${filter.orderBy} ${filter.order || 'asc'}`;
+      }
+      if (filter.where) {
+        transformedFilter.where = filter.where;
+      }
+      console.log({filter, transformedFilter})
+      const requestURL = payload.url || '/api/transfers';
+      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const params = {
+        method: 'GET'
+      };
+      const [data = [], totalCount] = yield call(request, { name: targetURL }, params);
+      yield put(fetchActivitiesSuccess({ data, totalCount }));
+    } catch (error) {
+      console.log(error);
+      yield put(fetchActivitiesError());
     }
   });
 }

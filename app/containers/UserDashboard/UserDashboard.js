@@ -10,6 +10,7 @@ import Modals from './components/Modals';
 
 import Settings from './components/Settings';
 import BuyPage from './components/BuyPage';
+import Deposit from './components/Deposit';
 
 class UserDashboard extends React.Component {
   componentWillMount() {
@@ -37,6 +38,7 @@ class UserDashboard extends React.Component {
           <Switch>
             <Route path={`${match.url}/settings`} render={props => <Settings {...this.props} {...props} />} />
             <Route path={`${match.url}/buy`} render={props => <BuyPage {...this.props} {...props} />} />
+            <Route path={`${match.url}/deposit`} render={props => <Deposit {...this.props} {...props} />} />
           </Switch>
         </div>
       </div>

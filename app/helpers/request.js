@@ -48,6 +48,13 @@ export default function request({ name }, options = {}) {
  */
 function parseJSON(response) {
   try {
+    if (response.headers.get('x-total-count')) {
+      return Promise.all([
+        response.json(),
+        Promise.resolve(Number(response.headers.get('x-total-count')))
+      ]);
+    }
+
     if (response.headers.get('content-type').indexOf('pdf') > 0) {
       return response.blob();
     }

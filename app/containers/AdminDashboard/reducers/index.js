@@ -4,6 +4,7 @@ import { commonReducer } from './common';
 import { twoFactorAuthReducer } from './twoFactorAuth';
 import { userReducer } from './user';
 import { assetsReducer } from './asset';
+import { activitiesReducer } from './activity';
 import { createAdminReducer } from './createAdmin';
 
 const initialState = {
@@ -31,7 +32,12 @@ const initialState = {
   // assets
   assets: [],
   fetchingAssets: false,
-  editingAsset: {}
+  editingAsset: {},
+  // activities
+  activities: [],
+  isFetchingActivities: true,
+  errorFetchingActivities: false,
+  totalActivitiesCount: 0,
 };
 
 const reducer = {
@@ -40,6 +46,7 @@ const reducer = {
   ...assetsReducer,
   ...userReducer,
   ...createAdminReducer,
+  ...activitiesReducer
 };
 
 export default createReducer(reducer, initialState);

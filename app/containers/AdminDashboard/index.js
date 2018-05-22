@@ -19,6 +19,7 @@ import * as tfaActions from './actions/twoFactorAuth';
 import * as userActions from './actions/user';
 import * as assetActions from './actions/asset';
 import * as createAdminActions from './actions/createAdmin';
+import * as activityActions from './actions/activity';
 
 import AdminDashboard from './AdminDashboard';
 
@@ -35,7 +36,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   ...tfaActions,
   ...userActions,
   ...createAdminActions,
-  ...assetActions
+  ...assetActions,
+  ...activityActions
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
