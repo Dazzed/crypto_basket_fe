@@ -12,7 +12,11 @@ import {
   CardTitle, 
   CardText, 
   Row, 
-  Col
+  Col,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import {  } from 'reactstrap';
 import _ from 'lodash';
@@ -66,7 +70,7 @@ function round(number, precision) {
 export default class AssetsPage extends Component {
   constructor(props){
     super(props);
-    this.state = {activeTab: 'profile', modalOpen: false, modalField: null};
+    this.state = {activeTab: 'profile', modalOpen: false, modalField: null, dropdownOpen: false, showIn: 'usd'};
   }
   componentWillMount() {
 
@@ -123,12 +127,30 @@ export default class AssetsPage extends Component {
   closeModal = () => {
     this.setState({modalOpen: false});
   }
+
+  toggle = () => {
+    this.setState({dropdownOpen: !this.state.dropdownOpen});
+  }
+
+  showUSD = () => {
+    this.setState({showIn: 'usd'});
+  }
+
+  showBTC = () => {
+    this.setState({showIn: 'btc'});
+  }
+
+  showETH = () => {
+    this.setState({showIn: 'eth'});
+  }
+
   render() {
     const user = this.props.globalData.currentUser;
     const walletValues = _.reduce((user && user.wallets) || [],  (accumulator, elem) => {
       accumulator[elem.assetId] = elem.balance;
-      console.log('elemprice', elem.usdPrice);
-      accumulator.total += parseFloat(elem.usdPrice);
+      if(elem[this.state.showIn + 'Price']){
+        accumulator.total += parseFloat(elem[this.state.showIn + 'Price']);
+      }
       return accumulator;
     },{ total: 0 })
     console.log('rendering assets page', walletValues);
@@ -138,12 +160,27 @@ export default class AssetsPage extends Component {
         <div className="row">
           <div className="col-md-8 col-4">
             <div className="dashboard-heading">Total Balance </div>
-            <div className="dashboard-value">${walletValues.total} USD</div>
+            <div className="dashboard-value">${walletValues.total} {this.state.showIn.toUpperCase()}</div>
           </div>
         </div>
         <div className="row mt-3  bg_white clear-top-padding">
           <div className="assets-wrapper">
-            <div className="assets-header">My Portfolio</div>
+            <div>
+              <div className="assets-header left">My Portfolio</div>
+              <div className="dropdown right">
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
+                  <DropdownToggle caret>
+                    Show in {this.state.showIn.toUpperCase()}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem onClick={this.showUSD}>USD</DropdownItem>
+                    <DropdownItem onClick={this.showBTC}>BTC</DropdownItem>
+                    <DropdownItem onClick={this.showETH}>ETH</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+
+            </div>
             <div className="asset-list">
               {_.map(user.wallets, wallet => {
                 if(wallet.assetId!=='btc' && wallet.assetId!=='eth'){
@@ -159,7 +196,7 @@ export default class AssetsPage extends Component {
                       {cryptoNames[wallet.assetId]}
                     </Col>
                     <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
-                      ${round(wallet.usdPrice, 2)} USD
+                      ${round(wallet[this.state.showIn + 'Price'], 2)} {this.state.showIn.toUpperCase()}
                     </Col>
                     <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
                       {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
@@ -182,7 +219,7 @@ export default class AssetsPage extends Component {
                       {cryptoNames[wallet.assetId]}
                     </Col>
                     <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
-                      ${round(wallet.usdPrice, 2)} USD
+                      ${round(wallet[this.state.showIn + 'Price'], 2)} {this.state.showIn.toUpperCase()}
                     </Col>
                     <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
                       {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}

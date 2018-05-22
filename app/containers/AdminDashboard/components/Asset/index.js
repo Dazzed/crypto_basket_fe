@@ -92,7 +92,7 @@ export default class Asset extends Component {
             <h2 className="p-4">{asset.name} ({asset.ticker.toUpperCase()})</h2>
           </div>
           <div className="col-md-2 col-4 mt-3">
-            Status: Available
+            Status: {asset.hidden ? "Unavailable" : "Available"}
           </div>
           <div className="col-md-2 col-4 mt-3">
             <button type="button" className="btn-create-admin w-100" onClick={this.setUnavailableModal}>Set {asset.hidden ? "Available" : "Unavailable"}</button>

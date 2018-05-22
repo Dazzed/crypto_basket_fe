@@ -77,7 +77,6 @@ export const getFilter = state => state.adminDashboard.usersFilter;
 function* updateAssetWatcher() {
   yield takeLatest(updateAsset, function* handler({ payload: { data, id } }) {
     try {
-      console.log('in asset watcher update');
       const baseRequestURL = `/api/assets/${id}/`;
       const params = {
         method: 'PATCH',
@@ -86,9 +85,13 @@ function* updateAssetWatcher() {
           data
         )
       };
-      const result = yield call(request, { name: baseRequestURL }, params);
-      console.log('result', result);
-      yield put(fetchAssetSuccess(result));
+      const updateResult = yield call(request, { name: baseRequestURL }, params);
+      const paramsFetch = {
+        method: 'GET',
+        headers: { 'Authorization': window.access_token }
+      };
+      const fetchResult = yield call(request, { name: baseRequestURL + `?filter=%7B%22custom_include%22%3A%5B%22populateValueAndMinimumPurchase%22%2C%20%22populateCommunityValues%22%2C%20%22populateCommunityQuantity%22%2C%20%22populatePrices%22%5D%7D` }, paramsFetch);
+      yield put(fetchAssetSuccess(fetchResult));
     } catch (error) {
       console.log('got error', error);
       yield put(fetchAssetsError(error));
