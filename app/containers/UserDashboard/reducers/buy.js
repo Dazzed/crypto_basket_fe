@@ -5,7 +5,7 @@ import {
   estimateTradeSuccess,
   estimateTradeError,
   hideConfirmPurchaseModal,
-  performInititatingTrade,
+  performInitiatingTrade,
   initiateTradeSuccess,
   initiateTradeError,
   closeTradeSuccessModal
@@ -37,7 +37,7 @@ export const buyReducer = {
     ...state,
     isEstimatingTrade: false
   }),
-  [performInititatingTrade]: state => ({
+  [performInitiatingTrade]: state => ({
     ...state,
     isInitiatingTrade: true
   }),

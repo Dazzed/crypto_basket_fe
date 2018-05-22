@@ -75,3 +75,20 @@
     background: none !important; 
     border: none !important;
 }
+
+.deposit-info-container {
+    text-align: left;
+}
+
+.deposit-table th {
+    font-weight: 400;
+}
+
+.deposit-table tr {
+    border-bottom: 1px solid #dee !important;
+    cursor: pointer;
+}
+
+.melotic-grey {
+    color: rgba(0,0,0,.5);
+}
