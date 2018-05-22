@@ -49,23 +49,15 @@ export default class Asset extends Component {
   submitModal = (data) => {
     this.setState({modalOpen: false});
     if(this.state.modalField==='available' || this.state.modalField==='unavailable'){
-      console.log('setting hidden to', !this.props.adminDashboard.editingAsset.hidden);
       this.props.updateAsset({hidden: !this.props.adminDashboard.editingAsset.hidden}, this.props.adminDashboard.editingAsset.id);
     }else{
-      console.log('data', data);
       data[this.state.modalField] = parseFloat(data[this.state.modalField]);
+      if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin'){
+        data[this.state.modalField] = data[this.state.modalField]/100.0;
+      }
       this.props.updateAsset(data, this.props.adminDashboard.editingAsset.id);
     }
   }
-  // email: "Email",
-  // archive: "Archive",
-  // activate: "Activate",
-  // withdrawal: "Withdrawal",
-  // username: "Username",
-  // state: "State of Residence",
-  // dob: "Date of Birth",
-  // country: "Country of Residence",
-  // verificationStatus: "Verification Status"
   setUnavailableModal = () => {
     this.setState({modalField: this.props.adminDashboard.editingUser.hidden ? "available" : "unavailable", modalOpen: true});
   }
@@ -86,17 +78,11 @@ export default class Asset extends Component {
     this.setState({modalField: "saleMargin", modalOpen: true});
   }
 
-  changeCountryModal = () => {
-    // this.setState({modalField: "country", modalOpen: true});
-  }
-
   closeModal = () => {
     this.setState({modalOpen: false});
   }
   render() {
-    // console.log('user', this.props.adminDashboard.editingUser);
     const asset = this.props.adminDashboard.editingAsset;
-    console.log('asset', asset);
     const exchangeRate = asset.totalValueInUSD/parseFloat(asset.quantity);
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
