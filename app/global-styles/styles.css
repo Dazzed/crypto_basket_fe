@@ -1051,6 +1051,14 @@ input:checked+.slider:before {
     text-align: left;
 }
 
+.bordered{
+    /* Background: */
+    border-top: 1px #76837b2e solid;
+    border-bottom: 1px #76837b2e solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 @media (max-width: 768px) {
     .col_act_6 {
         margin-top: 10px;

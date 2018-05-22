@@ -151,7 +151,7 @@ export default class AssetsPage extends Component {
                   return null;
                 }
                 return (
-                  <Row className="asset-content-row">
+                  <Row className="asset-content-row bordered">
                     <Col sm={{ size: 1, order: 1, offset: 0 }}>
                     <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
                     </Col>
@@ -174,7 +174,7 @@ export default class AssetsPage extends Component {
                   return null;
                 }
                 return (
-                  <Row className="asset-content-row">
+                  <Row className="asset-content-row bordered">
                     <Col sm={{ size: 1, order: 1, offset: 0 }}>
                     <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
                     </Col>
