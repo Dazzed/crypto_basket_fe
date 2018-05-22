@@ -7,7 +7,9 @@ export default class Loading extends Component {
     insideContainer: PropTypes.bool,
     center: PropTypes.bool,
     insideModal: PropTypes.bool,
-    floatLeft: PropTypes.bool
+    floatLeft: PropTypes.bool,
+    insideTable: PropTypes.bool,
+    colSpan: PropTypes.number,
   }
 
   render() {
@@ -28,6 +30,18 @@ export default class Loading extends Component {
     if (this.props.insideModal) {
       return (
         <img src={LoadingSpinner} className={`loading-inside-modal ${this.props.floatLeft ? 'float-left' : ''}`} />
+      );
+    }
+
+    if (this.props.insideTable) {
+      return (
+        <tbody>
+          <tr>
+            <td className="text-center" colSpan={this.props.colSpan || 5}>
+              <img src={LoadingSpinner} />
+            </td>
+          </tr>
+        </tbody>
       );
     }
     return (
