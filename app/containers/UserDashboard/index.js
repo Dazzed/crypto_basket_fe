@@ -20,6 +20,7 @@ import * as twoFactorActions from './actions/twoFactorAuthActions';
 import * as changePasswordActions from './actions/changePassword';
 import * as commonActions from './actions/common';
 import * as buyActions from './actions/buyActions';
+import * as activityActions from './actions/activity';
 
 const mapStateToProps = createStructuredSelector({
   userDashboard: makeSelectUserDashboard(),
@@ -31,7 +32,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   ...commonActions,
   ...twoFactorActions,
   ...changePasswordActions,
-  ...buyActions
+  ...buyActions,
+  ...activityActions
 }, dispatch);
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
