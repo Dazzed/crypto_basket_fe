@@ -10,7 +10,7 @@ export default (TargetComponent, fetchPropName) => {
 
     state = {
       orderBy: this.props.defaultOrderByProp,
-      order: 'asc',
+      order: 'desc',
       rowsPerPage: 10,
       page: 1,
       searchTerm: '',
@@ -92,7 +92,7 @@ export default (TargetComponent, fetchPropName) => {
       // reset state on Search
       return this.setState({
         orderBy: this.props.defaultOrderByProp,
-        order: 'asc',
+        order: 'desc',
         rowsPerPage: 10,
         page: 1,
         searchTerm
