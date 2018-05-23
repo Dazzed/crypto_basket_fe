@@ -5,7 +5,9 @@ import {
   patchUserError,
   fetchAllAssets,
   fetchAllAssetsSuccess,
-  fetchAllAssetsError
+  fetchAllAssetsError,
+  openDepositModal,
+  closeDepositModal
 } from '../actions/common';
 
 export const commonReducer = {
@@ -44,5 +46,13 @@ export const commonReducer = {
     ...state,
     isFetchingAssets: false,
     errorFetchingAllAssets: true
+  }),
+  [openDepositModal]: (state, depositingCurrency) => ({
+    ...state,
+    depositingCurrency
+  }),
+  [closeDepositModal]: state => ({
+    ...state,
+    depositingCurrency: null
   })
 };

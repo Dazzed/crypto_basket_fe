@@ -182,13 +182,13 @@ export default class AssetsPage extends Component {
 
             </Row>
             <div className="asset-list">
-              {_.map(user.wallets, wallet => {
+              {_.map(user.wallets, (wallet, index) => {
                 if(wallet.assetId!=='btc' && wallet.assetId!=='eth'){
                   console.log('skipping wallet', wallet.assetId);
                   return null;
                 }
                 return (
-                  <Row className="asset-content-row bordered">
+                  <Row className="asset-content-row bordered" key={`asset_${index}`}>
                     <Col sm={{ size: 1, order: 1, offset: 0 }}>
                     <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
                     </Col>
