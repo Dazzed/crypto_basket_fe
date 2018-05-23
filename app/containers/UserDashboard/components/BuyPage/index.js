@@ -23,9 +23,9 @@ export default class BuyPage extends Component {
   };
 
   onFromAssetAmountChange = ({ target: { value: fromAssetAmount } }) =>
-    this.setState({ fromAssetAmount });
+    this.setState({ fromAssetAmount: (fromAssetAmount < 0 || isNaN(fromAssetAmount)) ? 0 : fromAssetAmount });
   onToAssetAmountChange = ({ target: { value: toAssetAmount } }) =>
-    this.setState({ toAssetAmount });
+    this.setState({ toAssetAmount: (toAssetAmount < 0 || isNaN(toAssetAmount)) ? 0 : toAssetAmount });
 
   fromAssetDropdownToggle = evt => {
     const { value } = evt.target;
