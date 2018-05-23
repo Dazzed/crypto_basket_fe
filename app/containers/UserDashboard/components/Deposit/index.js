@@ -7,6 +7,7 @@ import ETHIcon from 'img/icon_eth.png';
 export default class Deposit extends Component {
   static propTypes = {
     globalData: PropTypes.object.isRequired,
+    openDepositModal: PropTypes.func.isRequired,
   };
 
   render() {
@@ -26,7 +27,7 @@ export default class Deposit extends Component {
                 <div className="table-responsive">
                   <table className="table border_top deposit-table">
                     <tbody>
-                      <tr>
+                      <tr onClick={this.props.openDepositModal.bind(this, myBTCWallet.assetId)}>
                         <th>
                           <div className="h-100 text-right table_data_activity">
                             <img src={BTCIcon} className="activity_img" />
@@ -39,7 +40,7 @@ export default class Deposit extends Component {
                           <div className="mt-3 float-right">{myBTCWallet.balance} BTC</div>
                         </th>
                       </tr>
-                      <tr>
+                      <tr onClick={this.props.openDepositModal.bind(this, myETHWallet.assetId)}>
                         <th>
                           <div className="h-100 text-right table_data_activity">
                             <img src={ETHIcon} className="activity_img" />

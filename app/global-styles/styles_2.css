@@ -92,3 +92,20 @@
 .melotic-grey {
     color: rgba(0,0,0,.5);
 }
+
+.deposit-clipboard-container {
+    padding: 15px 6px;
+    border: solid 1px #c6ccc8;
+    border-radius: 2px;
+    background-color: #f6f8f7;
+}
+.deposit-address {
+    font-size: 0.8em;
+    width: 70%;
+}
+
+.btn-copy-clipboard {
+    height: 24px;
+    font-size: 12px;
+    width: auto;
+}

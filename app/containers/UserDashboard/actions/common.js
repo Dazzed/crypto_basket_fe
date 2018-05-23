@@ -45,3 +45,12 @@ export const fetchAllAssetsSuccess = createAction(
 export const fetchAllAssetsError = createAction(
   `${PREFIX}_FETCH_ALL_ASSETS_ERROR`
 );
+
+export const openDepositModal = createAction(
+  `${PREFIX}_OPEN_DEPOSIT_MODEL`,
+  currency => currency
+);
+
+export const closeDepositModal = createAction(
+  `${PREFIX}_CLOSE_DEPOSIT_MODEL`,
+);

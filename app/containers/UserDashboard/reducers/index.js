@@ -34,7 +34,9 @@ const initialState = {
   estimateTradeResult: null,
   isConfirmPurchaseModalOpen: false,
   isInitiatingTrade: false,
-  isTradeSuccessModalOpen: false
+  isTradeSuccessModalOpen: false,
+  // A property that indicates the currency the user is depositing and also serves as a flag whether the deposit Modal should be open or not
+  depositingCurrency: null
 };
 
 const reducer = {
