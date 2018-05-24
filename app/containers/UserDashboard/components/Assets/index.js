@@ -33,6 +33,8 @@ import XRPIcon from 'img/icon_xrp.png';
 import ZecIcon from 'img/icon_zec.png';
 
 import SettingsModal from '../../../../components/SettingsModal';
+
+import AssetsRow from './AssetRow';
 const iconMap = {
   ada: AdaIcon,
   bch: BchIcon,
@@ -187,21 +189,7 @@ export default class AssetsPage extends Component {
                   console.log('skipping wallet', wallet.assetId);
                   return null;
                 }
-                return (
-                  <Row className="asset-content-row bordered">
-                    <Col sm={{ size: 1, order: 1, offset: 0 }}>
-                    <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
-                    </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
-                      {cryptoNames[wallet.assetId]}
-                    </Col>
-                    <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
-                      ${round(wallet[this.state.showIn + 'Price'], 2)} {this.state.showIn.toUpperCase()}
-                    </Col>
-                    <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
-                      {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
-                    </Col>
-                  </Row>);
+                return (<AssetsRow wallet={wallet} showIn={this.state.showIn} showDeposit={true} />);
               })}
             </div>
             <div className="assets-header">Investable Assets</div>
@@ -210,21 +198,7 @@ export default class AssetsPage extends Component {
                 if(wallet.assetId==='btc' || wallet.assetId==='eth'){
                   return null;
                 }
-                return (
-                  <Row className="asset-content-row bordered">
-                    <Col sm={{ size: 1, order: 1, offset: 0 }}>
-                    <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
-                    </Col>
-                    <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
-                      {cryptoNames[wallet.assetId]}
-                    </Col>
-                    <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
-                      ${round(wallet[this.state.showIn + 'Price'], 2)} {this.state.showIn.toUpperCase()}
-                    </Col>
-                    <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
-                      {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
-                    </Col>
-                  </Row>);
+                return (<AssetsRow wallet={wallet} showIn={this.state.showIn}/>);
               })}
             </div>
             
