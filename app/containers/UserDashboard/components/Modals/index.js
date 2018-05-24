@@ -7,6 +7,7 @@ import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
 import PurchaseUnsuccessfulModal from '../BuyPage/PurchaseUnsuccessfulModal';
 import ConfirmPurchaseModal from '../BuyPage/ConfirmPurchaseModal';
 import PurchaseSuccessfulModal from '../BuyPage/PurchaseSuccessfulModal';
+import DepositModal from './DepositModal';
 
 export default class Modals extends Component {
   static propTypes = {
@@ -89,7 +90,8 @@ export default class Modals extends Component {
         isConfirmPurchaseModalOpen,
         estimateTradeResult,
         isTradeSuccessModalOpen,
-        isInitiatingTrade
+        isInitiatingTrade,
+        depositingCurrency
       },
       cancelOperation,
       openOTPModal,
@@ -99,7 +101,9 @@ export default class Modals extends Component {
       hidePurchaseUnsuccessfulModal,
       hideConfirmPurchaseModal,
       performInitiatingTrade,
-      closeTradeSuccessModal
+      closeTradeSuccessModal,
+      openDepositModal,
+      closeDepositModal
     } = this.props;
 
     if (isOTPModalOpen) {
@@ -204,6 +208,16 @@ export default class Modals extends Component {
         <PurchaseSuccessfulModal
           closeTradeSuccessModal={closeTradeSuccessModal}
           onNavigateToActivity={() => alert('in progress')}
+        />
+      );
+    }
+
+    if (depositingCurrency) {
+      return (
+        <DepositModal
+          onCancel={closeDepositModal}
+          globalData={globalData}
+          depositingCurrency={depositingCurrency}
         />
       );
     }

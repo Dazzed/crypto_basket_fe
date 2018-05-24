@@ -184,21 +184,33 @@ export default class AssetsPage extends Component {
 
             </Row>
             <div className="asset-list">
-              {_.map(user.wallets, wallet => {
+              {_.map(user.wallets, (wallet, index) => {
                 if(wallet.assetId!=='btc' && wallet.assetId!=='eth'){
-                  console.log('skipping wallet', wallet.assetId);
                   return null;
                 }
-                return (<AssetsRow wallet={wallet} showIn={this.state.showIn} showDeposit={true} />);
+                return (<AssetsRow wallet={wallet} 
+                  showIn={this.state.showIn} 
+                  showDeposit={true}  
+                  key={`asset_${index}`} 
+                  openDepositModal={this.props.openDepositModal}
+                  setFromAssetType={this.props.setFromAssetType}
+                  setToAssetType={this.props.setToAssetType}
+                  history={this.props.history}/>);
               })}
             </div>
             <div className="assets-header">Investable Assets</div>
             <div className="asset-list">
-              {_.map(user.wallets, wallet => {
+              {_.map(user.wallets, (wallet, index) => {
                 if(wallet.assetId==='btc' || wallet.assetId==='eth'){
                   return null;
                 }
-                return (<AssetsRow wallet={wallet} showIn={this.state.showIn}/>);
+                return (<AssetsRow wallet={wallet} 
+                  showIn={this.state.showIn} 
+                  key={`asset_${index}`} 
+                  openDepositModal={this.props.openDepositModal}
+                  setFromAssetType={this.props.setFromAssetType}
+                  setToAssetType={this.props.setToAssetType}
+                  history={this.props.history}/>);
               })}
             </div>
             

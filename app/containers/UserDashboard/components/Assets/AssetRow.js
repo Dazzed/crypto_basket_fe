@@ -14,7 +14,6 @@ import {
   Row, 
   Col
 } from 'reactstrap';
-import {  } from 'reactstrap';
 import _ from 'lodash';
 import classnames from 'classnames';
 import AdaIcon from 'img/icon_ada.png';
@@ -67,13 +66,25 @@ export default class AssetsRow extends Component {
     super(props);
     this.state = { rowClicked: false };
   }
-  onRowClick = () => {
-    this.setState({rowClicked: !this.state.rowClicked});
+  showButtons = () => {
+    this.setState({rowClicked: true});
+  }
+  hideButtons = () => {
+    this.setState({rowClicked: false});
+  }
+  openDeposit = () => {
+    console.log('in opendeposit');
+    this.props.openDepositModal(this.props.wallet.assetId);
+  }
+  goToBuy = () => {
+    this.props.setFromAssetType(this.props.wallet.assetId === 'eth' ? 'btc' : 'eth');
+    this.props.setToAssetType(this.props.wallet.assetId);
+    this.props.history.push(`/dashboard/buy`);
   }
   render() {
     const { wallet, showIn, showDeposit } = this.props;
     return (
-    <Row className="asset-content-row bordered" onClick={this.onRowClick}>
+    <Row className="asset-content-row bordered" onMouseEnter={this.showButtons} onMouseLeave={this.hideButtons}>
       <Col sm={{ size: 1, order: 1, offset: 0 }}>
       <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
       </Col>
@@ -83,9 +94,9 @@ export default class AssetsRow extends Component {
       <Col sm={{ size: 4, order: 3, offset: 0 }} className="asset-row-name right">
         {this.state.rowClicked ? (
           <Col>
-          {showDeposit ? (<Button className="asset-row-button">Deposit</Button>) : null}
+          {showDeposit ? (<Button className="asset-row-button" onClick={this.openDeposit}>Deposit</Button>) : null}
           {showDeposit ? (<Button className="asset-row-button">Withdraw</Button>) : null}
-        <Button className="asset-row-button">Buy</Button>
+        <Button className="asset-row-button" onClick={this.goToBuy}>Buy</Button>
         <Button className="asset-row-button">Sell</Button></Col>) : null}
       </Col>
       <Col sm={{ size: 2, order: 4, offset: 0 }} className="asset-row-usd right"> 
@@ -100,5 +111,8 @@ export default class AssetsRow extends Component {
 
 AssetsRow.propTypes = {
   wallet: PropTypes.object.isRequired,
-  showIn: PropTypes.string.isRequired
+  showIn: PropTypes.string.isRequired,
+  setFromAssetType: PropTypes.func.isRequired,
+  setToAssetType: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };

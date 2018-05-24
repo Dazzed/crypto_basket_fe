@@ -46,6 +46,12 @@ import {
   fetchAllAssetsError,
 } from './actions/common';
 
+import {
+  fetchActivities,
+  fetchActivitiesSuccess,
+  fetchActivitiesError
+} from './actions/activity';
+
 export default function* main() {
   yield fork(tfaLoginEnableWatcherInitial);
   yield fork(tfaLoginEnableWatcherFinal);
@@ -60,6 +66,8 @@ export default function* main() {
 
   yield fork(estimateTradeWatcher);
   yield fork(initiateTradeWatcher);
+
+  yield fork(fetchActivitiesWatcher);
 }
 
 function constructErrorMessage(type, minMax, ticker) {
@@ -365,6 +373,43 @@ function* initiateTradeWatcher() {
         errorCallback('There was an error initiating trade. Reload your page.');
       }
       yield put(initiateTradeError());
+    }
+  });
+}
+
+function* fetchActivitiesWatcher() {
+  yield takeLatest(fetchActivities, function* handler({ payload }) {
+    // const { globalData: { showSuccessSnackBar, showErrorSnackBar } } = yield select();
+    try {
+      const { filter = {} } = payload;
+
+      const transformedFilter = {};
+      if (filter.include) {
+        transformedFilter.include = filter.include;
+      }
+      transformedFilter.limit = filter.limit || 10;
+      transformedFilter.offset = filter.offset || 0;
+      if (filter.orderBy) {
+        if (!filter.order) {
+          throw new Error('filter.orderBy is given, But not filer.order');
+        }
+        transformedFilter.order = `${filter.orderBy} ${filter.order || 'asc'}`;
+      }
+      if (filter.where) {
+        transformedFilter.where = filter.where;
+      }
+      console.log({filter, transformedFilter});
+      const requestURL = payload.url;
+      if (!requestURL) throw new Error('payload.url is required');
+      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const params = {
+        method: 'GET'
+      };
+      const [data = [], totalCount] = yield call(request, { name: targetURL }, params);
+      yield put(fetchActivitiesSuccess({ data, totalCount }));
+    } catch (error) {
+      console.log(error);
+      yield put(fetchActivitiesError());
     }
   });
 }

@@ -4,6 +4,7 @@ import { commonReducer } from './common';
 import { twoFactorAuthReducer } from './twoFactorAuthReducer';
 import { changePasswordReducer } from './changePasswordReducer';
 import { buyReducer } from './buy';
+import { activitiesReducer } from './activity';
 
 const initialState = {
   enablingTFALogin: false,
@@ -34,14 +35,25 @@ const initialState = {
   estimateTradeResult: null,
   isConfirmPurchaseModalOpen: false,
   isInitiatingTrade: false,
-  isTradeSuccessModalOpen: false
+  isTradeSuccessModalOpen: false,
+  // A property that indicates the currency the user is depositing and also serves as a flag whether the deposit Modal should be open or not
+  depositingCurrency: null,
+  // activity related properties
+  activities: [],
+  isFetchingActivities: true,
+  errorFetchingActivities: false,
+  totalActivitiesCount: 0,
+  // Buy properties
+  fromAssetType: 'eth',
+  toAssetType: 'btc'
 };
 
 const reducer = {
   ...commonReducer,
   ...twoFactorAuthReducer,
   ...changePasswordReducer,
-  ...buyReducer
+  ...buyReducer,
+  ...activitiesReducer
 };
 
 export default createReducer(reducer, initialState);

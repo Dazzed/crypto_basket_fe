@@ -23,45 +23,53 @@ export default class BuyPage extends Component {
   };
 
   onFromAssetAmountChange = ({ target: { value: fromAssetAmount } }) =>
-    this.setState({ fromAssetAmount });
+    this.setState({ fromAssetAmount: (fromAssetAmount < 0 || isNaN(fromAssetAmount)) ? 0 : fromAssetAmount });
   onToAssetAmountChange = ({ target: { value: toAssetAmount } }) =>
-    this.setState({ toAssetAmount });
+    this.setState({ toAssetAmount: (toAssetAmount < 0 || isNaN(toAssetAmount)) ? 0 : toAssetAmount });
 
   fromAssetDropdownToggle = evt => {
     const { value } = evt.target;
     const fromAssetType = value || null;
     let toAssetType;
-    if (fromAssetType && this.state.toAssetType === fromAssetType) {
+    const currentFromAssetType = this.props.userDashboard.fromAssetType;
+    const currentToAssetType = this.props.userDashboard.toAssetType;
+    if (fromAssetType && currentToAssetType === fromAssetType) {
       toAssetType = fromAssetType === 'btc' ? 'eth' : 'btc';
     }
     this.setState(prevState => ({
-      fromAssetDropdownOpen: !prevState.fromAssetDropdownOpen,
-      ...(fromAssetType ? { fromAssetType } : {}),
-      ...(toAssetType ? { toAssetType } : {})
+      fromAssetDropdownOpen: !prevState.fromAssetDropdownOpen
     }));
+    console.log('setting fromAsset', fromAssetType, 'toAssetType', toAssetType);
+    this.props.setFromAssetType(fromAssetType ? fromAssetType : currentFromAssetType);
+    this.props.setToAssetType(toAssetType ? toAssetType : currentToAssetType);
   }
 
   toAssetDropdownToggle = evt => {
     const { value } = evt.target;
     const toAssetType = value || null;
     let fromAssetType;
-    if (toAssetType && this.state.fromAssetType === toAssetType) {
+    const currentFromAssetType = this.props.userDashboard.fromAssetType;
+    const currentToAssetType = this.props.userDashboard.toAssetType;
+    if (toAssetType && currentFromAssetType === toAssetType) {
       fromAssetType = toAssetType === 'btc' ? 'eth' : 'btc';
     }
     this.setState(prevState => ({
-      toAssetDropdownOpen: !prevState.toAssetDropdownOpen,
-      ...(fromAssetType ? { fromAssetType } : {}),
-      ...(toAssetType ? { toAssetType } : {})
+      toAssetDropdownOpen: !prevState.toAssetDropdownOpen
     }));
+    console.log('setting fromAsset', fromAssetType ? fromAssetType : currentFromAssetType, 'toAssetType', toAssetType ? toAssetType : currentToAssetType);
+    this.props.setFromAssetType(fromAssetType ? fromAssetType : currentFromAssetType);
+    this.props.setToAssetType(toAssetType ? toAssetType : currentToAssetType);
   }
 
   estimateTrade = () => {
     const {
       fromAssetAmount,
-      toAssetAmount,
+      toAssetAmount
+    } = this.state;
+    const {
       fromAssetType,
       toAssetType
-    } = this.state;
+    } = this.props.userDashboard;
     const { performEstimatingTrade, userDashboard } = this.props;
     const { allAssets } = userDashboard;
 
@@ -88,10 +96,12 @@ export default class BuyPage extends Component {
     } = this.props;
     const {
       fromAssetAmount,
-      toAssetAmount,
+      toAssetAmount
+    } = this.state;
+    const {
       fromAssetType,
       toAssetType
-    } = this.state;
+    } = this.props.userDashboard;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <h2 className="p-4">Buy Assets</h2>

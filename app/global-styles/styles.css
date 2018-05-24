@@ -126,6 +126,7 @@ p {
     background-color: #00b34a;
     color: #ffffff;
     cursor: pointer;
+    width: 100%;
 }
 
 .btn-create-admin {
