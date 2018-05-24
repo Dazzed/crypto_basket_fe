@@ -88,10 +88,9 @@ export default class BuyPage extends Component {
       ...(fromAssetType ? { fromAssetType } : {}),
       ...(toAssetType ? { toAssetType } : {})
     }), fromAssetType ? cb : null);
-    if (value) {
-      console.log('setting fromAsset', fromAssetType, 'toAssetType', toAssetType);
-      this.props.setFromAssetType(fromAssetType ? fromAssetType : currentFromAssetType);
-      this.props.setToAssetType(toAssetType ? toAssetType : currentToAssetType);
+    if (fromAssetType) {
+      this.props.setFromAssetType(fromAssetType);
+      this.props.setToAssetType(toAssetType || this.state.toAssetType);
     }
   }
 
@@ -110,10 +109,9 @@ export default class BuyPage extends Component {
       ...(fromAssetType ? { fromAssetType } : {}),
       ...(toAssetType ? { toAssetType } : {})
     }), toAssetType ? cb : null);
-    if (value) {
-      console.log('setting fromAsset', fromAssetType ? fromAssetType : currentFromAssetType, 'toAssetType', toAssetType ? toAssetType : currentToAssetType);
-      this.props.setFromAssetType(fromAssetType ? fromAssetType : currentFromAssetType);
-      this.props.setToAssetType(toAssetType ? toAssetType : currentToAssetType);
+    if (toAssetType) {
+      this.props.setFromAssetType(fromAssetType || this.state.fromAssetType);
+      this.props.setToAssetType(toAssetType);
     }
   }
 
