@@ -52,6 +52,9 @@ export default class Asset extends Component {
       this.props.updateAsset({hidden: !this.props.adminDashboard.editingAsset.hidden}, this.props.adminDashboard.editingAsset.id);
     }else{
       data[this.state.modalField] = parseFloat(data[this.state.modalField]);
+      if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin' || this.state.modalField==='minPurchaseAmount' || this.state.modalField==='maxPurchaseAmount' || this.state.modalField==='quantity'){
+        data[this.state.modalField] = parseFloat(data[this.state.modalField]);
+      }
       if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin'){
         data[this.state.modalField] = data[this.state.modalField]/100.0;
       }
@@ -76,6 +79,10 @@ export default class Asset extends Component {
 
   changeSaleMargin = () => {
     this.setState({modalField: "saleMargin", modalOpen: true});
+  }
+
+  changeQuantity = () => {
+    this.setState({modalField: "quantity", modalOpen: true});
   }
 
   closeModal = () => {
@@ -135,13 +142,13 @@ export default class Asset extends Component {
             </Row>
             <Row className="asset-content-row">
               <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
-              Held By Melotic
+              Total Asset Quantity
               </Col>
               <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
                 {asset.quantity}
               </Col>
               <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                
+                <Button onClick={this.changeQuantity}>Change</Button>
               </Col>
             </Row>
             <Row className="asset-content-row">
