@@ -45,8 +45,8 @@ export default class BuyPage extends Component {
         allAssets
       }
     } = this.props;
-    const toAsset = allAssets.find(a => a.ticker === toAssetType);
-    const fromAsset = allAssets.find(a => a.ticker === fromAssetType);
+    const toAsset = allAssets.find(a => a.ticker === toAssetType) || {};
+    const fromAsset = allAssets.find(a => a.ticker === fromAssetType) || {};
     if (direction === 'fromAmount') {
       const newToAssetPrice = (() => {
         try {
@@ -61,12 +61,18 @@ export default class BuyPage extends Component {
         toAssetAmount: isFinite(newToAssetPrice) ? newToAssetPrice || 0 : 0
       });
     } else {
-      const newFromAssetPrice = Number(
-        Number(toAssetAmount) * (
-          toAsset.exchangeRates[fromAsset.ticker] ?
-            Number(toAsset.exchangeRates[fromAsset.ticker].bid) : 0
-        )
-      );
+      const newFromAssetPrice = (() => {
+        try {
+          return Number(
+            Number(toAssetAmount) * (
+              toAsset.exchangeRates[fromAsset.ticker] ?
+                Number(toAsset.exchangeRates[fromAsset.ticker].bid) : 0
+            )
+          );
+        } catch (e) {
+          return 0;
+        }
+      })();
       this.setState({
         fromAssetAmount: newFromAssetPrice || 0
       });

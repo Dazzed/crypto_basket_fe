@@ -50,11 +50,10 @@ export default class Stats extends Component {
         </div>
       );
     }
-
-    const myFromAssetWallet = myWallets.find(({ assetId }) => assetId === fromAssetType);
+    const myFromAssetWallet = myWallets.find(({ assetId }) => assetId === fromAssetType) || {};
     const myToAssetWallet = myWallets.find(({ assetId }) => assetId === toAssetType) || {};
-    const meloticFromAsset = allAssets.find(({ ticker }) => ticker === fromAssetType);
-    const meloticToAsset = allAssets.find(({ ticker }) => ticker === toAssetType);
+    const meloticFromAsset = allAssets.find(({ ticker }) => ticker === fromAssetType) || {};
+    const meloticToAsset = allAssets.find(({ ticker }) => ticker === toAssetType) || {};
     return (
       <div className="col-md-5">
         <div className="row mt-3 pl-3 border_buy">
