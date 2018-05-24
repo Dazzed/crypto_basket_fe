@@ -43,6 +43,9 @@ const initialState = {
   isFetchingActivities: true,
   errorFetchingActivities: false,
   totalActivitiesCount: 0,
+  // Buy properties
+  fromAssetType: 'eth',
+  toAssetType: 'btc'
 };
 
 const reducer = {

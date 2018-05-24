@@ -25,7 +25,8 @@ const fieldText = {
   minPurchaseAmount: "Please enter the lowest amount you wish for a user to be able to purchase of this asset.",
   maxPurchaseAmount: "Please enter the maximum amount you wish for a user to be able to purchase of this asset.",
   buyMargin: "Please enter the percentage of each purchase you wish for Melotic to collect for this asset.",
-  saleMargin: "Please enter the percentage of each sale you wish for Melotic to collect for this asset."
+  saleMargin: "Please enter the percentage of each sale you wish for Melotic to collect for this asset.",
+  quantity: "Please enter the new quantity."
 }
 
 const fieldName = {
@@ -43,7 +44,8 @@ const fieldName = {
   minPurchaseAmount: "Min Purchase Amount",
   maxPurchaseAmount: "Max Purchase Amount",
   buyMargin: "Buy Margin",
-  saleMargin: "Sale Margin"
+  saleMargin: "Sale Margin",
+  quantity: "Total Quantity"
 }
 
 const typeMap = {
@@ -58,10 +60,11 @@ const typeMap = {
   verificationStatus: "text",
   available: "text",
   unavailable: "text",
-  minPurchaseAmount: "number",
-  maxPurchaseAmount: "number",
-  buyMargin: "number",
-  saleMargin: "number"
+  minPurchaseAmount: "text",
+  maxPurchaseAmount: "text",
+  buyMargin: "text",
+  saleMargin: "text",
+  quantity: "text"
 }
 
 class SettingsModal extends React.Component {

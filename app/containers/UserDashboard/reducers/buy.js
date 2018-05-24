@@ -8,7 +8,9 @@ import {
   performInitiatingTrade,
   initiateTradeSuccess,
   initiateTradeError,
-  closeTradeSuccessModal
+  closeTradeSuccessModal,
+  setFromAssetType,
+  setToAssetType
 } from '../actions/buyActions';
 
 export const buyReducer = {
@@ -59,5 +61,13 @@ export const buyReducer = {
   [closeTradeSuccessModal]: state => ({
     ...state,
     isTradeSuccessModalOpen: false
+  }),
+  [setFromAssetType]: (state, ticker) => ({
+    ...state,
+    fromAssetType: ticker
+  }),
+  [setToAssetType]: (state, ticker) => ({
+    ...state,
+    toAssetType: ticker
   })
 };
