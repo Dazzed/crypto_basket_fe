@@ -75,7 +75,7 @@ export default class AssetsPage extends Component {
     this.state = {activeTab: 'profile', modalOpen: false, modalField: null, dropdownOpen: false, showIn: 'usd'};
   }
   componentWillMount() {
-
+    this.props.getUser(this.props.globalData.currentUser);
   }
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {

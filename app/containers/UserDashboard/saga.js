@@ -44,6 +44,7 @@ import {
   fetchAllAssets,
   fetchAllAssetsSuccess,
   fetchAllAssetsError,
+  getUser
 } from './actions/common';
 
 import {
@@ -51,6 +52,10 @@ import {
   fetchActivitiesSuccess,
   fetchActivitiesError
 } from './actions/activity';
+
+import {
+  authSucess
+} from '../App/actions';
 
 export default function* main() {
   yield fork(tfaLoginEnableWatcherInitial);
@@ -68,6 +73,7 @@ export default function* main() {
   yield fork(initiateTradeWatcher);
 
   yield fork(fetchActivitiesWatcher);
+  yield fork(getUserWatcher);
 }
 
 function constructErrorMessage(type, minMax, ticker) {
@@ -239,6 +245,27 @@ function* patchUserWatcher() {
       yield put(patchUserError());
       // yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
       payload.toastErrorCallBack('There was an error');
+    }
+  });
+}
+
+function* getUserWatcher() {
+  yield takeLatest(getUser, function* handler({ payload }) {
+    try {
+      const user = payload;
+      const requestURL = `/api/users/${user.id}?filter=%7B%22include%22%3A%7B%20%22relation%22%3A%22wallets%22%2C%22scope%22%3A%7B%22include%22%3A%7B%22relation%22%3A%22asset%22%7D%7D%7D%7D`;
+      const params = {
+        method: 'GET',
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(authSucess(result));
+      // yield put(destroy('user_verification'));
+      // payload.toastSuccessCallBack('Your information is updated successfully!');
+    } catch (error) {
+      console.log('error', error);
+      yield put(patchUserError());
+      // yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
+      // payload.toastErrorCallBack('There was an error');
     }
   });
 }

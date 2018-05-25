@@ -1091,6 +1091,11 @@ input:checked+.slider:before {
     padding: 5px 5px;
 }
 
+.asset-row-greyed{
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+
 @media (max-width: 768px) {
     .col_act_6 {
         margin-top: 10px;

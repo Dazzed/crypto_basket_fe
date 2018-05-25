@@ -73,7 +73,7 @@ export default class AssetsRow extends Component {
     this.setState({rowClicked: false});
   }
   openDeposit = () => {
-    console.log('in opendeposit');
+    // console.log('in opendeposit');
     this.props.openDepositModal(this.props.wallet.assetId);
   }
   goToBuy = () => {
@@ -83,13 +83,15 @@ export default class AssetsRow extends Component {
   }
   render() {
     const { wallet, showIn, showDeposit } = this.props;
+    // console.log('wallet', wallet);
+    const hidden = wallet.asset ? wallet.asset.hidden : false;
     return (
-    <Row className="asset-content-row bordered" onMouseEnter={this.showButtons} onMouseLeave={this.hideButtons}>
+    <Row className={hidden ? "asset-content-row bordered asset-row-greyed" : "asset-content-row bordered" } onMouseEnter={hidden ? null : this.showButtons} onMouseLeave={ hidden ? null : this.hideButtons}>
       <Col sm={{ size: 1, order: 1, offset: 0 }}>
       <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
       </Col>
       <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
-        {cryptoNames[wallet.assetId]}
+        {cryptoNames[wallet.assetId]} {hidden ? "(Hidden)" : null}
       </Col>
       <Col sm={{ size: 4, order: 3, offset: 0 }} className="asset-row-name right">
         {this.state.rowClicked ? (

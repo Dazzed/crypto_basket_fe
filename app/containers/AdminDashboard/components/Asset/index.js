@@ -51,14 +51,12 @@ export default class Asset extends Component {
     if(this.state.modalField==='available' || this.state.modalField==='unavailable'){
       this.props.updateAsset({hidden: !this.props.adminDashboard.editingAsset.hidden}, this.props.adminDashboard.editingAsset.id);
     }else{
-      data[this.state.modalField] = parseFloat(data[this.state.modalField]);
-      if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin' || this.state.modalField==='minPurchaseAmount' || this.state.modalField==='maxPurchaseAmount' || this.state.modalField==='quantity'){
-        data[this.state.modalField] = parseFloat(data[this.state.modalField]);
-      }
+      let modData = _.clone(data);
+      modData[this.state.modalField] = parseFloat(modData[this.state.modalField]);
       if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin'){
-        data[this.state.modalField] = data[this.state.modalField]/100.0;
+        modData[this.state.modalField] = modData[this.state.modalField]/100.0;
       }
-      this.props.updateAsset(data, this.props.adminDashboard.editingAsset.id);
+      this.props.updateAsset(modData, this.props.adminDashboard.editingAsset.id);
     }
   }
   setUnavailableModal = () => {

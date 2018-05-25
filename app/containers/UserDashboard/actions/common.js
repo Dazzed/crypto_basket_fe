@@ -30,6 +30,11 @@ export const patchUserError = createAction(
   `${PREFIX}_PATCH_USER_ERROR`
 );
 
+export const getUser = createAction(
+  `${PREFIX}_GETTING_USER`,
+  user => user
+);
+
 export const fetchAllAssets = createAction(
   `${PREFIX}_FETCH_ALL_ASSETS`,
   (toastSuccessCallBack, toastErrorCallBack) => ({
