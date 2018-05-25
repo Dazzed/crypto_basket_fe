@@ -24,7 +24,13 @@ const downGlyph = (
   <FontAwesome
     name='caret-down'
   />);
-
+function round(number, precision) {
+  var shift = function (number, precision) {
+    var numArray = ("" + number).split("e");
+    return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
+  };
+  return shift(Math.round(shift(number, +precision)), -precision);
+}
 export default class Assets extends Component {
   componentWillMount() {
     this.props.fetchAssets();
@@ -71,7 +77,7 @@ export default class Assets extends Component {
                               <td>
                                 {elem.name}
                               </td>
-                              <td>1.0 BTC/ETH</td>
+                              <td>{elem.ticker==='btc' ? round(elem.totalValueInUSD/elem.quantity, 2) : round(elem.quantity/elem.totalValueInBTC,2)} {elem.ticker.toUpperCase()}/{elem.ticker==='btc' ? 'USD' : 'BTC'}</td>
                               <td>{elem.quantity-elem.availableQuantityWithCommunity}</td>
                               <td>{elem.quantity}</td>
                               <td>{elem.availableQuantityWithCommunity}</td>

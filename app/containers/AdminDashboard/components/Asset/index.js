@@ -71,6 +71,13 @@ export default class Asset extends Component {
     this.setState({modalField: "maxPurchaseAmount", modalOpen: true});
   }
 
+  changeMinSale = () => {
+    this.setState({modalField: "minSaleAmount", modalOpen: true});
+  }
+
+  changeMaxSale = () => {
+    this.setState({modalField: "maxSaleAmount", modalOpen: true});
+  }
   changeBuyMargin = () => {
     this.setState({modalField: "buyMargin", modalOpen: true});
   }
@@ -169,6 +176,28 @@ export default class Asset extends Component {
               </Col>
               <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                 <Button onClick={this.changeMaxPurchase}>Change</Button>
+              </Col>
+            </Row>
+            <Row className="asset-content-row">
+              <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+              Minimum Sale
+              </Col>
+              <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
+                {asset.minSaleAmount}
+              </Col>
+              <Col sm={{ size: 1, order: 3, offset: 0 }}> 
+                <Button onClick={this.changeMinSale}>Change</Button>
+              </Col>
+            </Row>
+            <Row className="asset-content-row">
+              <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+              Maximum Sale
+              </Col>
+              <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
+                {asset.maxSaleAmount}
+              </Col>
+              <Col sm={{ size: 1, order: 3, offset: 0 }}> 
+                <Button onClick={this.changeMaxSale}>Change</Button>
               </Col>
             </Row>
             <Row className="asset-content-row">

@@ -26,7 +26,9 @@ const fieldText = {
   maxPurchaseAmount: "Please enter the maximum amount you wish for a user to be able to purchase of this asset.",
   buyMargin: "Please enter the percentage of each purchase you wish for Melotic to collect for this asset.",
   saleMargin: "Please enter the percentage of each sale you wish for Melotic to collect for this asset.",
-  quantity: "Please enter the new quantity."
+  quantity: "Please enter the new quantity.",
+  minSaleAmount: "Please enter the lowest amount you wish for a user to be able to sell of this asset.",
+  maxSaleAmount: "Please enter the maximum amount you wish for a user to be able to sell of this asset."
 }
 
 const fieldName = {
@@ -45,7 +47,9 @@ const fieldName = {
   maxPurchaseAmount: "Max Purchase Amount",
   buyMargin: "Buy Margin",
   saleMargin: "Sale Margin",
-  quantity: "Total Quantity"
+  quantity: "Total Quantity",
+  minSaleAmount: "Min Sale Amount",
+  maxSaleAmount: "Max Sale Amount"
 }
 
 const typeMap = {
