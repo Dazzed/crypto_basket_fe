@@ -76,11 +76,12 @@ export default class ConfirmPurchaseModal extends Component {
           </div>
           {
             isInitiatingTrade ?
-              <Loading insideModal /> :
+              <Loading rightSideButtonLoading /> :
               <div className="col-md-6">
                 <button
                   onClick={onConfirm}
-                  className="btn-create-register"
+                  className="btn-confirm-purchase"
+                  style={{width: '75% !important'}}
                 >
                   Confirm Purchase
               </button>

@@ -73,7 +73,7 @@ export default class Stats extends Component {
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myToAssetWallet.usdPrice} USD
+                      ${myToAssetWallet.usdPrice ? myToAssetWallet.usdPrice.toFixed(2) : 0} USD
                     </span>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ export default class Stats extends Component {
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myFromAssetWallet.usdPrice} USD
+                      ${myFromAssetWallet.usdPrice ? myFromAssetWallet.usdPrice.toFixed(2) : 0} USD
                     </span>
                   </div>
                 </div>
