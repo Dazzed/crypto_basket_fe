@@ -10,6 +10,7 @@ export default class Loading extends Component {
     floatLeft: PropTypes.bool,
     insideTable: PropTypes.bool,
     colSpan: PropTypes.number,
+    rightSideButtonLoading: PropTypes.bool,
   }
 
   render() {
@@ -42,6 +43,12 @@ export default class Loading extends Component {
             </td>
           </tr>
         </tbody>
+      );
+    }
+
+    if (this.props.rightSideButtonLoading) {
+      return (
+        <img src={LoadingSpinner} className={`modal-right-side-button-loading ${this.props.floatLeft ? 'float-left' : ''}`} />
       );
     }
     return (

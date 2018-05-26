@@ -71,8 +71,8 @@
 }
 
 .naked-green-btn {
-    color: #00b34a !important; 
-    background: none !important; 
+    color: #00b34a !important;
+    background: none !important;
     border: none !important;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .melotic-grey {
-    color: rgba(0,0,0,.5);
+    color: rgba(0, 0, 0, .5);
 }
 
 .deposit-clipboard-container {
@@ -99,6 +99,7 @@
     border-radius: 2px;
     background-color: #f6f8f7;
 }
+
 .deposit-address {
     font-size: 0.8em;
     width: 70%;
@@ -108,4 +109,28 @@
     height: 24px;
     font-size: 12px;
     width: auto;
+}
+
+.btn-confirm-purchase {
+    height: 44px;
+    font-size: 16px;
+    border-radius: 2px;
+    border: 1px solid #00b34a;
+    background-color: #00b34a;
+    color: #ffffff;
+    cursor: pointer;
+    width: 75%;
+}
+
+.modal-right-side-button-loading {
+    width: 50px;
+    height: 50px;
+    left: 20%;
+    position: relative;
+}
+
+.buy_success_image {
+    margin-left: 45%;
+    width: 75px;
+    height: 75px;
 }

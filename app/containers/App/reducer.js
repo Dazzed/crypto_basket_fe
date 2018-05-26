@@ -137,8 +137,8 @@ const reducer = {
     ...state,
     currentUser: {
       ...state.currentUser,
-      trades: state.currentUser.trades.concat(results),
-      wallets: myWallets
+      trades: state.currentUser.trades ? state.currentUser.trades.concat(results) : state.currentUser.trades,
+      wallets: myWallets || state.currentUser.wallets
     }
   })
 };
