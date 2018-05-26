@@ -27,6 +27,7 @@ export default class Modals extends Component {
     closeTradeSuccessModal: PropTypes.func.isRequired,
     showToastSuccess: PropTypes.func.isRequired,
     showToastError: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   onSubmitOtp = ({ otp: thizOtp }) => {
@@ -207,7 +208,7 @@ export default class Modals extends Component {
       return (
         <PurchaseSuccessfulModal
           closeTradeSuccessModal={closeTradeSuccessModal}
-          onNavigateToActivity={() => alert('in progress')}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
         />
       );
     }
