@@ -51,8 +51,8 @@ export default class Asset extends Component {
     if(this.state.modalField==='available' || this.state.modalField==='unavailable'){
       this.props.updateAsset({hidden: !this.props.adminDashboard.editingAsset.hidden}, this.props.adminDashboard.editingAsset.id);
     }else{
-      let modData = _.clone(data);
-      modData[this.state.modalField] = parseFloat(modData[this.state.modalField]);
+      let modData = {};
+      modData[this.state.modalField] = parseFloat(data[this.state.modalField]);
       if(this.state.modalField==='buyMargin' || this.state.modalField==='saleMargin'){
         modData[this.state.modalField] = modData[this.state.modalField]/100.0;
       }
