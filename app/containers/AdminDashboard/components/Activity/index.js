@@ -1,8 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
 
 import ArrowDown from 'img/arrow-down.png';
+
+import 'react-dates/initialize';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 
 import WrapLoading from 'components/WrapLoading';
 import Pagination from 'components/Pagination';
@@ -22,6 +27,7 @@ class Activity extends Component {
     onSearch: PropTypes.func.isRequired,
   }
 
+  state = {};
   renderDesktop = () => {
     const {
       activities,
@@ -265,13 +271,19 @@ class Activity extends Component {
       searchTerm,
       onSearch
     } = this.props;
+
+    if (this.state.endDate && this.state.startDate) {
+      console.log(this.state.startDate);
+      console.log(this.state.endDate);
+    }
+
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section overflow-content">
         <h2 className="p-4">Activity</h2>
         <div className="row mt-3  bg_white purchase_content">
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
-              <div className="col-lg-6 col-md-5 col-12">
+              <div className="col-lg-3 col-md-3 col-3">
                 <input
                   type="text"
                   name="filter_text"
@@ -282,9 +294,9 @@ class Activity extends Component {
                   onChange={onSearch}
                 />
               </div>
-              <div className="col-lg-6 col-md-7 col-12">
+              <div className="col-lg-9 col-md-9 col-9">
                 <div className="row">
-                  <div className="col-lg-4 col-md-4 col-7 col_act_6">
+                  <div className="col-lg-2 col-md-2 col-2 col_act_6">
                     <select
                       type="text"
                       className="field_input_activity"
@@ -298,17 +310,28 @@ class Activity extends Component {
                       <option value="refund">Type: Refund</option>
                     </select>
                   </div>
-                  <div className="col-lg-4 col-md-4 col-5 col_act_6_2">
+                  <div className="col-lg-2 col-md-2 col-2 col_act_6_2">
                     <select type="text" className="field_input_activity">
                       <option value={0}>Status: All</option>
                     </select>
                   </div>
-                  <div className="col-lg-4 col-md-4 col-6 col_act_6_3">
+                  <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
                     <div className="input-group">
-                      <span className="icon_datepickers" id="pickers_one">
-                        <i className="fa fa-calendar" aria-hidden="true" />
-                      </span>
-                      <input type="text" defaultValue className="form-control text_icon" placeholder="Date Range" />
+                      <DateRangePicker
+                        startDateId="fromDateforAdmin"
+                        startDate={this.state.startDate}
+                        endDateId="toDateforAdmin"
+                        endDate={this.state.endDate}
+                        onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+                        focusedInput={this.state.focusedInput}
+                        onFocusChange={focusedInput => this.setState({ focusedInput })}
+                        showDefaultInputIcon
+                        inputIconPosition="after"
+                        hideKeyboardShortcutsPanel
+                        displayFormat="YYYY-MM-DD"
+                        daySize={35}
+                        isOutsideRange={() => false}
+                      />
                     </div>
                   </div>
                 </div>

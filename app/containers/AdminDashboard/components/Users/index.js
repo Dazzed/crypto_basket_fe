@@ -249,7 +249,7 @@ export default class Users extends Component {
                           this.props.changePage(currentPage);
                         }
                         console.log('elem+1', elem + 1, 'page-(elem-2)', page - (elem - 2), 'elem-2', elem - 2, 'out', currentPage);
-                        return maxPage >= currentPage ? (<PaginationItem onClick={changePage}>
+                        return maxPage >= currentPage ? (<PaginationItem onClick={changePage} key={`pagination_${elem}`}>
                           <PaginationLink className={page === currentPage ? "selected" : ""}>
                             {currentPage}
                           </PaginationLink>

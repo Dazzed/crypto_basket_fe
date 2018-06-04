@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
 
 import Pagination from 'components/Pagination';
@@ -7,6 +8,11 @@ import WrapLoading from 'components/WrapLoading';
 
 import BtcIcon from 'img/icon_btc.png';
 import ETHIcon from 'img/icon_eth.png';
+
+
+import 'react-dates/initialize';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
 
 export default class Withdrawals extends Component {
   state = {
@@ -40,23 +46,41 @@ export default class Withdrawals extends Component {
       isFetchingActivities
     } = this.props.userDashboard;
 
+    if (this.state.endDate && this.state.startDate) {
+      console.log(this.state.startDate);
+      console.log(this.state.endDate);
+    }
+
     return (
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
           <div className="row mt-4 p-4">
-            <div className="col-lg-6 col-md-8 col-12 ml-auto">
+            <div className="col-lg-9 col-md-9 col-12 ml-auto">
               <div className="row">
-                <div className="col-lg-6 col-md-6 col-6">
+                <div className="col-lg-3 col-md-3 col-3">
                   <select type="text" className="field_input_activity">
                     <option value={0}>Show in USD</option>
                   </select>
                 </div>
                 <div className="col-lg-6 col-md-6 col-6">
                   <div className="input-group">
-                    <span className="icon_datepicker">
-                      <i className="fa fa-calendar" aria-hidden="true" />
-                    </span>
-                    <input type="text" defaultValue="" className="form-control text_icon" placeholder="" />
+
+                    <DateRangePicker
+                      startDateId="fromDateforUser"
+                      startDate={this.state.startDate}
+                      endDateId="toDateforUser"
+                      endDate={this.state.endDate}
+                      onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+                      focusedInput={this.state.focusedInput}
+                      onFocusChange={focusedInput => this.setState({ focusedInput })}
+                      showDefaultInputIcon
+                      inputIconPosition="after"
+                      hideKeyboardShortcutsPanel
+                      displayFormat="YYYY-MM-DD"
+                      daySize={35}
+                      isOutsideRange={() => false}
+                    />
+
                   </div>
                 </div>
               </div>
