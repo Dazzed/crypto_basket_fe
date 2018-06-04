@@ -1,0 +1,23 @@
+.DateInput_input{
+  padding: 5px 25px 5px !important;
+  font-size: 12px !important;
+}
+
+
+.CalendarDay__selected, .CalendarDay__selected:active, .CalendarDay__selected:hover{
+ background: #4bb449 !important;
+ border: 1px solid #4bb449 !important;
+ color: #fff !important;
+}
+
+.CalendarDay__selected_span {
+ background: #4bb4499e !important;
+ border: 1px solid #fefe !important;
+ color: #fff !important;
+}
+
+.CalendarDay__hovered_span {
+ background: #4bb4499e !important;
+ border: 1px solid #fefefe !important;
+ color: #fff !important;
+}

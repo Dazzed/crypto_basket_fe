@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
-import { Dropdown,
+import {
+  Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Pagination, 
+  Pagination,
   PaginationItem,
   PaginationLink,
   Row,
@@ -35,10 +36,12 @@ export default class Assets extends Component {
   componentWillMount() {
     this.props.fetchAssets();
   }
+
   openAsset = asset => {
     this.props.startEditingAsset(asset);
     this.props.history.push(`/dashboard/asset/${asset.id}`);
   }
+
   render() {
     const assets = this.props.adminDashboard.assets;
     return (
@@ -53,7 +56,7 @@ export default class Assets extends Component {
             <div className="row mt-4 p-4">
               <div className="col-lg-12 col-md-12">
                 {/* visible medium and large devices */}
-                
+
                 <div className="users_list table-responsive d-none d-sm-none d-md-block">
                   <table className="table">
                     <thead>
@@ -67,21 +70,21 @@ export default class Assets extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      
-                      { _.map(assets, elem=>{
+
+                      {_.map(assets, elem => {
                         const changeAsset = () => {
                           this.openAsset(elem);
                         }
                         return (
                           <tr onClick={changeAsset}>
-                              <td>
-                                {elem.name}
-                              </td>
-                              <td>{elem.ticker==='btc' ? round(elem.totalValueInUSD/elem.quantity, 2) : round(elem.quantity/elem.totalValueInBTC,2)} {elem.ticker.toUpperCase()}/{elem.ticker==='btc' ? 'USD' : 'BTC'}</td>
-                              <td>{elem.quantity-elem.availableQuantityWithCommunity}</td>
-                              <td>{elem.quantity}</td>
-                              <td>{elem.availableQuantityWithCommunity}</td>
-                              <td>{elem.totalValueInUSD}</td>
+                            <td>
+                              {elem.name}
+                            </td>
+                            <td>{elem.ticker === 'btc' ? round(elem.totalValueInUSD / elem.quantity, 2) : round(elem.quantity / elem.totalValueInBTC, 2)} {elem.ticker.toUpperCase()}/{elem.ticker === 'btc' ? 'USD' : 'BTC'}</td>
+                            <td>{elem.quantity - elem.availableQuantityWithCommunity}</td>
+                            <td>{elem.quantity}</td>
+                            <td>{elem.availableQuantityWithCommunity}</td>
+                            <td>{elem.totalValueInUSD}</td>
                           </tr>
                         );
                       })}
