@@ -4,9 +4,17 @@ import PropTypes from 'prop-types';
 import ChangePasswordModal from 'components/ChangePasswordModal';
 import OtpModal from 'components/OtpModal';
 import TwoFactorEnableModal from 'components/TwoFactorEnableModal';
+// Buy page modals
 import PurchaseUnsuccessfulModal from '../BuyPage/PurchaseUnsuccessfulModal';
 import ConfirmPurchaseModal from '../BuyPage/ConfirmPurchaseModal';
 import PurchaseSuccessfulModal from '../BuyPage/PurchaseSuccessfulModal';
+
+// sell page modals
+import SaleUnsuccessfulModal from '../SellPage/SaleUnsuccessfulModal';
+import ConfirmSaleModal from '../SellPage/ConfirmSaleModal';
+import SaleSuccessfulModal from '../SellPage/SaleSuccessfulModal';
+
+// deposit modals
 import DepositModal from './DepositModal';
 
 export default class Modals extends Component {
@@ -21,12 +29,18 @@ export default class Modals extends Component {
     updateTfaEnabledWithOtp: PropTypes.func.isRequired,
     unsetActiveTfaToggleKey: PropTypes.func.isRequired,
     confirmChangingPassword: PropTypes.func.isRequired,
+    // buy props
     hidePurchaseUnsuccessfulModal: PropTypes.func.isRequired,
     hideConfirmPurchaseModal: PropTypes.func.isRequired,
     performInitiatingTrade: PropTypes.func.isRequired,
     closeTradeSuccessModal: PropTypes.func.isRequired,
+    // sell props
+    hideSaleUnsuccessfulModal: PropTypes.func.isRequired,
+    hideConfirmSaleModal: PropTypes.func.isRequired,
+    salePerformInitiatingTrade: PropTypes.func.isRequired,
+    saleCloseTradeSuccessModal: PropTypes.func.isRequired,
     showToastSuccess: PropTypes.func.isRequired,
-    showToastError: PropTypes.func.isRequired,
+    // showToastError: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
   };
 
@@ -86,12 +100,20 @@ export default class Modals extends Component {
         isOTPModalOpen,
         qrCode,
         manualCode,
+        // buy props
         purchaseUnsuccessfulModalOpen,
         purchaseUnsuccessfulModalContent,
         isConfirmPurchaseModalOpen,
         estimateTradeResult,
         isTradeSuccessModalOpen,
         isInitiatingTrade,
+        // sell props
+        saleUnsuccessfulModalOpen,
+        saleUnsuccessfulModalContent,
+        isConfirmSaleModalOpen,
+        saleEstimateTradeResult,
+        saleIsTradeSuccessModalOpen,
+        saleIsInitiatingTrade,
         depositingCurrency
       },
       cancelOperation,
@@ -99,10 +121,17 @@ export default class Modals extends Component {
       closeOTPModal,
       unsetActiveTfaToggleKey,
       globalData,
+      // buy actions
       hidePurchaseUnsuccessfulModal,
       hideConfirmPurchaseModal,
       performInitiatingTrade,
       closeTradeSuccessModal,
+      // sell actions
+      hideSaleUnsuccessfulModal,
+      hideConfirmSaleModal,
+      salePerformInitiatingTrade,
+      saleCloseTradeSuccessModal,
+      // deposit actions
       openDepositModal,
       closeDepositModal
     } = this.props;
@@ -183,7 +212,7 @@ export default class Modals extends Component {
         />
       );
     }
-
+    // buy modals
     if (purchaseUnsuccessfulModalOpen) {
       return (
         <PurchaseUnsuccessfulModal
@@ -208,6 +237,36 @@ export default class Modals extends Component {
       return (
         <PurchaseSuccessfulModal
           closeTradeSuccessModal={closeTradeSuccessModal}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
+        />
+      );
+    }
+
+    // sell modals
+    if (saleUnsuccessfulModalOpen) {
+      return (
+        <SaleUnsuccessfulModal
+          onCancel={hideSaleUnsuccessfulModal}
+          saleUnsuccessfulModalContent={saleUnsuccessfulModalContent}
+        />
+      );
+    }
+
+    if (isConfirmSaleModalOpen) {
+      return (
+        <ConfirmSaleModal
+          saleEstimateTradeResult={saleEstimateTradeResult}
+          onCancel={hideConfirmSaleModal}
+          onConfirm={salePerformInitiatingTrade}
+          saleIsInitiatingTrade={saleIsInitiatingTrade}
+        />
+      );
+    }
+
+    if (saleIsTradeSuccessModalOpen) {
+      return (
+        <SaleSuccessfulModal
+          saleCloseTradeSuccessModal={saleCloseTradeSuccessModal}
           onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
         />
       );

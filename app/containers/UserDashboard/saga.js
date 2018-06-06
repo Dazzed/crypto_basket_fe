@@ -38,6 +38,17 @@ import {
 } from './actions/buyActions';
 
 import {
+  showSaleUnsuccessfulModal,
+  hideSaleUnsuccessfulModal,
+  salePerformEstimatingTrade,
+  saleEstimateTradeSuccess,
+  saleEstimateTradeError,
+  salePerformInitiatingTrade,
+  saleInitiateTradeSuccess,
+  saleInitiateTradeError
+} from './actions/sellActions';
+
+import {
   performPatchingUser,
   patchUserSuccess,
   patchUserError,
@@ -71,6 +82,9 @@ export default function* main() {
 
   yield fork(estimateTradeWatcher);
   yield fork(initiateTradeWatcher);
+
+  yield fork(estimateTradeWatcherForSale);
+  yield fork(initiateTradeWatcherForSale);
 
   yield fork(fetchActivitiesWatcher);
   yield fork(getUserWatcher);
@@ -315,13 +329,14 @@ function* estimateTradeWatcher() {
       const myFromWallet = myWallets.find(({ assetId }) => assetId === fromAsset.ticker);
       const myToWallet = myWallets.find(({ assetId }) => assetId === toAsset.ticker);
 
-      if ((fromAssetAmount > myFromWallet.balance)) {
-        return yield put(
-          showPurchaseUnsuccessfulModal(
-            constructErrorMessage('generic')
-          )
-        );
-      } else if (toAssetAmount < toAsset.minPurchaseAmount) {
+      // if ((fromAssetAmount > myFromWallet.balance)) {
+      //   return yield put(
+      //     showPurchaseUnsuccessfulModal(
+      //       constructErrorMessage('generic')
+      //     )
+      //   );
+      // }
+      if (toAssetAmount < toAsset.minPurchaseAmount) {
         return yield put(
           showPurchaseUnsuccessfulModal(
             constructErrorMessage('purchase', 'minimum', toAsset.ticker.toUpperCase())
@@ -404,6 +419,125 @@ function* initiateTradeWatcher() {
   });
 }
 
+function* estimateTradeWatcherForSale() {
+  yield takeLatest(salePerformEstimatingTrade, function* handler({ payload }) {
+    const {
+      fromAssetId,
+      toAssetId,
+      fromAssetAmount,
+      toAssetAmount,
+      tradeType,
+      successCallback,
+      errorCallback,
+      callback
+    } = payload;
+    try {
+      // 1. Perform validations
+      const {
+        globalData: {
+          currentUser: {
+            wallets: myWallets
+          }
+        },
+        userDashboard: {
+          allAssets
+        }
+      } = yield select();
+      const fromAsset = allAssets.find(({ id }) => id === fromAssetId);
+      const toAsset = allAssets.find(({ id }) => id === toAssetId);
+      const myFromWallet = myWallets.find(({ assetId }) => assetId === fromAsset.ticker);
+      const myToWallet = myWallets.find(({ assetId }) => assetId === toAsset.ticker);
+
+      // if ((fromAssetAmount > myFromWallet.balance)) {
+      //   return yield put(
+      //     showSaleUnsuccessfulModal(
+      //       constructErrorMessage('generic')
+      //     )
+      //   );
+      // }
+      if (toAssetAmount < toAsset.minPurchaseAmount) {
+        return yield put(
+          showSaleUnsuccessfulModal(
+            constructErrorMessage('purchase', 'minimum', toAsset.ticker.toUpperCase())
+          )
+        );
+      } else if (toAssetAmount > toAsset.maxPurchaseAmount) {
+        return yield put(
+          showSaleUnsuccessfulModal(
+            constructErrorMessage('purchase', 'maximum', toAsset.ticker.toUpperCase())
+          )
+        );
+      }
+      // 2. Call estimate trade API
+      const requestURL = '/api/trades/estimateTrade';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          fromAssetId,
+          toAssetId,
+          fromAssetAmount,
+          toAssetAmount,
+          tradeType
+        })
+      };
+      const { message: results } = yield call(request, { name: requestURL }, params);
+      yield put(saleEstimateTradeSuccess(results));
+    } catch (error) {
+      console.log(error);
+      if (error.message) {
+        yield put(
+          showSaleUnsuccessfulModal(
+            constructErrorMessage('generic')
+          )
+        );
+      } else {
+        errorCallback('There was an error estimating details. Reload your page.');
+      }
+      yield put(saleEstimateTradeError());
+    }
+  });
+}
+
+function* initiateTradeWatcherForSale() {
+  yield takeLatest(salePerformInitiatingTrade, function* handler({ payload }) {
+    const {
+      errorCallback,
+    } = payload;
+    try {
+      // 1. Perform validations
+      const {
+        userDashboard: {
+          saleEstimateTradeResult
+        }
+      } = yield select();
+
+      // 2. Call estimate trade API
+      const requestURL = '/api/trades/initiateTrade';
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          ...saleEstimateTradeResult,
+          tradeType: 'buy'
+        })
+      };
+      const { message: results, myWallets } = yield call(request, { name: requestURL }, params);
+      yield put(saleInitiateTradeSuccess({ results, myWallets }));
+    } catch (error) {
+      console.log(error);
+      if (error.message) {
+        yield put(
+          showSaleUnsuccessfulModal(
+            constructErrorMessage('generic')
+          )
+        );
+      } else {
+        errorCallback('There was an error initiating trade. Reload your page.');
+      }
+      yield put(saleInitiateTradeError());
+    }
+  });
+}
+
 function* fetchActivitiesWatcher() {
   yield takeLatest(fetchActivities, function* handler({ payload }) {
     // const { globalData: { showSuccessSnackBar, showErrorSnackBar } } = yield select();
@@ -425,7 +559,7 @@ function* fetchActivitiesWatcher() {
       if (filter.where) {
         transformedFilter.where = filter.where;
       }
-      console.log({filter, transformedFilter});
+      console.log({ filter, transformedFilter });
       const requestURL = payload.url;
       if (!requestURL) throw new Error('payload.url is required');
       const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
