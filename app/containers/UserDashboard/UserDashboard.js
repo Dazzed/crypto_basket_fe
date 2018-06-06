@@ -10,6 +10,7 @@ import Modals from './components/Modals';
 
 import Settings from './components/Settings';
 import BuyPage from './components/BuyPage';
+import SellPage from './components/SellPage';
 import Dashboard from './components/Assets';
 import Deposit from './components/Deposit';
 import Activity from './components/Activity';
@@ -41,6 +42,7 @@ class UserDashboard extends React.Component {
             <Route path={`${match.url}`} exact render={props => <Dashboard {...this.props} {...props} />} />
             <Route path={`${match.url}/settings`} render={props => <Settings {...this.props} {...props} />} />
             <Route path={`${match.url}/buy`} render={props => <BuyPage {...this.props} {...props} />} />
+            <Route path={`${match.url}/sell`} render={props => <SellPage {...this.props} {...props} />} />
             <Route path={`${match.url}/deposit`} render={props => <Deposit {...this.props} {...props} />} />
             <Route path={`${match.url}/activity`} render={props => <Activity {...this.props} {...props} />} />
           </Switch>
