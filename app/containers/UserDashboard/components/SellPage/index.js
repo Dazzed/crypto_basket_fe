@@ -6,7 +6,6 @@ import Stats from './Stats';
 
 export default class BuyPage extends Component {
   static propTypes = {
-    showToastSuccess: PropTypes.func.isRequired,
     showToastError: PropTypes.func.isRequired,
     globalData: PropTypes.object.isRequired,
     userDashboard: PropTypes.object.isRequired,
@@ -18,8 +17,8 @@ export default class BuyPage extends Component {
   state = {
     fromAssetAmount: 0.0,
     toAssetAmount: 0.0,
-    fromAssetType: 'btc',
-    toAssetType: 'eth',
+    fromAssetType: this.props.userDashboard.saleFromAssetType,
+    toAssetType: this.props.userDashboard.saleToAssetType,
     fromAssetDropdownOpen: false,
     toAssetDropdownOpen: false
   };
@@ -53,8 +52,8 @@ export default class BuyPage extends Component {
       const newToAssetPrice = (() => {
         try {
           const numerator = Number(fromAssetAmount);
-          const denominator = Number(toAsset.exchangeRates[fromAsset.ticker] ? toAsset.exchangeRates[fromAsset.ticker].ask : 0);
-          return numerator / denominator;
+          const denominator = Number(fromAsset.exchangeRates[toAsset.ticker] ? fromAsset.exchangeRates[toAsset.ticker].ask : 0);
+          return numerator * denominator;
         } catch (e) {
           return 0;
         }
@@ -65,18 +64,15 @@ export default class BuyPage extends Component {
     } else {
       const newFromAssetPrice = (() => {
         try {
-          return Number(
-            Number(toAssetAmount) * (
-              toAsset.exchangeRates[fromAsset.ticker] ?
-                Number(toAsset.exchangeRates[fromAsset.ticker].bid) : 0
-            )
-          );
+          const numerator = Number(toAssetAmount);
+          const denominator = Number(fromAsset.exchangeRates[toAsset.ticker] ? fromAsset.exchangeRates[toAsset.ticker].ask : 0);
+          return numerator / denominator;
         } catch (e) {
           return 0;
         }
       })();
       this.setState({
-        fromAssetAmount: newFromAssetPrice || 0
+        fromAssetAmount: isFinite(newFromAssetPrice) ? newFromAssetPrice || 0 : 0
       });
     }
   }
@@ -166,7 +162,7 @@ export default class BuyPage extends Component {
     } = this.props.userDashboard;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
-        <h2 className="p-4">Buy Assets</h2>
+        <h2 className="p-4">Sell Assets</h2>
         <div className="row mt-3 h-100 bg_white">
           <div className="col-md-6">
             <div className="row mt-5 pl-4 pr-4">

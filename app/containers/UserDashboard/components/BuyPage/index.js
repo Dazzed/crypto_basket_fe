@@ -16,8 +16,8 @@ export default class BuyPage extends Component {
   state = {
     fromAssetAmount: 0.0,
     toAssetAmount: 0.0,
-    fromAssetType: 'eth',
-    toAssetType: 'btc',
+    fromAssetType: this.props.userDashboard.fromAssetType,
+    toAssetType: this.props.userDashboard.toAssetType,
     fromAssetDropdownOpen: false,
     toAssetDropdownOpen: false
   };

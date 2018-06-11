@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
-import { 
-  TabContent, 
-  TabPane, 
-  Nav, 
-  NavItem, 
-  NavLink, 
-  Card, 
-  Button, 
-  CardTitle, 
-  CardText, 
-  Row, 
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Row,
   Col
 } from 'reactstrap';
 import _ from 'lodash';
@@ -62,52 +62,60 @@ function round(number, precision) {
 }
 
 export default class AssetsRow extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = { rowClicked: false };
   }
   showButtons = () => {
-    this.setState({rowClicked: true});
+    this.setState({ rowClicked: true });
   }
   hideButtons = () => {
-    this.setState({rowClicked: false});
+    this.setState({ rowClicked: false });
   }
   openDeposit = () => {
     // console.log('in opendeposit');
     this.props.openDepositModal(this.props.wallet.assetId);
   }
+
   goToBuy = () => {
     this.props.setFromAssetType(this.props.wallet.assetId === 'eth' ? 'btc' : 'eth');
     this.props.setToAssetType(this.props.wallet.assetId);
-    this.props.history.push(`/dashboard/buy`);
+    this.props.history.push('/dashboard/buy');
   }
+
+  goToSell = () => {
+    this.props.saleSetFromAssetType(this.props.wallet.assetId);
+    this.props.saleSetToAssetType(this.props.wallet.assetId === 'eth' ? 'btc' : 'eth');
+    this.props.history.push('/dashboard/sell');
+  }
+
   render() {
     const { wallet, showIn, showDeposit } = this.props;
     // console.log('wallet', wallet);
     const hidden = wallet.asset ? wallet.asset.hidden : false;
     return (
-    <Row className={hidden ? "asset-content-row bordered asset-row-greyed" : "asset-content-row bordered" } onMouseEnter={hidden ? null : this.showButtons} onMouseLeave={ hidden ? null : this.hideButtons}>
-      <Col sm={{ size: 1, order: 1, offset: 0 }}>
-      <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
-      </Col>
-      <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
-        {cryptoNames[wallet.assetId]} {hidden ? "(Hidden)" : null}
-      </Col>
-      <Col sm={{ size: 4, order: 3, offset: 0 }} className="asset-row-name right">
-        {this.state.rowClicked ? (
-          <Col>
-          {showDeposit ? (<Button className="asset-row-button" onClick={this.openDeposit}>Deposit</Button>) : null}
-          {showDeposit ? (<Button className="asset-row-button">Withdraw</Button>) : null}
-        <Button className="asset-row-button" onClick={this.goToBuy}>Buy</Button>
-        <Button className="asset-row-button">Sell</Button></Col>) : null}
-      </Col>
-      <Col sm={{ size: 2, order: 4, offset: 0 }} className="asset-row-usd right"> 
-        ${round(wallet[showIn + 'Price'], 2)} {showIn.toUpperCase()}
-      </Col>
-      <Col sm={{ size: 3, order: 5, offset: 0 }} className="asset-row-btc"> 
-        {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
-      </Col>
-    </Row>);
+      <Row className={hidden ? "asset-content-row bordered asset-row-greyed" : "asset-content-row bordered"} onMouseEnter={hidden ? null : this.showButtons} onMouseLeave={hidden ? null : this.hideButtons}>
+        <Col sm={{ size: 1, order: 1, offset: 0 }}>
+          <img src={iconMap[wallet.assetId]} className="crypto-icon" />
+        </Col>
+        <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
+          {cryptoNames[wallet.assetId]} {hidden ? "(Hidden)" : null}
+        </Col>
+        <Col sm={{ size: 4, order: 3, offset: 0 }} className="asset-row-name right">
+          {this.state.rowClicked ? (
+            <Col>
+              {showDeposit ? (<Button className="asset-row-button" onClick={this.openDeposit}>Deposit</Button>) : null}
+              {showDeposit ? (<Button className="asset-row-button">Withdraw</Button>) : null}
+              <Button className="asset-row-button" onClick={this.goToBuy}>Buy</Button>
+              <Button className="asset-row-button" onClick={this.goToSell}>Sell</Button></Col>) : null}
+        </Col>
+        <Col sm={{ size: 2, order: 4, offset: 0 }} className="asset-row-usd right">
+          ${round(wallet[showIn + 'Price'], 2)} {showIn.toUpperCase()}
+        </Col>
+        <Col sm={{ size: 3, order: 5, offset: 0 }} className="asset-row-btc">
+          {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
+        </Col>
+      </Row>);
   }
 }
 
@@ -116,5 +124,7 @@ AssetsRow.propTypes = {
   showIn: PropTypes.string.isRequired,
   setFromAssetType: PropTypes.func.isRequired,
   setToAssetType: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  saleSetFromAssetType: PropTypes.func.isRequired,
+  saleSetToAssetType: PropTypes.func.isRequired,
 };
