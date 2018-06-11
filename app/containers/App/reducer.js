@@ -29,13 +29,20 @@ import {
   logOutRequest,
   logOutSuccess,
   logOutFailure,
+  openFeedbackModal,
+  closeFeedbackModal,
+  submitFeedback,
+  submitFeedbackSuccess,
+  submitFeedbackError
 } from './actions';
 
 const initialState = {
   currentUser: null,
   isAuthenticated: false,
   isAuthenticating: false,
-  isLoggingOut: false
+  isLoggingOut: false,
+  feedbackModalOpen: false,
+  isSubmittingFeedback: false
 };
 
 const reducer = {
@@ -140,7 +147,29 @@ const reducer = {
       trades: state.currentUser.trades ? state.currentUser.trades.concat(results) : state.currentUser.trades,
       wallets: myWallets || state.currentUser.wallets
     }
-  })
+  }),
+  [openFeedbackModal]: state => ({
+    ...state,
+    feedbackModalOpen: true
+  }),
+  [closeFeedbackModal]: state => ({
+    ...state,
+    feedbackModalOpen: false
+  }),
+  [submitFeedback]: state => ({
+    ...state,
+    isSubmittingFeedback: true
+  }),
+  [submitFeedbackSuccess]: state => ({
+    ...state,
+    isSubmittingFeedback: false,
+    feedbackModalOpen: false
+  }),
+  [submitFeedbackError]: state => ({
+    ...state,
+    isSubmittingFeedback: false,
+    feedbackModalOpen: false
+  }),
 };
 
 export default createReducer(reducer, initialState);
