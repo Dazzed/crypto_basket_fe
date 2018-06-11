@@ -13,11 +13,16 @@ import PUBLIC_ROUTES from './publicRoutes';
 import {
   verifyAuth,
   logOutRequest,
+  submitFeedback,
+  closeFeedbackModal,
+  openFeedbackModal
 } from './actions';
 import {
   makeSelectLocation,
   makeSelectGlobal
 } from './selectors';
+
+import FeedbackModal from './components/FeedbackModal';
 
 export class App extends React.Component {
   componentDidUpdate(prevProps, prevState) {
@@ -29,6 +34,21 @@ export class App extends React.Component {
       // if (currentUser.isLoggingInFirstTime) {
       //   this.props.history.push('/tfa_setup');
       // }
+    }
+  }
+
+  renderModals = () => {
+    const {
+      globalData
+    } = this.props;
+    if (globalData.feedbackModalOpen) {
+      return (
+        <FeedbackModal
+          loading={globalData.isSubmittingFeedback}
+          onSubmit={this.props.submitFeedback}
+          onCancel={this.props.closeFeedbackModal}
+        />
+      );
     }
   }
 
@@ -45,11 +65,13 @@ export class App extends React.Component {
     } else if (isAuthenticated) {
       return (
         <div>
+          {this.renderModals()}
           <Navbar
             location={this.props.location}
             currentUser={this.props.globalData.currentUser}
             logOutRequest={this.props.logOutRequest}
             history={this.props.history}
+            openFeedbackModal={this.props.openFeedbackModal}
           />
           {PROTECTED_ROUTES(currentUser)}
           {/* <Footer /> */}
@@ -76,7 +98,10 @@ App.propTypes = {
     currentUser: PropTypes.object,
   }),
   location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  submitFeedback: PropTypes.func.isRequired,
+  closeFeedbackModal: PropTypes.func.isRequired,
+  openFeedbackModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -88,6 +113,9 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({
     verifyAuth,
     logOutRequest,
+    submitFeedback,
+    closeFeedbackModal,
+    openFeedbackModal
   }, dispatch)
 });
 

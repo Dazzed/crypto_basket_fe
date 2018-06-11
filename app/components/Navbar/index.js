@@ -86,7 +86,7 @@ class AppNavbar extends React.Component {
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem onClick={this.navigateTo.bind(this, '/dashboard/settings')}>Settings</DropdownItem>
-                    <DropdownItem onClick={this.navigateTo.bind(this, '/')}>Send Feedback</DropdownItem>
+                    <DropdownItem onClick={this.props.openFeedbackModal}>Send Feedback</DropdownItem>
                     <DropdownItem onClick={this.navigateTo.bind(this, '/')}>FAQs</DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem onClick={this.props.logOutRequest}>Logout</DropdownItem>
@@ -201,6 +201,7 @@ AppNavbar.propTypes = {
   history: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   logOutRequest: PropTypes.func,
+  openFeedbackModal: PropTypes.func,
 };
 
 export default AppNavbar;
