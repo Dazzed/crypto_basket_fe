@@ -51,7 +51,8 @@ export const sellReducer = {
   }),
   [saleInitiateTradeError]: state => ({
     ...state,
-    saleIsInitiatingTrade: false
+    saleIsInitiatingTrade: false,
+    saleIsEstimatingTrade: false
   }),
   [hideConfirmSaleModal]: state => ({
     ...state,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
 
 import Pagination from 'components/Pagination';
@@ -14,29 +13,11 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-export default class Withdrawals extends Component {
+import SortHOC from '../SortHOC';
+
+class Withdrawals extends Component {
   state = {
-    page: 1,
-    activityType: 'deposit',
-    limit: 10
-  };
 
-  componentDidMount() {
-    this.fetch();
-  }
-
-  fetch = () => {
-    this.props.fetchActivities({
-      limit: this.state.limit,
-      offset: this.state.limit * (this.state.page - 1),
-      where: {
-        txType: 'deposit'
-      },
-    }, `/api/users/${this.props.globalData.currentUser.id}/transfers`);
-  }
-
-  handleChangePage = (page) => {
-    this.setState({ page }, this.fetch);
   };
 
   render() {
@@ -45,11 +26,6 @@ export default class Withdrawals extends Component {
       activities,
       isFetchingActivities
     } = this.props.userDashboard;
-
-    if (this.state.endDate && this.state.startDate) {
-      console.log(this.state.startDate);
-      console.log(this.state.endDate);
-    }
 
     return (
       <div className="row mt-3  bg_white purchase_content">
@@ -64,23 +40,26 @@ export default class Withdrawals extends Component {
                 </div>
                 <div className="col-lg-6 col-md-6 col-6">
                   <div className="input-group">
-
-                    <DateRangePicker
-                      startDateId="fromDateforUser"
-                      startDate={this.state.startDate}
-                      endDateId="toDateforUser"
-                      endDate={this.state.endDate}
-                      onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
-                      focusedInput={this.state.focusedInput}
-                      onFocusChange={focusedInput => this.setState({ focusedInput })}
-                      showDefaultInputIcon
-                      inputIconPosition="after"
-                      hideKeyboardShortcutsPanel
-                      displayFormat="YYYY-MM-DD"
-                      daySize={35}
-                      isOutsideRange={() => false}
-                    />
-
+                    <span>
+                      <DateRangePicker
+                        startDateId="fromDateforUser"
+                        startDate={this.props.startDate}
+                        endDateId="toDateforUser"
+                        endDate={this.props.endDate}
+                        onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
+                        focusedInput={this.state.focusedInput}
+                        onFocusChange={focusedInput => this.setState({ focusedInput })}
+                        showDefaultInputIcon
+                        inputIconPosition="after"
+                        hideKeyboardShortcutsPanel
+                        displayFormat="YYYY-MM-DD"
+                        daySize={35}
+                        isOutsideRange={() => false}
+                      />
+                    </span>
+                    <span className="clear-date-container">
+                      <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -174,8 +153,8 @@ export default class Withdrawals extends Component {
             className="text-center"
             totalCount={totalActivitiesCount}
             perPage={10}
-            activePage={this.state.page}
-            changePage={this.handleChangePage}
+            activePage={this.props.activePage}
+            changePage={this.props.handleChangePage}
           />
         </div>
       </div>
@@ -184,7 +163,13 @@ export default class Withdrawals extends Component {
 }
 
 Withdrawals.propTypes = {
-  globalData: PropTypes.object.isRequired,
   userDashboard: PropTypes.object.isRequired,
-  fetchActivities: PropTypes.func.isRequired,
+  handleDatesChange: PropTypes.func.isRequired,
+  handleChangePage: PropTypes.func.isRequired,
+  clearDates: PropTypes.func.isRequired,
+  activePage: PropTypes.number.isRequired,
+  startDate: PropTypes.object,
+  endDate: PropTypes.object,
 };
+
+export default SortHOC(Withdrawals, 'deposit');

@@ -517,7 +517,7 @@ function* initiateTradeWatcherForSale() {
         method: 'POST',
         body: JSON.stringify({
           ...saleEstimateTradeResult,
-          tradeType: 'buy'
+          tradeType: 'sell'
         })
       };
       const { message: results, myWallets } = yield call(request, { name: requestURL }, params);
@@ -559,7 +559,9 @@ function* fetchActivitiesWatcher() {
       if (filter.where) {
         transformedFilter.where = filter.where;
       }
-      console.log({ filter, transformedFilter });
+      if (filter.custom_filter) {
+        transformedFilter.custom_filter = filter.custom_filter;
+      }
       const requestURL = payload.url;
       if (!requestURL) throw new Error('payload.url is required');
       const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
