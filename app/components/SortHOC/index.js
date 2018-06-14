@@ -47,7 +47,7 @@ export default (TargetComponent, fetchPropName) => {
         }
         return null;
       })();
-
+      console.log('this.props', this.props, 'fetchPropName', fetchPropName);
       this.props[fetchPropName]({
         offset: rowsPerPage * page,
         limit: this.state.rowsPerPage,
