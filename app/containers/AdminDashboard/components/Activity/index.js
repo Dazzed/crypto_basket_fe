@@ -27,6 +27,18 @@ class Activity extends Component {
     onSearch: PropTypes.func.isRequired,
   }
 
+  normalizeBTCValue = (value) => {
+    const {
+      adminDashboard: {
+        assets: allAssets
+      }
+    } = this.props;
+    if (allAssets.length === 0) {
+      return value;
+    }
+    return null;
+  }
+
   state = {};
   renderDesktop = () => {
     const {
@@ -119,7 +131,7 @@ class Activity extends Component {
                             <div className="activity_text_two mb-3">
                               + {activity.value} {activity.coin}
                             </div>
-                            ${activity.usdValue} USD
+                            ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                           </div>
                         </td>
                       </tr>
@@ -190,7 +202,7 @@ class Activity extends Component {
                         <td className="vertical_top courier_type text-right">
                           <div>
                             <div className="activity_text_two mb-3 text-right">+ {activity.value} {activity.coin.toUpperCase()}</div>
-                            ${activity.usdValue} USD
+                            ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                       {/* <div className="mt-2">
                         <span className="deny_btn p-2">Deny</span>
                         <span className="accept_btn ml-2 p-2">Accept</span>
@@ -271,11 +283,6 @@ class Activity extends Component {
       searchTerm,
       onSearch
     } = this.props;
-
-    if (this.state.endDate && this.state.startDate) {
-      console.log(this.state.startDate);
-      console.log(this.state.endDate);
-    }
 
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section overflow-content">

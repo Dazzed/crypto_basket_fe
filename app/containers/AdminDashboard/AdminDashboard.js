@@ -15,6 +15,12 @@ import Modals from './components/Modals';
 import Activity from './components/Activity';
 
 class AdminDashboard extends React.Component {
+  componentDidMount() {
+    if (this.props.adminDashboard.assets.length === 0) {
+      this.props.fetchAssets();
+    }
+  }
+
   render() {
     const { match } = this.props;
     return (
@@ -44,9 +50,8 @@ class AdminDashboard extends React.Component {
 }
 
 AdminDashboard.propTypes = {
-  // adminDashboard: PropTypes.object.isRequired,
-  // globalData: PropTypes.object.isRequired,
-  // location: PropTypes.object.isRequired,
+  adminDashboard: PropTypes.object.isRequired,
+  fetchAssets: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 };
 
