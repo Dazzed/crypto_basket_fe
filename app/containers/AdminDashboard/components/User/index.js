@@ -125,20 +125,33 @@ export default class User extends Component {
     this.setState({modalField: "state", modalOpen: true});
   }
 
+  changeDateModal = () => {
+    this.setState({modalField: "dob", modalOpen: true});
+  }
+
   changeCountryModal = () => {
     this.setState({modalField: "country", modalOpen: true});
+  }
+
+  changeWithLimitBTC = () => {
+    this.setState({modalField: "withdrawLimitBTC", modalOpen: true});
+  }
+
+  changeWithLimitETH = () => {
+    this.setState({modalField: "withdrawLimitETH", modalOpen: true});
   }
 
   closeModal = () => {
     this.setState({modalOpen: false});
   }
   render() {
-    console.log('user', this.props.adminDashboard.editingUser);
     const walletValues = _.reduce((this.props.adminDashboard.editingUser && this.props.adminDashboard.editingUser.wallets) || [],  (accumulator, elem) => {
       accumulator[elem.assetId] = elem.balance;
       return accumulator;
     },{})
     const user = this.props.adminDashboard.editingUser;
+    const role = this.props.globalData.currentUser.roleMapping && this.props.globalData.currentUser.roleMapping.role ? this.props.globalData.currentUser.roleMapping.role.name : "";
+    const isSuperAdmin = (role === 'super_admin');
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
       <SettingsModal onSubmit={this.submitModal} closeModal={this.closeModal} fieldName={this.state.modalField ? this.state.modalField : "email"} isOpen={this.state.modalOpen}/>
@@ -213,7 +226,7 @@ export default class User extends Component {
                       {user.state}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onChange={this.changeStateModal}>Change</Button>
+                      <Button onClick={this.changeStateModal}>Change</Button>
                     </Col>
                   </Row>
                   <Row className="tab-content-row">
@@ -224,7 +237,7 @@ export default class User extends Component {
                       {user.dob}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Change</Button>
+                      <Button onClick={this.changeDateModal}>Change</Button>
                     </Col>
                   </Row>
                   <Row className="tab-content-row">
@@ -251,16 +264,27 @@ export default class User extends Component {
                   </Row>
                   <Row className="tab-content-row">
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
-                    Withdrawal Limit
+                    Withdrawal Limit (BTC)
                     </Col>
                     <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      0
+                      {user.withdrawLimitBTC}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Change</Button>
+                      <Button onClick={this.changeWithLimitBTC}>Change</Button>
                     </Col>
                   </Row>
                   <Row className="tab-content-row">
+                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                    Withdrawal Limit (ETH)
+                    </Col>
+                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                      {user.withdrawLimitETH}
+                    </Col>
+                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
+                      <Button onClick={this.changeWithLimitETH}>Change</Button>
+                    </Col>
+                  </Row>
+                  {isSuperAdmin ? (<Row className="tab-content-row">
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     BTC Wallet Value
                     </Col>
@@ -268,10 +292,10 @@ export default class User extends Component {
                       {walletValues.btc || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Change</Button>
+                      <Button>Transfer</Button>
                     </Col>
-                  </Row>
-                  <Row className="tab-content-row">
+                  </Row>) : null }
+                  {isSuperAdmin ? (<Row className="tab-content-row">
                     <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     ETH Wallet Value
                     </Col>
@@ -279,9 +303,9 @@ export default class User extends Component {
                       {walletValues.eth || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Change</Button>
+                      <Button>Transfer</Button>
                     </Col>
-                  </Row>
+                  </Row>) : null }
                 </div>
             </TabPane>
             <TabPane tabId="assets">

@@ -28,7 +28,9 @@ const fieldText = {
   saleMargin: "Please enter the percentage of each sale you wish for Melotic to collect for this asset.",
   quantity: "Please enter the new quantity.",
   minSaleAmount: "Please enter the lowest amount you wish for a user to be able to sell of this asset.",
-  maxSaleAmount: "Please enter the maximum amount you wish for a user to be able to sell of this asset."
+  maxSaleAmount: "Please enter the maximum amount you wish for a user to be able to sell of this asset.",
+  withdrawLimitBTC: "Please enter the maximum amount you wish for a user to be able to withdraw in BTC.",
+  withdrawLimitETH: "Please enter the maximum amount you wish for a user to be able to withdraw in ETH."
 }
 
 const fieldName = {
@@ -49,7 +51,9 @@ const fieldName = {
   saleMargin: "Sale Margin",
   quantity: "Total Quantity",
   minSaleAmount: "Min Sale Amount",
-  maxSaleAmount: "Max Sale Amount"
+  maxSaleAmount: "Max Sale Amount",
+  withdrawLimitBTC: "Withdrawal limit (BTC)",
+  withdrawLimitETH: "Withdrawal limit (ETH)"
 }
 
 const typeMap = {
@@ -68,7 +72,9 @@ const typeMap = {
   maxPurchaseAmount: "text",
   buyMargin: "text",
   saleMargin: "text",
-  quantity: "text"
+  quantity: "text",
+  withdrawLimitBTC: "text",
+  withdrawLimitETH: "text"
 }
 
 class SettingsModal extends React.Component {

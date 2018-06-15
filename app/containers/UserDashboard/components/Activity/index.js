@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink, Route, Switch, Redirect } from 'react-router-dom';
 
 import Deposits from './components/Deposits';
-// import Refunds from './components/Refunds';
+import Refunds from './components/Refunds';
 
 export default class componentName extends Component {
   static propTypes = {
@@ -40,13 +40,13 @@ export default class componentName extends Component {
               <Deposits {...this.props} {...props} />
             }
           />
-          {/*<Route
+          <Route
             exact
             path={`${match.url}/refunds`}
             render={props =>
               <Refunds {...this.props} {...props} />
             }
-          />*/}
+          />
           <Redirect from={`${match.url}`} to={`${match.url}/deposits`} />
         </Switch>
       </div>

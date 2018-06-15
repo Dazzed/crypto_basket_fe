@@ -205,7 +205,7 @@ export default class Asset extends Component {
               Buy Margin
               </Col>
               <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
-                {asset.buyMargin*100}
+                {asset.buyMargin*100}%
               </Col>
               <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                 <Button onClick={this.changeBuyMargin}>Change</Button>
@@ -216,7 +216,7 @@ export default class Asset extends Component {
               Sell Margin
               </Col>
               <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
-                {asset.saleMargin*100}
+                {asset.saleMargin*100}%
               </Col>
               <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                 <Button onClick={this.changeSaleMargin}>Change</Button>

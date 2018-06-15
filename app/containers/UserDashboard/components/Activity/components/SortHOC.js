@@ -51,7 +51,7 @@ export default (TargetComponent, activityType) => {
         limit: this.state.limit,
         offset: this.state.limit * (this.state.page - 1),
         where: {
-          txType: 'deposit',
+          txType: activityType,
           userId: this.props.globalData.currentUser.id
         },
         ...(start_range && end_range ? {
