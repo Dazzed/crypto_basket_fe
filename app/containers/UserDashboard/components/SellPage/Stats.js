@@ -68,24 +68,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {myToAssetWallet.balance} {toAssetType.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="col-md-6 col-6">
-                    <span className="buy_assets_text">
-                      ${myToAssetWallet.usdPrice ? myToAssetWallet.usdPrice.toFixed(2) : 0} USD
-                    </span>
-                  </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-md-6 col-6">
-                    <span className="buy_assets_text">
                       {myFromAssetWallet.balance} {fromAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
                       ${myFromAssetWallet.usdPrice ? myFromAssetWallet.usdPrice.toFixed(2) : 0} USD
+                    </span>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6 col-6">
+                    <span className="buy_assets_text">
+                      {myToAssetWallet.balance} {toAssetType.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="col-md-6 col-6">
+                    <span className="buy_assets_text">
+                      ${myToAssetWallet.usdPrice ? myToAssetWallet.usdPrice.toFixed(2) : 0} USD
                     </span>
                   </div>
                 </div>
@@ -106,24 +106,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="col-md-6 col-6">
-                    <span className="buy_assets_text">
-                      {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()}
-                    </span>
-                  </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-md-6 col-6">
-                    <span className="buy_assets_text">
                       {meloticFromAsset.minSaleAmount} {fromAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
                       {meloticFromAsset.maxSaleAmount} {fromAssetType.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6 col-6">
+                    <span className="buy_assets_text">
+                      {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="col-md-6 col-6">
+                    <span className="buy_assets_text">
+                      {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()}
                     </span>
                   </div>
                 </div>
