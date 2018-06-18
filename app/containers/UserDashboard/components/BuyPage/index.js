@@ -53,7 +53,7 @@ export default class BuyPage extends Component {
     const toAsset = allAssets.find(a => a.ticker === toAssetType) || {};
     const fromAsset = allAssets.find(a => a.ticker === fromAssetType) || {};
     if (direction === 'fromAmount') {
-      const newToAssetPrice = (() => {
+      let newToAssetPrice = (() => {
         try {
           const numerator = Number(fromAssetAmount);
           const denominator = Number(toAsset.exchangeRates[fromAsset.ticker] ? toAsset.exchangeRates[fromAsset.ticker].ask : 0);
@@ -62,11 +62,22 @@ export default class BuyPage extends Component {
           return 0;
         }
       })();
+      if (fromAsset.ticker === 'eth' && toAsset.ticker === 'btc') {
+        try {
+          newToAssetPrice = Number(
+            Number(fromAssetAmount) * (
+              fromAsset.exchangeRates.btc.ask
+            )
+          );
+        } catch (e) {
+          return 0;
+        }
+      }
       this.setState({
         toAssetAmount: isFinite(newToAssetPrice) ? newToAssetPrice || 0 : 0
       });
     } else {
-      const newFromAssetPrice = (() => {
+      let newFromAssetPrice = (() => {
         try {
           return Number(
             Number(toAssetAmount) * (
@@ -78,6 +89,16 @@ export default class BuyPage extends Component {
           return 0;
         }
       })();
+      if (fromAsset.ticker === 'eth' && toAsset.ticker === 'btc') {
+        try {
+          const numerator = 1 * Number(toAssetAmount);
+          const denominator = Number(fromAsset.exchangeRates.btc.ask);
+          newFromAssetPrice = numerator / denominator;
+        } catch (e) {
+          console.log(e);
+          return 0;
+        }
+      }
       this.setState({
         fromAssetAmount: newFromAssetPrice || 0
       });
