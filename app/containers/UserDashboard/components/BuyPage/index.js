@@ -11,6 +11,7 @@ export default class BuyPage extends Component {
     globalData: PropTypes.object.isRequired,
     userDashboard: PropTypes.object.isRequired,
     performEstimatingTrade: PropTypes.func.isRequired,
+    closeTradeSuccessModal: PropTypes.func.isRequired,
   }
 
   state = {
@@ -21,6 +22,10 @@ export default class BuyPage extends Component {
     fromAssetDropdownOpen: false,
     toAssetDropdownOpen: false
   };
+
+  componentWillUnmount() {
+    this.props.closeTradeSuccessModal();
+  }
 
   onFromAssetAmountChange = ({ target: { value: fromAssetAmount } }) => {
     this.setState({

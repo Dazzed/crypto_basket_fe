@@ -458,13 +458,13 @@ function* estimateTradeWatcherForSale() {
       if (fromAssetAmount < Number(fromAsset.minSaleAmount)) {
         return yield put(
           showSaleUnsuccessfulModal(
-            constructErrorMessage('sale', 'minimum', toAsset.ticker.toUpperCase())
+            constructErrorMessage('sale', 'minimum', fromAsset.ticker.toUpperCase())
           )
         );
       } else if (fromAssetAmount > Number(fromAsset.maxSaleAmount)) {
         return yield put(
           showSaleUnsuccessfulModal(
-            constructErrorMessage('sale', 'maximum', toAsset.ticker.toUpperCase())
+            constructErrorMessage('sale', 'maximum', fromAsset.ticker.toUpperCase())
           )
         );
       }

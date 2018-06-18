@@ -99,7 +99,7 @@ class Withdrawals extends Component {
                             <td className="vertical_top courier_type">
                               ${activity.usdValue} USD
                               <div className="activity_text_two mt-3">
-                                + {activity.value} {activity.coin}
+                                + {Number(activity.value)} {activity.coin}
                               </div>
                             </td>
                           </tr>
@@ -135,7 +135,7 @@ class Withdrawals extends Component {
                             <td className="vertical_top courier_type">
                               ${activity.usdValue} USD
                               <div className="activity_text_two mt-3">
-                                + {activity.value} {activity.coin}
+                                + {Number(activity.value)} {activity.coin}
                               </div>
                             </td>
                           </tr>

@@ -27,19 +27,37 @@ class Activity extends Component {
     onSearch: PropTypes.func.isRequired,
   }
 
-  normalizeBTCValue = (value) => {
+  constructor(props) {
+    super(props);
     const {
       adminDashboard: {
         assets: allAssets
       }
     } = this.props;
-    if (allAssets.length === 0) {
-      return value;
-    }
-    return null;
+    const btcAssetObject = allAssets.find(a => a.ticker === 'btc');
+    const ethAssetObject = allAssets.find(a => a.ticker === 'eth');
+    this.state = {
+      btcAssetObject,
+      ethAssetObject
+    };
   }
 
-  state = {};
+  componentWillReceiveProps() {
+    if (!this.state.btcAssetObject || !this.state.ethAssetObject) {
+      const {
+        adminDashboard: {
+          assets: allAssets
+        }
+      } = this.props;
+      const btcAssetObject = allAssets.find(a => a.ticker === 'btc');
+      const ethAssetObject = allAssets.find(a => a.ticker === 'eth');
+      this.setState({
+        btcAssetObject,
+        ethAssetObject
+      });
+    }
+  }
+
   renderDesktop = () => {
     const {
       activities,
@@ -129,7 +147,7 @@ class Activity extends Component {
                         <td>
                           <div>
                             <div className="activity_text_two mb-3">
-                              + {activity.value} {activity.coin}
+                              + {Number(activity.value)} {activity.coin}
                             </div>
                             ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                           </div>
@@ -201,7 +219,7 @@ class Activity extends Component {
                         </td>
                         <td className="vertical_top courier_type text-right">
                           <div>
-                            <div className="activity_text_two mb-3 text-right">+ {activity.value} {activity.coin.toUpperCase()}</div>
+                            <div className="activity_text_two mb-3 text-right">+ {Number(activity.value)} {activity.coin.toUpperCase()}</div>
                             ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                       {/* <div className="mt-2">
                         <span className="deny_btn p-2">Deny</span>
@@ -255,7 +273,7 @@ class Activity extends Component {
                           </div>
                         </td>
                         <td className="vertical_top">
-                          <div className="activity_text_two courier_type">+ {activity.value} {activity.coin.toUpperCase()}</div>
+                          <div className="activity_text_two courier_type">+ {Number(activity.value)} {activity.coin.toUpperCase()}</div>
                           <div className="mt-1">
                             <span className="small_activity_space">{activity.coin.toUpperCase()} {activity.confirmed ? 'Completed' : 'Pending'}</span>
                           </div>
