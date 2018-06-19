@@ -35,7 +35,8 @@ import {
   updateUser,
   performCreatingUser,
   createUserSuccess,
-  createUserError
+  createUserError,
+  transferToUser
 } from './actions/user';
 
 import {
@@ -67,12 +68,40 @@ export default function* main() {
   yield fork(fetchAssetsWatcher);
   yield fork(updateAssetWatcher);
   yield fork(createUserWatcher);
+  yield fork(transferToUserWatcher);
 
   yield fork(fetchActivitiesWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+function* transferToUserWatcher(){
+  yield takeLatest(transferToUser, function* handler({payload: { id, asset, amount, otp }}){
+    try{
+      const baseRequestURL = `/api/transfers/refund/`;
+      console.log('building request', id, asset, amount, otp);
+      const params = {
+        method: 'POST',
+        headers: { 'Authorization': window.access_token },
+        body: JSON.stringify(
+          {
+            userId: id,
+            coin: asset,
+            amount: amount.toString(),
+            otp: otp
+          }
+        )
+      };
+      console.log('sending request', params);
+      const updateResult = yield call(request, { name: baseRequestURL }, params);
+      console.log('after result', updateResult);
+      yield put(fetchUser(id));
+    }catch(error){
+      yield put(fetchAssetsError(error));
+    }
+  });
+}
 
 function* updateAssetWatcher() {
   yield takeLatest(updateAsset, function* handler({ payload: { data, id } }) {
@@ -93,7 +122,6 @@ function* updateAssetWatcher() {
       const fetchResult = yield call(request, { name: baseRequestURL + `?filter=%7B%22custom_include%22%3A%5B%22populateValueAndMinimumPurchase%22%2C%20%22populateCommunityValues%22%2C%20%22populateCommunityQuantity%22%2C%20%22populatePrices%22%5D%7D` }, paramsFetch);
       yield put(fetchAssetSuccess(fetchResult));
     } catch (error) {
-      console.log('got error', error);
       yield put(fetchAssetsError(error));
     }
   });

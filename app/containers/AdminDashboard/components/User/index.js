@@ -92,6 +92,9 @@ export default class User extends Component {
     this.setState({modalOpen: false});
     if(this.state.modalField==='archive' || this.state.modalField==='activate'){
       this.props.archiveUser(this.props.adminDashboard.editingUser.id);
+    }else if(this.state.modalField==='transferBTC' || this.state.modalField==='transferETH'){
+      console.log('in transfer if');
+      this.props.transferToUser(this.props.adminDashboard.editingUser.id, this.state.modalField==='transferBTC' ? 'btc' : 'eth', this.state.modalField==='transferBTC' ? data.transferBTC : data.transferETH, data.OTP);
     }else{
       this.props.updateUser(data, this.props.adminDashboard.editingUser.id);
     }
@@ -139,6 +142,15 @@ export default class User extends Component {
 
   changeWithLimitETH = () => {
     this.setState({modalField: "withdrawLimitETH", modalOpen: true});
+  }
+
+
+  transferBTC = () => {
+    this.setState({modalField: "transferBTC", modalOpen: true});
+  }
+
+  transferETH = () => {
+    this.setState({modalField: "transferETH", modalOpen: true});
   }
 
   closeModal = () => {
@@ -292,7 +304,7 @@ export default class User extends Component {
                       {walletValues.btc || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Transfer</Button>
+                      <Button onClick={this.transferBTC}>Transfer</Button>
                     </Col>
                   </Row>) : null }
                   {isSuperAdmin ? (<Row className="tab-content-row">
@@ -303,7 +315,7 @@ export default class User extends Component {
                       {walletValues.eth || 0}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button>Transfer</Button>
+                      <Button onClick={this.transferETH}>Transfer</Button>
                     </Col>
                   </Row>) : null }
                 </div>
