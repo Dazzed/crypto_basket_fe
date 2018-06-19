@@ -246,7 +246,7 @@ export default class User extends Component {
                     Date of Birth
                     </Col>
                     <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.dob}
+                      {new Date(user.dob).toDateString()}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                       <Button onClick={this.changeDateModal}>Change</Button>
