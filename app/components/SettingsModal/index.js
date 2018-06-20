@@ -30,7 +30,9 @@ const fieldText = {
   minSaleAmount: "Please enter the lowest amount you wish for a user to be able to sell of this asset.",
   maxSaleAmount: "Please enter the maximum amount you wish for a user to be able to sell of this asset.",
   withdrawLimitBTC: "Please enter the maximum amount you wish for a user to be able to withdraw in BTC.",
-  withdrawLimitETH: "Please enter the maximum amount you wish for a user to be able to withdraw in ETH."
+  withdrawLimitETH: "Please enter the maximum amount you wish for a user to be able to withdraw in ETH.",
+  transferBTC: "",
+  transferETH: ""
 }
 
 const fieldName = {
@@ -53,7 +55,9 @@ const fieldName = {
   minSaleAmount: "Min Sale Amount",
   maxSaleAmount: "Max Sale Amount",
   withdrawLimitBTC: "Withdrawal limit (BTC)",
-  withdrawLimitETH: "Withdrawal limit (ETH)"
+  withdrawLimitETH: "Withdrawal limit (ETH)",
+  transferBTC: "Amount BTC",
+  transferETH: "Amount ETH"
 }
 
 const typeMap = {
@@ -74,7 +78,9 @@ const typeMap = {
   saleMargin: "text",
   quantity: "text",
   withdrawLimitBTC: "text",
-  withdrawLimitETH: "text"
+  withdrawLimitETH: "text",
+  transferBTC: "text",
+  transferETH: "text"
 }
 
 class SettingsModal extends React.Component {
@@ -97,17 +103,18 @@ class SettingsModal extends React.Component {
   render() {
     const isActivating = this.props.fieldName==='archive' || this.props.fieldName==='activate';
     const isAvailability = this.props.fieldName==='available' || this.props.fieldName==='unavailable';
+    const isTransfer = this.props.fieldName==='transferETH' || this.props.fieldName==='transferBTC';
       return (
         <Modal isOpen={this.props.isOpen} className={isActivating ? "archive-settings-modal" : "settings-modal"}>
         <button onClick={this.props.closeModal} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
           <Row  className="field-name">
-            {isActivating ? `Are you sure you want to ${fieldName[this.props.fieldName]} this user?` : `Are you sure you want to change this user's ${fieldName[this.props.fieldName]}?`}
+            {isTransfer ? "Transfer" : (isActivating ? `Are you sure you want to ${fieldName[this.props.fieldName]} this user?` : `Are you sure you want to change this user's ${fieldName[this.props.fieldName]}?`)}            
           </Row>
-          <Row className="field-desc">
+          { isTransfer ? null : (<Row className="field-desc">
             {fieldText[this.props.fieldName]}
-          </Row>
+          </Row>)}
           {this.props.fieldName!=='verificationStatus' ? (
             <form onSubmit={this.props.handleSubmit}>
               { !isActivating && !isAvailability ? (<div className="row mt-3">
@@ -122,7 +129,19 @@ class SettingsModal extends React.Component {
                       />
                   </div>
                 </div>
+                {isTransfer ? (<div className="field-wrapper"> 
+                  <div className="col-sm-12">
+                    <Field
+                      name="OTP"
+                      type="text"
+                      component={RenderField}
+                      label="OTP"
+                      placeholder=""
+                      />
+                  </div>
+                </div>) : null}
               </div>) : null}
+
             <button
               type="submit"
               className="btn-field-wrapper"

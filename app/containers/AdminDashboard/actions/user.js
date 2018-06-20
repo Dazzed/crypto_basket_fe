@@ -78,7 +78,12 @@ export const archiveUser = createAction(
 );
 
 export const updateUser = createAction(
-  `${PREFIX}_UPDATE_USER_SUCESS`,
+  `${PREFIX}_UPDATE_USER_SUCCESS`,
   (data, id) => ({ data, id })
+);
+
+export const transferToUser = createAction(
+  `${PREFIX}_TRANSFER_TO_USER`,
+  (id, asset, amount, otp) => ({ id, asset, amount, otp})
 );
 // END actions related to admin managing users
