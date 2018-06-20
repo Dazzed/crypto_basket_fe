@@ -115,7 +115,7 @@ export default class Stats extends Component {
                     </span>
                   </div>
                 </div>
-                <div className="row mt-3">
+                {/* <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
                       {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()}
@@ -126,7 +126,7 @@ export default class Stats extends Component {
                       {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()}
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
