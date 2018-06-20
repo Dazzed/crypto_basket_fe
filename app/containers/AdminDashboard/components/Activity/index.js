@@ -106,7 +106,7 @@ class Activity extends Component {
                         <td>
                           <div className="w-75 text-left table_data_activity ml-2">
                             {
-                              activity.txType === 'deposit' ?
+                              activity.txType === 'deposit' || activity.txType === 'refund'?
                                 <p>{activity.coin}</p> :
                                 <Fragment>
                                   <span className="d-md-none d-lg-block">
