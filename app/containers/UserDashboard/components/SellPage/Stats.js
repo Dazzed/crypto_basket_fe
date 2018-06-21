@@ -11,6 +11,42 @@ export default class Stats extends Component {
     toAssetType: PropTypes.string.isRequired,
   }
 
+  state = {
+    toAssetMinimumSale: 0,
+    toAssetMaximumSale: 0
+  };
+
+  getToAssetMinMaxValue = type => {
+    const {
+      userDashboard: {
+        allAssets
+      },
+      fromAssetType,
+      toAssetType
+    } = this.props;
+    const meloticFromAsset = allAssets.find(({ ticker }) => ticker === fromAssetType) || {};
+    const meloticToAsset = allAssets.find(({ ticker }) => ticker === toAssetType) || {};
+    let newToAssetPrice = (() => {
+      try {
+        const numerator = Number(type === 'minimum' ? meloticFromAsset.minSaleAmount : meloticFromAsset.maxSaleAmount);
+        const denominator = Number(meloticFromAsset.exchangeRates[meloticToAsset.ticker] ? meloticFromAsset.exchangeRates[meloticToAsset.ticker].ask : 0);
+        return numerator * denominator;
+      } catch (e) {
+        return 0;
+      }
+    })();
+    if (meloticFromAsset.ticker === 'btc' && meloticToAsset.ticker === 'eth') {
+      try {
+        const numerator = 1 * Number(type === 'minimum' ? meloticFromAsset.minSaleAmount : meloticFromAsset.maxSaleAmount);
+        const denominator = Number(meloticToAsset.exchangeRates.btc.ask);
+        newToAssetPrice = numerator / denominator;
+      } catch (e) {
+        return 0;
+      }
+    }
+    return isFinite(newToAssetPrice) ? newToAssetPrice || 0 : 0;
+  };
+
   render() {
     const {
       globalData: {
@@ -115,18 +151,20 @@ export default class Stats extends Component {
                     </span>
                   </div>
                 </div>
-                {/* <div className="row mt-3">
+                <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()}
+                      {/* {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()} */}
+                      {this.getToAssetMinMaxValue('minimum')} {toAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()}
+                      {/* {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()} */}
+                      {this.getToAssetMinMaxValue('maximum')} {toAssetType.toUpperCase()}
                     </span>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
