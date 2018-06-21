@@ -50,7 +50,8 @@ export default (TargetComponent, activityType) => {
       this.props.fetchActivities({
         limit: this.state.limit,
         offset: this.state.limit * (this.state.page - 1),
-        order: "createdAt DESC",
+        orderBy: "createdAt",
+        order: "DESC",
         where: {
           txType: activityType,
           userId: this.props.globalData.currentUser.id
