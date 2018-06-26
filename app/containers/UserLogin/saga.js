@@ -2,6 +2,7 @@
 import { put, fork, call } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import request from 'helpers/request';
+import { storeAuthDetails } from 'helpers/localStorage';
 
 import {
   authSucess
@@ -25,7 +26,7 @@ function* loginFormWatcher() {
       credentials,
       toastErrorCallBack,
       tfaRequired,
-      twoFactorToken, 
+      twoFactorToken,
     } = payload;
     try {
       if (tfaRequired) {
@@ -36,7 +37,8 @@ function* loginFormWatcher() {
         };
         const tfaResponse = yield call(request, { name: requestURL }, params);
         const { userId, id: access_token } = tfaResponse.accessToken;
-        window.access_token = access_token;
+        // window.access_token = access_token;
+        storeAuthDetails({ userId, access_token });
         yield put(authSucess(tfaResponse.user));
         yield put(loginSuccess());
       } else {
@@ -51,19 +53,20 @@ function* loginFormWatcher() {
           yield put(loginTFANeeded(twoFactorToken));
         } else {
           const { userId, id: access_token } = loginResponse;
-          window.access_token = access_token;
+          // window.access_token = access_token;
+          storeAuthDetails({ userId, access_token });
           yield put(authSucess(loginResponse.user));
           yield put(loginSuccess());
         }
       }
     } catch ({ error }) {
-      if(!tfaRequired)
+      if (!tfaRequired)
         yield put(loginFailed());
       else
         yield put(TFAFailed(twoFactorToken));
       if (toastErrorCallBack) {
-        if(tfaRequired)
-          toastErrorCallBack('Invalid OPT.');
+        if (tfaRequired)
+          toastErrorCallBack('Invalid OTP.');
         else
           toastErrorCallBack(error ? error.message : 'Invalid credentials.');
       }

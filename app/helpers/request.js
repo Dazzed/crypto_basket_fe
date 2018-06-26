@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-// import { getAuthDetails } from './localStorage';
+import { getAuthDetails } from './localStorage';
 
 const API_URL = require('./config')[process.env.NODE_ENV];
 
@@ -13,12 +13,12 @@ const API_URL = require('./config')[process.env.NODE_ENV];
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request({ name }, options = {}) {
-  // const authDetails = getAuthDetails('access_token');
+  const authDetails = getAuthDetails('access_token');
   const headers = {};
   const opts = Object.assign({}, options);
 
   let REQUEST_URL = API_URL;
-  const { access_token } = window;
+  const { access_token } = authDetails;
   if (access_token) {
     if (name.includes('?')) {
       REQUEST_URL += `${name}&access_token=${access_token}`;

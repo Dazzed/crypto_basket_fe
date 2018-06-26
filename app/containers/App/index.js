@@ -25,6 +25,10 @@ import {
 import FeedbackModal from './components/FeedbackModal';
 
 export class App extends React.Component {
+  componentWillMount() {
+    this.props.verifyAuth();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.globalData.isAuthenticated && this.props.globalData.isAuthenticated) {
       // perform stuff here when the user is authenticated
@@ -102,6 +106,7 @@ App.propTypes = {
   submitFeedback: PropTypes.func.isRequired,
   closeFeedbackModal: PropTypes.func.isRequired,
   openFeedbackModal: PropTypes.func.isRequired,
+  verifyAuth: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

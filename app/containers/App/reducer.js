@@ -39,7 +39,7 @@ import {
 const initialState = {
   currentUser: null,
   isAuthenticated: false,
-  isAuthenticating: false,
+  isAuthenticating: true,
   isLoggingOut: false,
   feedbackModalOpen: false,
   isSubmittingFeedback: false
