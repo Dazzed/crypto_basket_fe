@@ -15,8 +15,8 @@ export default class BuyPage extends Component {
   }
 
   state = {
-    fromAssetAmount: 0.0,
-    toAssetAmount: 0.0,
+    fromAssetAmount: null,
+    toAssetAmount: null,
     fromAssetType: this.props.userDashboard.fromAssetType,
     toAssetType: this.props.userDashboard.toAssetType,
     fromAssetDropdownOpen: false,
@@ -74,7 +74,7 @@ export default class BuyPage extends Component {
         }
       }
       this.setState({
-        toAssetAmount: isFinite(newToAssetPrice) ? newToAssetPrice || 0 : 0
+        toAssetAmount: isFinite(newToAssetPrice) ? newToAssetPrice || '' : ''
       });
     } else {
       let newFromAssetPrice = (() => {
@@ -100,7 +100,7 @@ export default class BuyPage extends Component {
         }
       }
       this.setState({
-        fromAssetAmount: newFromAssetPrice || 0
+        fromAssetAmount: isFinite(newFromAssetPrice) ? newFromAssetPrice || '' : ''
       });
     }
   }
@@ -202,6 +202,7 @@ export default class BuyPage extends Component {
                     className="form-control field_inputs"
                     value={toAssetAmount}
                     onChange={this.onToAssetAmountChange}
+                    placeholder={0}
                   />
                   <div className="input-group-btn">
                     <Dropdown
@@ -236,6 +237,7 @@ export default class BuyPage extends Component {
                     value={fromAssetAmount}
                     aria-label="Text input with dropdown button"
                     onChange={this.onFromAssetAmountChange}
+                    placeholder={0}
                   />
                   <div className="input-group-btn">
                     <Dropdown

@@ -33,7 +33,7 @@ function* loginFormWatcher() {
         const requestURL = '/api/users/verifyTwoFactor';
         const params = {
           method: 'POST',
-          body: JSON.stringify({ twoFactorToken: twoFactorToken, otp: credentials.otp, type: "login" })
+          body: JSON.stringify({ twoFactorToken, otp: credentials.otp, type: 'login' })
         };
         const tfaResponse = yield call(request, { name: requestURL }, params);
         const { userId, id: access_token } = tfaResponse.accessToken;
@@ -49,8 +49,8 @@ function* loginFormWatcher() {
         };
         const loginResponse = yield call(request, { name: requestURL }, params);
         if (loginResponse.twoFactorRequired) {
-          const twoFactorToken = loginResponse.user.twoFactorToken;
-          yield put(loginTFANeeded(twoFactorToken));
+          const { twoFactorToken: tfaTokenFromResponse } = loginResponse.user;
+          yield put(loginTFANeeded(tfaTokenFromResponse));
         } else {
           const { userId, id: access_token } = loginResponse;
           // window.access_token = access_token;
@@ -60,15 +60,17 @@ function* loginFormWatcher() {
         }
       }
     } catch ({ error }) {
-      if (!tfaRequired)
+      if (!tfaRequired) {
         yield put(loginFailed());
-      else
+      } else {
         yield put(TFAFailed(twoFactorToken));
+      }
       if (toastErrorCallBack) {
-        if (tfaRequired)
+        if (tfaRequired) {
           toastErrorCallBack('Invalid OTP.');
-        else
+        } else {
           toastErrorCallBack(error ? error.message : 'Invalid credentials.');
+        }
       }
     }
   });

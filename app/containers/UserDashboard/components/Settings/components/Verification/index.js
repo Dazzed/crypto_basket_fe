@@ -83,10 +83,10 @@ class Verification extends Component {
         <div className="col-md-8 m-auto">
           <div className="row mt-5 pl-4">
             <div className="col-md-6">
-              <img src={FrameImg1} className="img-fluid frame_1 w-100" />
+              <img src={FrameImg1} className="img-fluid frame_1 w-100 cursor-pointer" />
             </div>
             <div className="col-md-6">
-              <img src={FrameImg1} className="img-fluid frame_1 set_verify w-100" />
+              <img src={FrameImg1} className="img-fluid frame_1 set_verify w-100 cursor-pointer" />
             </div>
           </div>
           <form onSubmit={handleSubmit}>

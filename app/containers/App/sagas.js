@@ -28,9 +28,9 @@ export function* getCurrentUser() {
     if (Object.keys(authDetails).length) {
       const filter = JSON.stringify({
         custom_include: ['all_details'],
-        include: {
-          roleMapping: 'role'
-        }
+        include: [{
+          roleMapping: 'role',
+        }, 'documents']
       });
       const requestURL = `/api/users/${authDetails.userId}?filter=${filter}`;
       const params = {
@@ -68,7 +68,7 @@ function* logOutWatcher() {
 }
 
 function* feedbackWatcher() {
-  yield takeLatest(submitFeedback, function* handler({payload}) {
+  yield takeLatest(submitFeedback, function* handler({ payload }) {
     try {
       const requestURL = '/api/users/submit_feedback';
       const params = {
