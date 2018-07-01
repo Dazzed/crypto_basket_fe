@@ -14,6 +14,26 @@ export default class Deposit extends Component {
     const { wallets: myWallets } = this.props.globalData.currentUser;
     const myBTCWallet = myWallets.find(w => w.assetId === 'btc');
     const myETHWallet = myWallets.find(w => w.assetId === 'eth');
+    if (!myBTCWallet || !myETHWallet) {
+      return (
+        <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
+          <h2 className="p-4">Deposit</h2>
+          <div className="row mt-3 h-100 bg_white">
+            <div className="col-lg-12 h-100">
+              <div className="row mt-2 p-4">
+                <div className="col-lg-12 col-md-12">
+                  <div className="deposit-info-container mb-4">
+                    <small className="melotic-grey">
+                      <strong>You cannot deposit because currently you do not have an BTC or ETH wallet</strong>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <h2 className="p-4">Deposit</h2>

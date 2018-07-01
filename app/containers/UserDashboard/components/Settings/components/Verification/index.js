@@ -271,7 +271,7 @@ function mapStateToProps(thizState) {
         country,
         state,
         dob,
-        documents
+        documents = []
       }
     }
   } = thizState;
@@ -282,8 +282,8 @@ function mapStateToProps(thizState) {
       dob: moment(dob).isValid() ? moment(dob) : null,
     },
     formValues: getFormValues('user_verification')(thizState),
-    existingIdentityDocument: documents.find(({ type }) => type === 'identity'),
-    existingProofDocument: documents.find(({ type }) => type === 'proof')
+    existingIdentityDocument: (documents || []).find(({ type }) => type === 'identity'),
+    existingProofDocument: (documents || []).find(({ type }) => type === 'proof')
   };
 }
 

@@ -273,7 +273,13 @@ function* getUserWatcher() {
   yield takeLatest(getUser, function* handler({ payload }) {
     try {
       const user = payload;
-      const requestURL = `/api/users/${user.id}?filter=%7B%22include%22%3A%7B%20%22relation%22%3A%22wallets%22%2C%22scope%22%3A%7B%22include%22%3A%7B%22relation%22%3A%22asset%22%7D%7D%7D%7D`;
+      const filter = JSON.stringify({
+        include: [
+          {wallets: 'asset'},
+          'documents'
+        ]
+      });
+      const requestURL = `/api/users/${user.id}?filter=${filter}`;
       const params = {
         method: 'GET',
       };
