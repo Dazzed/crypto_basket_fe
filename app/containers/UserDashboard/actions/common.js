@@ -5,7 +5,7 @@ export const PREFIX = 'APP_USER_DASHBOARD';
 export const cancelOperation = createAction(
   `${PREFIX}_CANCEL_OPERATION`
 );
-
+// actions for Settings Page
 export const startPatchingUser = createAction(
   `${PREFIX}_START_PATCHING_USER`,
   user => user
@@ -29,6 +29,36 @@ export const patchUserSuccess = createAction(
 export const patchUserError = createAction(
   `${PREFIX}_PATCH_USER_ERROR`
 );
+
+export const performUploadingIdentity = createAction(
+  `${PREFIX}_PERFORM_UPLOADING_IDENTITY`,
+  file => file
+);
+
+export const uploadIdentitySuccess = createAction(
+  `${PREFIX}_UPLOAD_IDENTITY_SUCCESS`,
+  data => data
+);
+
+export const uploadIdentityError = createAction(
+  `${PREFIX}_UPLOAD_IDENTITY_ERROR`
+);
+
+export const performUploadingProof = createAction(
+  `${PREFIX}_PERFORM_UPLOADING_PROOF`,
+  file => file
+);
+
+export const uploadProofSuccess = createAction(
+  `${PREFIX}_UPLOAD_PROOF_SUCCESS`,
+  data => data
+);
+
+export const uploadProofError = createAction(
+  `${PREFIX}_UPLOAD_PROOF_ERROR`,
+);
+
+// End actions for Settings Page
 
 export const getUser = createAction(
   `${PREFIX}_GETTING_USER`,

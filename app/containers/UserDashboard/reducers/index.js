@@ -29,6 +29,8 @@ const initialState = {
   isFetchingAssets: false,
   allAssets: [],
   errorFetchingAllAssets: false,
+  isUploadingIdentity: false,
+  isUploadingProof: false,
   // buy actions
   purchaseUnsuccessfulModalOpen: false,
   purchaseUnsuccessfulModalContent: null,

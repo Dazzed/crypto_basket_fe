@@ -14,7 +14,7 @@ import {
   Row, 
   Col
 } from 'reactstrap';
-import {  } from 'reactstrap';
+import moment from 'moment';
 import _ from 'lodash';
 import classnames from 'classnames';
 import AdaIcon from 'img/icon_ada.png';
@@ -246,7 +246,7 @@ export default class User extends Component {
                     Date of Birth
                     </Col>
                     <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {new Date(user.dob).toDateString()}
+                      {moment(user.dob).format('YYYY-MM-DD')}
                     </Col>
                     <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                       <Button onClick={this.changeDateModal}>Change</Button>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Route, Switch, Redirect } from 'react-router-dom';
+import moment from 'moment';
 
+import superCompare from 'helpers/superCompare';
 import MyInformation from './components/MyInformation';
 import Verification from './components/Verification';
 
@@ -12,6 +14,8 @@ class Settings extends Component {
     showToastSuccess: PropTypes.func.isRequired,
     showToastError: PropTypes.func.isRequired,
     globalData: PropTypes.object.isRequired,
+    performUploadingIdentity: PropTypes.func.isRequired,
+    performUploadingProof: PropTypes.func.isRequired
   };
 
   onUpdateMyInformation = values => {
@@ -19,12 +23,42 @@ class Settings extends Component {
   }
 
   onSubmitVerification = values => {
-    this.props.performPatchingUser(
-      this.props.globalData.currentUser,
-      values,
-      this.props.showToastSuccess,
-      this.props.showToastError
-    );
+    // 1. Construct data to patch user model related fields
+    const {
+      globalData: {
+        currentUser: {
+          country,
+          state,
+          dob
+        }
+      }
+    } = this.props;
+    const originalFieldsData = {
+      country,
+      state,
+      dob: moment(dob).format('YYYY-MM-DD')
+    };
+    const fieldValuesFromReduxForm = {
+      country: values.country,
+      state: values.state,
+      dob: values.dob.format('YYYY-MM-DD')
+    };
+    const diffInFieldValues = superCompare(originalFieldsData, fieldValuesFromReduxForm);
+    if (Object.keys(diffInFieldValues).length) {
+      this.props.performPatchingUser(
+        this.props.globalData.currentUser,
+        diffInFieldValues,
+        this.props.showToastSuccess,
+        this.props.showToastError
+      );
+    }
+    // 2. Construct file fields
+    if (values.identityDocument) {
+      this.props.performUploadingIdentity(values.identityDocument);
+    }
+    if (values.proofDocument) {
+      this.props.performUploadingProof(values.proofDocument);
+    }
   }
 
   render() {

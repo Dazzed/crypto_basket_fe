@@ -39,6 +39,32 @@ export default function request({ name }, options = {}) {
     .then(data => data);
 }
 
+export function multipartRequest({ name }, file, body = {}) {
+  const authDetails = getAuthDetails('access_token');
+  let REQUEST_URL = API_URL;
+  const { access_token } = authDetails;
+  if (access_token) {
+    if (name.includes('?')) {
+      REQUEST_URL += `${name}&access_token=${access_token}`;
+    } else {
+      REQUEST_URL += `${name}?access_token=${access_token}`;
+    }
+  } else {
+    REQUEST_URL += `${name}`;
+  }
+  const formData = new FormData();
+  formData.append('file', file);
+  Object.keys(body).forEach(key => {
+    formData.append(key, body[key]);
+  });
+  return fetch(REQUEST_URL, {
+    method: 'POST',
+    body: formData
+  }).then(checkStatus)
+    .then(parseJSON)
+    .then(data => data);
+}
+
 /**
  * Parses the JSON returned by a network request
  *

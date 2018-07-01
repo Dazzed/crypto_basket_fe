@@ -12,7 +12,9 @@ import {
 } from 'containers/AdminDashboard/actions/twoFactorAuth';
 
 import {
-  patchUserSuccess
+  patchUserSuccess,
+  uploadIdentitySuccess,
+  uploadProofSuccess
 } from 'containers/UserDashboard/actions/common';
 
 import {
@@ -169,6 +171,20 @@ const reducer = {
     ...state,
     isSubmittingFeedback: false,
     feedbackModalOpen: false
+  }),
+  [uploadIdentitySuccess]: (state, documentObject) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      documents: state.currentUser.documents.concat(documentObject)
+    }
+  }),
+  [uploadProofSuccess]: (state, documentObject) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      documents: state.currentUser.documents.concat(documentObject)
+    }
   }),
 };
 

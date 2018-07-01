@@ -7,7 +7,13 @@ import {
   fetchAllAssetsSuccess,
   fetchAllAssetsError,
   openDepositModal,
-  closeDepositModal
+  closeDepositModal,
+  performUploadingIdentity,
+  uploadIdentitySuccess,
+  uploadIdentityError,
+  performUploadingProof,
+  uploadProofSuccess,
+  uploadProofError
 } from '../actions/common';
 
 export const commonReducer = {
@@ -54,5 +60,29 @@ export const commonReducer = {
   [closeDepositModal]: state => ({
     ...state,
     depositingCurrency: null
-  })
+  }),
+  [performUploadingIdentity]: state => ({
+    ...state,
+    isUploadingIdentity: true
+  }),
+  [uploadIdentitySuccess]: state => ({
+    ...state,
+    isUploadingIdentity: false,
+  }),
+  [uploadIdentityError]: state => ({
+    ...state,
+    isUploadingIdentity: false,
+  }),
+  [performUploadingProof]: state => ({
+    ...state,
+    isUploadingProof: true
+  }),
+  [uploadProofSuccess]: state => ({
+    ...state,
+    isUploadingProof: false,
+  }),
+  [uploadProofError]: state => ({
+    ...state,
+    isUploadingProof: false
+  }),
 };

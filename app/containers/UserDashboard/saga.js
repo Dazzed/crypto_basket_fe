@@ -1,6 +1,6 @@
 import { put, fork, call, select } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
-import request from 'helpers/request';
+import request, { multipartRequest } from 'helpers/request';
 import { stopSubmit } from 'redux-form';
 
 import {
@@ -55,7 +55,13 @@ import {
   fetchAllAssets,
   fetchAllAssetsSuccess,
   fetchAllAssetsError,
-  getUser
+  getUser,
+  performUploadingIdentity,
+  uploadIdentitySuccess,
+  uploadIdentityError,
+  performUploadingProof,
+  uploadProofSuccess,
+  uploadProofError
 } from './actions/common';
 
 import {
@@ -88,6 +94,9 @@ export default function* main() {
 
   yield fork(fetchActivitiesWatcher);
   yield fork(getUserWatcher);
+
+  yield fork(uploadIdentityWatcher);
+  yield fork(uploadProofWatcher);
 }
 
 function constructErrorMessage(type, minMax, ticker) {
@@ -243,9 +252,6 @@ function* patchUserWatcher() {
         user,
         values
       } = payload;
-      if (values.dob) {
-        values.dob = values.dob.format('YYYY-MM-DD');
-      }
       const requestURL = `/api/users/${user.id}`;
       const params = {
         method: 'PATCH',
@@ -573,6 +579,30 @@ function* fetchActivitiesWatcher() {
     } catch (error) {
       console.log(error);
       yield put(fetchActivitiesError());
+    }
+  });
+}
+
+function* uploadIdentityWatcher() {
+  yield takeLatest(performUploadingIdentity, function* handler({ payload }) {
+    try {
+      const requestURL = '/api/documents/uploadIdentity';
+      const { data } = yield call(multipartRequest, { name: requestURL }, payload);
+      yield put(uploadIdentitySuccess(data));
+    } catch (error) {
+      yield put(uploadIdentityError());
+    }
+  });
+}
+
+function* uploadProofWatcher() {
+  yield takeLatest(performUploadingProof, function* handler({ payload }) {
+    try {
+      const requestURL = '/api/documents/uploadProof';
+      const { data } = yield call(multipartRequest, { name: requestURL }, payload);
+      yield put(uploadProofSuccess(data));
+    } catch (error) {
+      yield put(uploadProofError());
     }
   });
 }
