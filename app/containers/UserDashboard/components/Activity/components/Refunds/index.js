@@ -13,7 +13,7 @@ import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-import SortHOC from '../SortHOC';
+import SortHOC from '../TransferSortHOC';
 
 class Refunds extends Component {
   state = {

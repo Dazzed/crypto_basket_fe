@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+// HOC only to query Transfers table
 export default (TargetComponent, activityType) => {
   return class SortHOC extends Component {
     static propTypes = {

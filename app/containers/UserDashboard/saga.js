@@ -67,7 +67,10 @@ import {
 import {
   fetchActivities,
   fetchActivitiesSuccess,
-  fetchActivitiesError
+  fetchActivitiesError,
+  fetchTradeData,
+  fetchTradeDataSuccess,
+  fetchTradeDataError
 } from './actions/activity';
 
 import {
@@ -93,6 +96,8 @@ export default function* main() {
   yield fork(initiateTradeWatcherForSale);
 
   yield fork(fetchActivitiesWatcher);
+  yield fork(fetchTradeDataWatcher);
+
   yield fork(getUserWatcher);
 
   yield fork(uploadIdentityWatcher);
@@ -552,7 +557,6 @@ function* initiateTradeWatcherForSale() {
 
 function* fetchActivitiesWatcher() {
   yield takeLatest(fetchActivities, function* handler({ payload }) {
-    // const { globalData: { showSuccessSnackBar, showErrorSnackBar } } = yield select();
     try {
       const { filter = {} } = payload;
 
@@ -585,6 +589,41 @@ function* fetchActivitiesWatcher() {
     } catch (error) {
       console.log(error);
       yield put(fetchActivitiesError());
+    }
+  });
+}
+
+function* fetchTradeDataWatcher() {
+  yield takeLatest(fetchTradeData, function* handler({ payload }) {
+    try {
+      const { filter = {} } = payload;
+
+      const transformedFilter = {};
+      if (filter.include) {
+        transformedFilter.include = filter.include;
+      }
+      transformedFilter.limit = filter.limit || 10;
+      transformedFilter.offset = filter.offset || 0;
+      if (filter.order) {
+        transformedFilter.order = filter.order;
+      }
+      if (filter.where) {
+        transformedFilter.where = filter.where;
+      }
+      if (filter.custom_filter) {
+        transformedFilter.custom_filter = filter.custom_filter;
+      }
+      const requestURL = payload.url;
+      if (!requestURL) throw new Error('payload.url is required');
+      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const params = {
+        method: 'GET'
+      };
+      const [data = [], totalCount] = yield call(request, { name: targetURL }, params);
+      yield put(fetchTradeDataSuccess({ data, totalCount }));
+    } catch (error) {
+      console.log(error);
+      yield put(fetchTradeDataError());
     }
   });
 }

@@ -4,29 +4,26 @@ import moment from 'moment';
 
 import Pagination from 'components/Pagination';
 import WrapLoading from 'components/WrapLoading';
-
-import BtcIcon from 'img/icon_btc.png';
-import ETHIcon from 'img/icon_eth.png';
-
+import renderImageForAsset from 'helpers/renderImageForAsset';
+import ArrowDownImage from 'img/arrow-down.png';
 
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-import SortHOC from '../TransferSortHOC';
+import TradeSortHOC from '../TradeSortHOC';
 
-class Withdrawals extends Component {
+class Sales extends Component {
   state = {
 
   };
 
   render() {
     const {
-      totalActivitiesCount,
-      activities,
-      isFetchingActivities
+      totalTradeDataCount,
+      tradeData,
+      isFetchingTradeData
     } = this.props.userDashboard;
-
     return (
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
@@ -72,36 +69,40 @@ class Withdrawals extends Component {
               {/* visible medium and large devices */}
               <div className="users_list table-responsive d-none d-sm-none d-md-block">
                 <table className="table border_top">
-                  <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 4 }}>
+                  <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
-                        activities.map((activity, i) => (
-                          <tr key={`activity_desktop_${i}`}>
-                            <td>
+                        tradeData.map((data, i) => (
+                          <tr key={`trade_data_desktop_${i}`}>
+                            <th>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(data.fromAsset.ticker)}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
-                                <span className="activity_text_one">{activity.coin}</span>
+                                <span className="d-md-none d-lg-block">
+                                  {data.fromAsset.name} Sale
+                                  <br />
+                                  <img src={ArrowDownImage} className="activity-down-img" />
+                                  <br />
+                                </span>
+                                <span className="activity_text_one">{data.toAsset.name}</span>
                               </div>
-                            </td>
-                            <td className="vertical_top">
+                            </th>
+                            <th className="vertical_top">
                               Initiated
                               <div className="activity_text_two mt-3">
-                                {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                                {data.createdAt}
                               </div>
-                            </td>
-                            <td className="vertical_middle">
+                            </th>
+                            <th className="vertical_middle">
                               <div className="activity_text_two">
-                                {activity.confirmed ? 'Completed' : 'Pending'}
-                              </div>
-                            </td>
-                            <td className="vertical_top courier_type">
-                              ${activity.usdValue} USD
-                              <div className="activity_text_two mt-3">
-                                + {Number(activity.value)} {activity.coin}
-                              </div>
-                            </td>
+                                Pending
+                            </div>
+                            </th>
+                            <th className="vertical_top courier_type">
+                              $12,345.12 USD
+                              <div className="activity_text_two mt-3">- {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
+                            </th>
                           </tr>
                         ))
                       }
@@ -111,33 +112,31 @@ class Withdrawals extends Component {
               </div>
               <div className="users_list table-responsive d-block d-md-none d-lg-none">
                 <table className="table border_top">
-                  <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 2 }}>
+                  <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 2 }}>
                     <tbody>
                       {
-                        activities.map((activity, i) => (
-                          <tr key={`mobile_activity_${i}`}>
-                            <td>
+                        tradeData.map((data, i) => (
+                          <tr key={`trade_data_mobile_${i}`}>
+                            <th>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(data.fromAsset.ticker)}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span>
-                                  {moment(activity.createdAt).format('MMM dd, YYYY')}
+                                  {moment(data.createdAt).format('MMM dd, YYYY')}
                                 </span>
                                 <span>
-                                  {activity.confirmed ? 'Completed' : 'Pending'}
+                                  Pending
                                 </span>
                                 <br />
                                 <br />
-                                <span className="activity_text_one">{activity.coin}</span>
+                                <span className="activity_text_one">{data.fromAsset.name} Sale</span>
                               </div>
-                            </td>
-                            <td className="vertical_top courier_type">
-                              ${activity.usdValue} USD
-                              <div className="activity_text_two mt-3">
-                                + {Number(activity.value)} {activity.coin}
-                              </div>
-                            </td>
+                            </th>
+                            <th className="vertical_top courier_type">
+                              $12,345.12 USD
+                              <div className="activity_text_two mt-3">- {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
+                            </th>
                           </tr>
                         ))
                       }
@@ -151,7 +150,7 @@ class Withdrawals extends Component {
         <div className="col-lg-12">
           <Pagination
             className="text-center"
-            totalCount={totalActivitiesCount}
+            totalCount={totalTradeDataCount}
             perPage={10}
             activePage={this.props.activePage}
             changePage={this.props.handleChangePage}
@@ -162,7 +161,7 @@ class Withdrawals extends Component {
   }
 }
 
-Withdrawals.propTypes = {
+Sales.propTypes = {
   userDashboard: PropTypes.object.isRequired,
   handleDatesChange: PropTypes.func.isRequired,
   handleChangePage: PropTypes.func.isRequired,
@@ -172,4 +171,4 @@ Withdrawals.propTypes = {
   endDate: PropTypes.object,
 };
 
-export default SortHOC(Withdrawals, 'deposit');
+export default TradeSortHOC(Sales, false);

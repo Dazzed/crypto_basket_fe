@@ -50,10 +50,16 @@ const initialState = {
   // A property that indicates the currency the user is depositing and also serves as a flag whether the deposit Modal should be open or not
   depositingCurrency: null,
   // activity related properties
+    // 1.) deposit / withdrawal
   activities: [],
   isFetchingActivities: true,
   errorFetchingActivities: false,
   totalActivitiesCount: 0,
+    // 2.) buy / sell
+  tradeData: [],
+  isFetchingTradeData: true,
+  errorFetchingTradeData: false,
+  totalTradeDataCount: 0,
   // Buy properties
   fromAssetType: 'eth',
   toAssetType: 'btc',

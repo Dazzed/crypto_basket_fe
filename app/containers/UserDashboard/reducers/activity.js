@@ -1,7 +1,10 @@
 import {
   fetchActivities,
   fetchActivitiesSuccess,
-  fetchActivitiesError
+  fetchActivitiesError,
+  fetchTradeData,
+  fetchTradeDataSuccess,
+  fetchTradeDataError
 } from '../actions/activity';
 
 const spreadState = (state, obj) => ({
@@ -24,5 +27,20 @@ export const activitiesReducer = {
   [fetchActivitiesError]: state => spreadState(state, {
     errorFetchingActivities: true,
     isFetchingActivities: false,
+  }),
+  [fetchTradeData]: state => spreadState(state, {
+    totalTradeDataCount: 0,
+    errorFetchingTradeData: false,
+    tradeData: [],
+    isFetchingTradeData: true,
+  }),
+  [fetchTradeDataSuccess]: (state, { data: tradeData, totalCount }) => spreadState(state, {
+    tradeData,
+    totalTradeDataCount: totalCount,
+    isFetchingTradeData: false
+  }),
+  [fetchTradeDataError]: state => spreadState(state, {
+    errorFetchingTradeData: true,
+    isFetchingTradeData: false
   })
 };
