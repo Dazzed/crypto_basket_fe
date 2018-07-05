@@ -87,3 +87,18 @@ export const transferToUser = createAction(
   (id, asset, amount, otp) => ({ id, asset, amount, otp})
 );
 // END actions related to admin managing users
+
+// user activity actions
+// user activities (Activities that will be fetched after a user is clicked/selected)
+export const fetchUserActivities = createAction(
+  `${PREFIX}_FETCH_USER_ACTIVITIES`,
+  (filter, url) => ({ filter, url })
+);
+export const fetchUserActivitiesSuccess = createAction(
+  `${PREFIX}_FETCH_USER_ACTIVITIES_SUCCESS`,
+  activities => activities
+);
+export const fetchUserActivitiesError = createAction(
+  `${PREFIX}_FETCH_USER_ACTIVITIES_ERROR`
+);
+// END user activity actions

@@ -38,6 +38,10 @@ const initialState = {
   isFetchingActivities: true,
   errorFetchingActivities: false,
   totalActivitiesCount: 0,
+  // user activities (Activities that will be fetched after a user is selected)
+  userActivities: [],
+  isFetchingUserActivities: true,
+  userActivitiesCount: 0
 };
 
 const reducer = {

@@ -36,7 +36,10 @@ import {
   performCreatingUser,
   createUserSuccess,
   createUserError,
-  transferToUser
+  transferToUser,
+  fetchUserActivities,
+  fetchUserActivitiesSuccess,
+  fetchUserActivitiesError
 } from './actions/user';
 
 import {
@@ -71,14 +74,22 @@ export default function* main() {
   yield fork(transferToUserWatcher);
 
   yield fork(fetchActivitiesWatcher);
+  yield fork(
+    genericFetcher(
+      fetchUserActivities,
+      fetchUserActivitiesSuccess,
+      fetchUserActivitiesError,
+      null
+    )
+  );
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
 
-function* transferToUserWatcher(){
-  yield takeLatest(transferToUser, function* handler({payload: { id, asset, amount, otp }}){
-    try{
+function* transferToUserWatcher() {
+  yield takeLatest(transferToUser, function* handler({ payload: { id, asset, amount, otp } }) {
+    try {
       const baseRequestURL = `/api/transfers/refund/`;
       console.log('building request', id, asset, amount, otp);
       const params = {
@@ -97,7 +108,7 @@ function* transferToUserWatcher(){
       const updateResult = yield call(request, { name: baseRequestURL }, params);
       console.log('after result', updateResult);
       yield put(fetchUser(id));
-    }catch(error){
+    } catch (error) {
       yield put(fetchAssetsError(error));
     }
   });
@@ -358,16 +369,16 @@ function* fetchActivitiesWatcher() {
       }
       transformedFilter.limit = filter.limit || 10;
       transformedFilter.offset = filter.offset || 0;
-      if (filter.orderBy) {
-        if (!filter.order) {
-          throw new Error('filter.orderBy is given, But not filer.order');
-        }
-        transformedFilter.order = `${filter.orderBy} ${filter.order || 'asc'}`;
+      if (filter.order) {
+        transformedFilter.order = filter.order;
       }
       if (filter.where) {
         transformedFilter.where = filter.where;
       }
-      console.log({filter, transformedFilter})
+      if (filter.custom_filter) {
+        transformedFilter.custom_filter = filter.custom_filter;
+      }
+
       const requestURL = payload.url || '/api/transfers';
       const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
       const params = {

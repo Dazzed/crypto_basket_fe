@@ -91,7 +91,7 @@ class Sales extends Component {
                             <th className="vertical_top">
                               Initiated
                               <div className="activity_text_two mt-3">
-                                {data.createdAt}
+                                {moment(data.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </th>
                             <th className="vertical_middle">
@@ -123,7 +123,7 @@ class Sales extends Component {
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span>
-                                  {moment(data.createdAt).format('MMM dd, YYYY')}
+                                  {moment(data.createdAt).format('MMM DD, YYYY')}
                                 </span>
                                 <span>
                                   Pending

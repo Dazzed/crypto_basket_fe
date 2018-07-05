@@ -11,7 +11,10 @@ import {
   startCreatingUser,
   performCreatingUser,
   createUserSuccess,
-  createUserError
+  createUserError,
+  fetchUserActivities,
+  fetchUserActivitiesSuccess,
+  fetchUserActivitiesError
 } from '../actions/user';
 
 export const userReducer = {
@@ -78,5 +81,21 @@ export const userReducer = {
   [createUserError]: state => ({
     ...state,
     isCreatingUser: false
+  }),
+  [fetchUserActivities]: state => ({
+    ...state,
+    userActivities: [],
+    isFetchingUserActivities: true,
+    userActivitiesCount: 0
+  }),
+  [fetchUserActivitiesSuccess]: (state, { data: userActivities, totalCount }) => ({
+    ...state,
+    userActivities,
+    userActivitiesCount: totalCount,
+    isFetchingUserActivities: false
+  }),
+  [fetchUserActivitiesError]: state => ({
+    ...state,
+    isFetchingUserActivities: false
   })
 };

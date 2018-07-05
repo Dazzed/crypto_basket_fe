@@ -16,22 +16,31 @@ export function genericFetcher(ACTION, SUCCESS_ACTION, ERROR_ACTION, requestURL)
         const { filter = {} } = payload;
 
         const transformedFilter = {};
+
         if (filter.include) {
           transformedFilter.include = filter.include;
         }
         transformedFilter.limit = filter.limit || 10;
         transformedFilter.offset = filter.offset || 0;
+
         if (filter.orderBy) {
           if (!filter.order) {
             throw new Error('filter.orderBy is given, But not filer.order');
           }
           transformedFilter.order = `${filter.orderBy} ${filter.order || 'asc'}`;
+        } else {
+          transformedFilter.order = filter.order;
         }
+
         if (filter.where) {
           transformedFilter.where = filter.where;
         }
 
-        const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+        if (filter.custom_filter) {
+          transformedFilter.custom_filter = filter.custom_filter;
+        }
+
+        const targetURL = `${payload.url || requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
         const params = {
           method: 'GET'
         };

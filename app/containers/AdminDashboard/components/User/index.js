@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
-import { 
-  TabContent, 
-  TabPane, 
-  Nav, 
-  NavItem, 
-  NavLink, 
-  Card, 
-  Button, 
-  CardTitle, 
-  CardText, 
-  Row, 
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Row,
   Col
 } from 'reactstrap';
 import moment from 'moment';
@@ -29,6 +29,7 @@ import XRPIcon from 'img/icon_xrp.png';
 import ZecIcon from 'img/icon_zec.png';
 
 import SettingsModal from '../../../../components/SettingsModal';
+import Activity from './components/Activity';
 const iconMap = {
   ada: AdaIcon,
   bch: BchIcon,
@@ -64,13 +65,27 @@ function round(number, precision) {
 }
 
 export default class User extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {activeTab: 'profile', modalOpen: false, modalField: null};
+    const {
+      match: {
+        params: {
+          id: targetUserId
+        }
+      }
+    } = props;
+    this.state = {
+      activeTab: 'profile',
+      modalOpen: false,
+      modalField: null,
+      targetUserId
+    };
   }
+
   componentWillMount() {
 
   }
+
   toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -89,13 +104,13 @@ export default class User extends Component {
   }
 
   submitModal = (data) => {
-    this.setState({modalOpen: false});
-    if(this.state.modalField==='archive' || this.state.modalField==='activate'){
+    this.setState({ modalOpen: false });
+    if (this.state.modalField === 'archive' || this.state.modalField === 'activate') {
       this.props.archiveUser(this.props.adminDashboard.editingUser.id);
-    }else if(this.state.modalField==='transferBTC' || this.state.modalField==='transferETH'){
+    } else if (this.state.modalField === 'transferBTC' || this.state.modalField === 'transferETH') {
       console.log('in transfer if');
-      this.props.transferToUser(this.props.adminDashboard.editingUser.id, this.state.modalField==='transferBTC' ? 'btc' : 'eth', this.state.modalField==='transferBTC' ? data.transferBTC : data.transferETH, data.OTP);
-    }else{
+      this.props.transferToUser(this.props.adminDashboard.editingUser.id, this.state.modalField === 'transferBTC' ? 'btc' : 'eth', this.state.modalField === 'transferBTC' ? data.transferBTC : data.transferETH, data.OTP);
+    } else {
       this.props.updateUser(data, this.props.adminDashboard.editingUser.id);
     }
   }
@@ -109,64 +124,64 @@ export default class User extends Component {
   // country: "Country of Residence",
   // verificationStatus: "Verification Status"
   archiveUserModal = () => {
-    this.setState({modalField: this.props.adminDashboard.editingUser.isDeleted ? "activate" : "archive", modalOpen: true});
+    this.setState({ modalField: this.props.adminDashboard.editingUser.isDeleted ? "activate" : "archive", modalOpen: true });
   }
 
   changeVerificationModal = () => {
-    this.setState({modalField: "verificationStatus", modalOpen: true});
+    this.setState({ modalField: "verificationStatus", modalOpen: true });
   }
 
   changeEmailModal = () => {
-    this.setState({modalField: "email", modalOpen: true});
+    this.setState({ modalField: "email", modalOpen: true });
   }
 
   changeUsernameModal = () => {
-    this.setState({modalField: "username", modalOpen: true});
+    this.setState({ modalField: "username", modalOpen: true });
   }
 
   changeStateModal = () => {
-    this.setState({modalField: "state", modalOpen: true});
+    this.setState({ modalField: "state", modalOpen: true });
   }
 
   changeDateModal = () => {
-    this.setState({modalField: "dob", modalOpen: true});
+    this.setState({ modalField: "dob", modalOpen: true });
   }
 
   changeCountryModal = () => {
-    this.setState({modalField: "country", modalOpen: true});
+    this.setState({ modalField: "country", modalOpen: true });
   }
 
   changeWithLimitBTC = () => {
-    this.setState({modalField: "withdrawLimitBTC", modalOpen: true});
+    this.setState({ modalField: "withdrawLimitBTC", modalOpen: true });
   }
 
   changeWithLimitETH = () => {
-    this.setState({modalField: "withdrawLimitETH", modalOpen: true});
+    this.setState({ modalField: "withdrawLimitETH", modalOpen: true });
   }
 
 
   transferBTC = () => {
-    this.setState({modalField: "transferBTC", modalOpen: true});
+    this.setState({ modalField: "transferBTC", modalOpen: true });
   }
 
   transferETH = () => {
-    this.setState({modalField: "transferETH", modalOpen: true});
+    this.setState({ modalField: "transferETH", modalOpen: true });
   }
 
   closeModal = () => {
-    this.setState({modalOpen: false});
+    this.setState({ modalOpen: false });
   }
   render() {
-    const walletValues = _.reduce((this.props.adminDashboard.editingUser && this.props.adminDashboard.editingUser.wallets) || [],  (accumulator, elem) => {
+    const walletValues = _.reduce((this.props.adminDashboard.editingUser && this.props.adminDashboard.editingUser.wallets) || [], (accumulator, elem) => {
       accumulator[elem.assetId] = elem.balance;
       return accumulator;
-    },{})
+    }, {});
     const user = this.props.adminDashboard.editingUser;
     const role = this.props.globalData.currentUser.roleMapping && this.props.globalData.currentUser.roleMapping.role ? this.props.globalData.currentUser.roleMapping.role.name : "";
     const isSuperAdmin = (role === 'super_admin');
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
-      <SettingsModal onSubmit={this.submitModal} closeModal={this.closeModal} fieldName={this.state.modalField ? this.state.modalField : "email"} isOpen={this.state.modalOpen}/>
+        <SettingsModal onSubmit={this.submitModal} closeModal={this.closeModal} fieldName={this.state.modalField ? this.state.modalField : "email"} isOpen={this.state.modalOpen} />
         <div className="row">
           <div className="col-md-8 col-4">
             <h2 className="p-4">{user.firstName} {user.lastName}</h2>
@@ -178,147 +193,147 @@ export default class User extends Component {
             <button type="button" className="btn-create-admin w-100" onClick={this.archiveUserModal}>{this.props.adminDashboard.editingUser.isDeleted ? "Activate" : "Archive"} User</button>
           </div>
         </div>
-          <Nav tabs className="row col-md-4 tab-nav-container">
-            <NavItem className="col-md-4 tab-nav-item ">
-              <NavLink
-                className={classnames({ active: this.state.activeTab === 'profile' })}
-                onClick={() => { this.toggle('profile'); }}
-              >
-                Profile
+        <Nav tabs className="row col-md-4 tab-nav-container">
+          <NavItem className="col-md-4 tab-nav-item ">
+            <NavLink
+              className={classnames({ active: this.state.activeTab === 'profile' })}
+              onClick={() => { this.toggle('profile'); }}
+            >
+              Profile
               </NavLink>
-            </NavItem>
-            <NavItem className="col-md-4 tab-nav-item ">
-              <NavLink
-                className={classnames({ active: this.state.activeTab === 'assets' })}
-                onClick={() => { this.toggle('assets'); }}
-              >
-                Assets
+          </NavItem>
+          <NavItem className="col-md-4 tab-nav-item ">
+            <NavLink
+              className={classnames({ active: this.state.activeTab === 'assets' })}
+              onClick={() => { this.toggle('assets'); }}
+            >
+              Assets
               </NavLink>
-            </NavItem>
-            <NavItem className="col-md-4 tab-nav-item ">
-              <NavLink
-                className={classnames({ active: this.state.activeTab === 'activity' })}
-                onClick={() => { this.toggle('activity'); }}
-              >
-                Activity
+          </NavItem>
+          <NavItem className="col-md-4 tab-nav-item ">
+            <NavLink
+              className={classnames({ active: this.state.activeTab === 'activity' })}
+              onClick={() => { this.toggle('activity'); }}
+            >
+              Activity
               </NavLink>
-            </NavItem>
-          </Nav>
+          </NavItem>
+        </Nav>
         <div className="row mt-3  bg_white clear-top-padding">
           <TabContent activeTab={this.state.activeTab} className="tab-content-container">
             <TabPane tabId="profile">
-                <div className="profile-wrapper">
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
+              <div className="profile-wrapper">
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
                     Username
                     </Col>
-                    <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
-                      {user.username}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeUsernameModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
+                    {user.username}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeUsernameModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Email Address
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.email}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeEmailModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {user.email}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeEmailModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     State of Residence
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.state}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeStateModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {user.state}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeStateModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Date of Birth
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {moment(user.dob).format('YYYY-MM-DD')}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeDateModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {moment(user.dob).format('YYYY-MM-DD')}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeDateModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 2, order: 1, offset: 0 }} className="left">
                     Country
                     </Col>
-                    <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
-                      {user.country}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeCountryModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
+                    {user.country}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeCountryModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Verification Status
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.verificationStatus}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeVerificationModal}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {user.verificationStatus}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeVerificationModal}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Withdrawal Limit (BTC)
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.withdrawLimitBTC}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeWithLimitBTC}>Change</Button>
-                    </Col>
-                  </Row>
-                  <Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {user.withdrawLimitBTC}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeWithLimitBTC}>Change</Button>
+                  </Col>
+                </Row>
+                <Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     Withdrawal Limit (ETH)
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {user.withdrawLimitETH}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.changeWithLimitETH}>Change</Button>
-                    </Col>
-                  </Row>
-                  {isSuperAdmin ? (<Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {user.withdrawLimitETH}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.changeWithLimitETH}>Change</Button>
+                  </Col>
+                </Row>
+                {isSuperAdmin ? (<Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     BTC Wallet Value
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {walletValues.btc || 0}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.transferBTC}>Transfer</Button>
-                    </Col>
-                  </Row>) : null }
-                  {isSuperAdmin ? (<Row className="tab-content-row">
-                    <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {walletValues.btc || 0}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.transferBTC}>Transfer</Button>
+                  </Col>
+                </Row>) : null}
+                {isSuperAdmin ? (<Row className="tab-content-row">
+                  <Col sm={{ size: 3, order: 1, offset: 0 }} className="left">
                     ETH Wallet Value
                     </Col>
-                    <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
-                      {walletValues.eth || 0}
-                    </Col>
-                    <Col sm={{ size: 1, order: 3, offset: 0 }}> 
-                      <Button onClick={this.transferETH}>Transfer</Button>
-                    </Col>
-                  </Row>) : null }
-                </div>
+                  <Col sm={{ size: 7, order: 2, offset: 0 }} className="right">
+                    {walletValues.eth || 0}
+                  </Col>
+                  <Col sm={{ size: 1, order: 3, offset: 0 }}>
+                    <Button onClick={this.transferETH}>Transfer</Button>
+                  </Col>
+                </Row>) : null}
+              </div>
             </TabPane>
             <TabPane tabId="assets">
               <div className="assets-wrapper">
@@ -326,20 +341,30 @@ export default class User extends Component {
                   return (
                     <Row className="asset-content-row">
                       <Col sm={{ size: 1, order: 1, offset: 0 }}>
-                      <img src={iconMap[wallet.assetId]} className="crypto-icon"/>
+                        <img src={iconMap[wallet.assetId]} className="crypto-icon" />
                       </Col>
                       <Col sm={{ size: 2, order: 2, offset: 0 }} className="asset-row-name left">
                         {cryptoNames[wallet.assetId]}
                       </Col>
-                      <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right"> 
+                      <Col sm={{ size: 3, order: 3, offset: 3 }} className="asset-row-usd right">
                         ${round(wallet.usdPrice, 2)} USD
                       </Col>
-                      <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc"> 
+                      <Col sm={{ size: 3, order: 4, offset: 0 }} className="asset-row-btc">
                         {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
                       </Col>
                     </Row>);
                 })}
-                
+              </div>
+            </TabPane>
+            <TabPane tabId="activity">
+              <div className="assets-wrapper">
+                <Activity
+                  adminDashboard={this.props.adminDashboard}
+                  fetchUserActivities={this.props.fetchUserActivities}
+                  targetUserId={this.state.targetUserId}
+                  defaultOrderByProp="id"
+                  defaultActivityType="purchase"
+                />
               </div>
             </TabPane>
           </TabContent>
@@ -351,6 +376,7 @@ export default class User extends Component {
 
 User.propTypes = {
   globalData: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   adminDashboard: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   isSuperAdmin: PropTypes.bool.isRequired,
@@ -358,5 +384,6 @@ User.propTypes = {
   openOtpModal: PropTypes.func.isRequired,
   showToastSuccess: PropTypes.func.isRequired,
   showToastError: PropTypes.func.isRequired,
-  startCreatingAdmin: PropTypes.func.isRequired
+  startCreatingAdmin: PropTypes.func.isRequired,
+  fetchUserActivities: PropTypes.func.isRequired
 };

@@ -97,7 +97,7 @@ class Withdrawals extends Component {
                               </div>
                             </td>
                             <td className="vertical_top courier_type">
-                              ${activity.usdValue} USD
+                              ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>
