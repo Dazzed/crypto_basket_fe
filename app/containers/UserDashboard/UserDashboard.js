@@ -14,6 +14,7 @@ import SellPage from './components/SellPage';
 import Dashboard from './components/Assets';
 import Deposit from './components/Deposit';
 import Activity from './components/Activity';
+import WithdrawalPage from './components/WithdrawalPage';
 
 class UserDashboard extends React.Component {
   componentWillMount() {
@@ -45,6 +46,7 @@ class UserDashboard extends React.Component {
             <Route path={`${match.url}/sell`} render={props => <SellPage {...this.props} {...props} />} />
             <Route path={`${match.url}/deposit`} render={props => <Deposit {...this.props} {...props} />} />
             <Route path={`${match.url}/activity`} render={props => <Activity {...this.props} {...props} />} />
+            <Route path={`${match.url}/withdraw`} render={props => <WithdrawalPage {...this.props} {...props} />} />
           </Switch>
         </div>
       </div>

@@ -14,6 +14,11 @@ import SaleUnsuccessfulModal from '../SellPage/SaleUnsuccessfulModal';
 import ConfirmSaleModal from '../SellPage/ConfirmSaleModal';
 import SaleSuccessfulModal from '../SellPage/SaleSuccessfulModal';
 
+// withdrawal page modals
+import WithdrawalUnsuccessfulModal from '../WithdrawalPage/WithdrawalUnsuccessfulModal';
+import ConfirmWithdrawalModal from '../WithdrawalPage/ConfirmWithdrawalModal';
+import WithdrawalSuccessfulModal from '../WithdrawalPage/WithdrawalSuccessfulModal';
+
 // deposit modals
 import DepositModal from './DepositModal';
 
@@ -39,6 +44,10 @@ export default class Modals extends Component {
     hideConfirmSaleModal: PropTypes.func.isRequired,
     salePerformInitiatingTrade: PropTypes.func.isRequired,
     saleCloseTradeSuccessModal: PropTypes.func.isRequired,
+    hideWithdrawalUnsuccessfulModal: PropTypes.func.isRequired,
+    hideConfirmWithdrawalModal: PropTypes.func.isRequired,
+    withdrawalPerformInitiatingTrade: PropTypes.func.isRequired,
+    withdrawalCloseTradeSuccessModal: PropTypes.func.isRequired,
     showToastSuccess: PropTypes.func.isRequired,
     // showToastError: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
@@ -114,6 +123,11 @@ export default class Modals extends Component {
         saleEstimateTradeResult,
         saleIsTradeSuccessModalOpen,
         saleIsInitiatingTrade,
+        withdrawalEstimateTradeResult,
+        withdrawalIsTradeSuccessModalOpen,
+        withdrawalIsInitiatingTrade,
+        withdrawalUnsuccessfulModalOpen,
+        isConfirmWithdrawalModalOpen,
         depositingCurrency
       },
       cancelOperation,
@@ -131,6 +145,11 @@ export default class Modals extends Component {
       hideConfirmSaleModal,
       salePerformInitiatingTrade,
       saleCloseTradeSuccessModal,
+      // withdrawal actions
+      hideWithdrawalUnsuccessfulModal,
+      hideConfirmWithdrawalModal,
+      withdrawalPerformInitiatingTrade,
+      withdrawalCloseTradeSuccessModal,
       // deposit actions
       openDepositModal,
       closeDepositModal
@@ -272,6 +291,35 @@ export default class Modals extends Component {
       );
     }
 
+    // withdrawal modals
+    if (withdrawalUnsuccessfulModalOpen) {
+      return (
+        <WithdrawalUnsuccessfulModal
+          onCancel={hideWithdrawalUnsuccessfulModal}
+          withdrawalUnsuccessfulModalContent={withdrawalUnsuccessfulModalContent}
+        />
+      );
+    }
+
+    if (isConfirmWithdrawalModalOpen) {
+      return (
+        <ConfirmWithdrawalModal
+          withdrawalEstimateTradeResult={withdrawalEstimateTradeResult}
+          onCancel={hideConfirmWithdrawalModal}
+          onConfirm={withdrawalPerformInitiatingTrade}
+          withdrawalIsInitiatingTrade={withdrawalIsInitiatingTrade}
+        />
+      );
+    }
+
+    if (withdrawalIsTradeSuccessModalOpen) {
+      return (
+        <WithdrawalSuccessfulModal
+          withdrawalCloseTradeSuccessModal={withdrawalCloseTradeSuccessModal}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
+        />
+      );
+    }
     if (depositingCurrency) {
       return (
         <DepositModal
