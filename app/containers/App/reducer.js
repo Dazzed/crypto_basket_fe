@@ -35,7 +35,8 @@ import {
   closeFeedbackModal,
   submitFeedback,
   submitFeedbackSuccess,
-  submitFeedbackError
+  submitFeedbackError,
+  changeVerificationStatus
 } from './actions';
 
 const initialState = {
@@ -176,16 +177,27 @@ const reducer = {
     ...state,
     currentUser: {
       ...state.currentUser,
-      documents: state.currentUser.documents.concat(documentObject)
+      documents: state.currentUser.documents
+        .filter(d => d.type !== documentObject.type)
+        .concat(documentObject)
     }
   }),
   [uploadProofSuccess]: (state, documentObject) => ({
     ...state,
     currentUser: {
       ...state.currentUser,
-      documents: state.currentUser.documents.concat(documentObject)
+      documents: state.currentUser.documents
+        .filter(d => d.type !== documentObject.type)
+        .concat(documentObject)
     }
   }),
+  [changeVerificationStatus]: (state, verificationStatus) => ({
+    ...state,
+    currentUser: {
+      ...state.currentUser,
+      verificationStatus
+    }
+  })
 };
 
 export default createReducer(reducer, initialState);

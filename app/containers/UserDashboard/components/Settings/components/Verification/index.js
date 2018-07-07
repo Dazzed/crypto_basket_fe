@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm, getFormValues } from 'redux-form';
@@ -11,6 +12,8 @@ import RenderField from 'components/RenderField';
 import RenderDatePicker from 'components/RenderDatePicker';
 import Loading from 'components/Loading';
 import validate from './validate';
+
+const SUPPORTED_FILE_TYPES = ['image/jpeg', 'image/png']
 
 class Verification extends Component {
   static propTypes = {
@@ -85,10 +88,10 @@ class Verification extends Component {
     const {
       existingIdentityDocument
     } = this.props;
-    if (existingIdentityDocument) {
-      return <p className="user-verify-image-filename">{existingIdentityDocument.originalFilename}</p>;
-    } else if (this.props.formValues && this.props.formValues.identityDocument) {
+    if (this.props.formValues && this.props.formValues.identityDocument) {
       return <p className="user-verify-image-filename melotic-green">{this.props.formValues.identityDocument.name}</p>;
+    } else if (existingIdentityDocument) {
+      return null;
     } else {
       return <p className="user-verify-image-filename">Upload a copy of your ID</p>;
     }
@@ -98,28 +101,46 @@ class Verification extends Component {
     const {
       existingProofDocument
     } = this.props;
-    if (existingProofDocument) {
-      return <p className="user-verify-image-filename">{existingProofDocument.originalFilename}</p>;
-    } else if (this.props.formValues && this.props.formValues.proofDocument) {
+    if (this.props.formValues && this.props.formValues.proofDocument) {
       return <p className="user-verify-image-filename melotic-green">{this.props.formValues.proofDocument.name}</p>;
+    } else if (existingProofDocument) {
+      return null;
     } else {
       return <p className="user-verify-image-filename">Upload a photo of your self</p>;
     }
   }
 
   onChangeIdentityUpload = evt => {
-    this.props.change('identityDocument', evt.target.files[0]);
+    const targetFile = evt.target.files[0];
+    if (targetFile) {
+      if (SUPPORTED_FILE_TYPES.includes(targetFile.type)) {
+        this.props.change('identityDocument', evt.target.files[0]);
+      } else {
+        alert('Only JPEG and PGN files are supported');
+      }
+    }
   }
 
   onChangeProofUpload = evt => {
-    this.props.change('proofDocument', evt.target.files[0]);
+    const targetFile = evt.target.files[0];
+    if (targetFile) {
+      if (SUPPORTED_FILE_TYPES.includes(targetFile.type)) {
+        this.props.change('proofDocument', evt.target.files[0]);
+      } else {
+        alert('Only JPEG and PGN files are supported');
+      }
+    }
   }
 
   handleIdentityClick = () => {
     const {
-      existingIdentityDocument
+      globalData: {
+        currentUser: {
+          verificationStatus
+        }
+      }
     } = this.props;
-    if (existingIdentityDocument) {
+    if (verificationStatus === 'fully_verified') {
       alert('You have already uploaded an identity document');
     } else {
       this.uploadIdentityButton.click();
@@ -128,9 +149,13 @@ class Verification extends Component {
 
   handleProofClick = () => {
     const {
-      existingProofDocument
+      globalData: {
+        currentUser: {
+          verificationStatus
+        }
+      }
     } = this.props;
-    if (existingProofDocument) {
+    if (verificationStatus === 'fully_verified') {
       alert('You have already uploaded a proof document');
     } else {
       this.uploadProofButton.click();
@@ -166,6 +191,34 @@ class Verification extends Component {
     }
   }
 
+  renderIdentityDocumentImage = () => {
+    const {
+      formValues,
+      existingIdentityDocument
+    } = this.props;
+    if (formValues && formValues.identityDocument) {
+      return FrameImg1;
+    } else if (existingIdentityDocument) {
+      return existingIdentityDocument.url;
+    } else {
+      return FrameImg1;
+    }
+  }
+
+  renderProofDocumentImage = () => {
+    const {
+      formValues,
+      existingProofDocument
+    } = this.props;
+    if (formValues && formValues.proofDocument) {
+      return FrameImg1;
+    } else if (existingProofDocument) {
+      return existingProofDocument.url;
+    } else {
+      return FrameImg1;
+    }
+  }
+
   render() {
     const {
       handleSubmit,
@@ -174,7 +227,7 @@ class Verification extends Component {
         isPatchingUser,
         isUploadingIdentity,
         isUploadingProof
-      }
+      },
     } = this.props;
     return (
       <div className="row mt-3 h-100 bg-white">
@@ -187,14 +240,16 @@ class Verification extends Component {
             <div className="col-md-6" onClick={this.handleIdentityClick}>
               {this.renderIdentityDocumentName()}
               <img
-                src={FrameImg1}
+                // src={existingIdentityDocument ? existingIdentityDocument.url : FrameImg1}
+                src={this.renderIdentityDocumentImage()}
                 className="img-fluid frame_1 w-100 cursor-pointer"
               />
             </div>
             <div className="col-md-6" onClick={this.handleProofClick}>
               {this.renderProofDocumentName()}
               <img
-                src={FrameImg1}
+                // src={existingProofDocument ? existingProofDocument.url : FrameImg1}
+                src={this.renderProofDocumentImage()}
                 className="img-fluid frame_1 set_verify w-100 cursor-pointer"
               />
             </div>

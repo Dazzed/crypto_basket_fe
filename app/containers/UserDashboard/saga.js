@@ -74,7 +74,8 @@ import {
 } from './actions/activity';
 
 import {
-  authSucess
+  authSucess,
+  changeVerificationStatus
 } from '../App/actions';
 
 export default function* main() {
@@ -280,7 +281,7 @@ function* getUserWatcher() {
       const user = payload;
       const filter = JSON.stringify({
         include: [
-          {wallets: 'asset'},
+          { wallets: 'asset' },
           'documents'
         ]
       });
@@ -632,7 +633,14 @@ function* uploadIdentityWatcher() {
   yield takeLatest(performUploadingIdentity, function* handler({ payload }) {
     try {
       const requestURL = '/api/documents/uploadIdentity';
-      const { data } = yield call(multipartRequest, { name: requestURL }, payload);
+      const {
+        data,
+        shouldChangeVerificationStatusToPending,
+        newVerificationStatus
+      } = yield call(multipartRequest, { name: requestURL }, payload);
+      if (shouldChangeVerificationStatusToPending) {
+        yield put(changeVerificationStatus(newVerificationStatus));
+      }
       yield put(uploadIdentitySuccess(data));
     } catch (error) {
       yield put(uploadIdentityError());
@@ -644,7 +652,14 @@ function* uploadProofWatcher() {
   yield takeLatest(performUploadingProof, function* handler({ payload }) {
     try {
       const requestURL = '/api/documents/uploadProof';
-      const { data } = yield call(multipartRequest, { name: requestURL }, payload);
+      const {
+        data,
+        shouldChangeVerificationStatusToPending,
+        newVerificationStatus
+      } = yield call(multipartRequest, { name: requestURL }, payload);
+      if (shouldChangeVerificationStatusToPending) {
+        yield put(changeVerificationStatus(newVerificationStatus));
+      }
       yield put(uploadProofSuccess(data));
     } catch (error) {
       yield put(uploadProofError());

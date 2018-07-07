@@ -41,3 +41,8 @@ export const submitFeedbackSuccess = createAction(
 export const submitFeedbackError = createAction(
   `${PREFIX}_SUBMIT_FEEDBACK_ERROR`
 );
+
+export const changeVerificationStatus = createAction(
+  `${PREFIX}_CHANGE_VERIFICATION_STATUS`,
+  verificationStatus => verificationStatus
+);
