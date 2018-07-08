@@ -15,7 +15,7 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
 const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
-class Withdrawals extends Component {
+class Deposits extends Component {
   state = {
     hoveredId: null
   };
@@ -114,7 +114,7 @@ class Withdrawals extends Component {
                               </div>
                             </td>
                             <td className="vertical_top">
-                              Initiated
+                              {firstLetterCaps(activity.state)}
                               <div className="activity_text_two mt-3">
                                 {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
                               </div>
@@ -201,7 +201,7 @@ class Withdrawals extends Component {
   }
 }
 
-Withdrawals.propTypes = {
+Deposits.propTypes = {
   userDashboard: PropTypes.object.isRequired,
   handleDatesChange: PropTypes.func.isRequired,
   handleChangePage: PropTypes.func.isRequired,
@@ -211,4 +211,4 @@ Withdrawals.propTypes = {
   endDate: PropTypes.object,
 };
 
-export default SortHOC(Withdrawals, 'deposit');
+export default SortHOC(Deposits, 'deposit');

@@ -119,7 +119,7 @@ class Purchases extends Component {
                               </div>
                             </td>
                             <td className="vertical_top">
-                              Initiated
+                              {firstLetterCaps(data.state)}
                               <div className="activity_text_two mt-3">
                                 {moment(data.createdAt).format('MMM DD, YYYY')}
                               </div>

@@ -6,6 +6,7 @@ import Deposits from './components/Deposits';
 import Refunds from './components/Refunds';
 import Purchases from './components/Purchases';
 import Sales from './components/Sales';
+import Withdrawals from './components/Withdrawals';
 
 export default class componentName extends Component {
   static propTypes = {
@@ -40,6 +41,13 @@ export default class componentName extends Component {
             path={`${match.url}/deposits`}
             render={props =>
               <Deposits {...this.props} {...props} />
+            }
+          />
+          <Route
+            exact
+            path={`${match.url}/withdrawals`}
+            render={props =>
+              <Withdrawals {...this.props} {...props} />
             }
           />
           <Route

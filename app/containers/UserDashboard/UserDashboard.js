@@ -5,6 +5,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import ToasterHOC from 'components/ToasterHOC';
 import SideBar from 'components/SideBar';
+import Faq from 'components/Faq';
+
 import navigationItems from './navigationItems';
 import Modals from './components/Modals';
 
@@ -41,6 +43,7 @@ class UserDashboard extends React.Component {
           <SideBar navigationItems={navigationItems} />
           <Switch>
             <Route path={`${match.url}`} exact render={props => <Dashboard {...this.props} {...props} />} />
+            <Route path={`${match.url}/faqs`} component={Faq} />
             <Route path={`${match.url}/settings`} render={props => <Settings {...this.props} {...props} />} />
             <Route path={`${match.url}/buy`} render={props => <BuyPage {...this.props} {...props} />} />
             <Route path={`${match.url}/sell`} render={props => <SellPage {...this.props} {...props} />} />

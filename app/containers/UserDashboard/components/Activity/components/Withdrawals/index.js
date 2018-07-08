@@ -14,10 +14,8 @@ import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
-
 const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
-
-class Refunds extends Component {
+class Withdrawals extends Component {
   state = {
     hoveredId: null
   };
@@ -133,9 +131,9 @@ class Refunds extends Component {
                                   <span className="deny_btn p-2">Cancel</span>
                                 </td> :
                                 <td className="vertical_top courier_type">
-                                  ${activity.usdValue} USD
+                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                                   <div className="activity_text_two mt-3">
-                                    + {activity.value} {activity.coin}
+                                    - {Number(activity.value)} {activity.coin}
                                   </div>
                                 </td>
                             }
@@ -176,7 +174,7 @@ class Refunds extends Component {
                             <td className="vertical_top courier_type">
                               ${activity.usdValue} USD
                               <div className="activity_text_two mt-3">
-                                + {activity.value} {activity.coin}
+                                - {Number(activity.value)} {activity.coin}
                               </div>
                             </td>
                           </tr>
@@ -203,7 +201,7 @@ class Refunds extends Component {
   }
 }
 
-Refunds.propTypes = {
+Withdrawals.propTypes = {
   userDashboard: PropTypes.object.isRequired,
   handleDatesChange: PropTypes.func.isRequired,
   handleChangePage: PropTypes.func.isRequired,
@@ -213,4 +211,4 @@ Refunds.propTypes = {
   endDate: PropTypes.object,
 };
 
-export default SortHOC(Refunds, 'refund');
+export default SortHOC(Withdrawals, 'withdraw');

@@ -567,11 +567,8 @@ function* fetchActivitiesWatcher() {
       }
       transformedFilter.limit = filter.limit || 10;
       transformedFilter.offset = filter.offset || 0;
-      if (filter.orderBy) {
-        if (!filter.order) {
-          throw new Error('filter.orderBy is given, But not filer.order');
-        }
-        transformedFilter.order = `${filter.orderBy} ${filter.order || 'asc'}`;
+      if (filter.order) {
+        transformedFilter.order = filter.order;
       }
       if (filter.where) {
         transformedFilter.where = filter.where;
