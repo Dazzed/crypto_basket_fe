@@ -15,10 +15,27 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
 
+const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+
 class Refunds extends Component {
   state = {
-
+    hoveredId: null
   };
+
+  onHoverRecord = record => {
+    if (this.state.hoveredId === record.id) {
+      return;
+    }
+    if (record.state === 'initiated') {
+      this.setState({ hoveredId: record.id });
+    }
+  }
+
+  onHoverOffRecord = () => {
+    this.setState({
+      hoveredId: null
+    });
+  }
 
   render() {
     const {
@@ -26,6 +43,12 @@ class Refunds extends Component {
       activities,
       isFetchingActivities
     } = this.props.userDashboard;
+
+    const {
+      hoveredId
+    } = this.state;
+
+    const isNoDataPresent = isFetchingActivities === false && totalActivitiesCount === 0;
 
     return (
       <div className="row mt-3  bg_white purchase_content">
@@ -71,12 +94,19 @@ class Refunds extends Component {
             <div className="col-lg-12 col-md-12">
               {/* visible medium and large devices */}
               <div className="users_list table-responsive d-none d-sm-none d-md-block">
+                {
+                  isNoDataPresent && <h3>No Data Present</h3>
+                }
                 <table className="table border_top">
                   <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
                         activities.map((activity, i) => (
-                          <tr key={`activity_desktop_${i}`}>
+                          <tr
+                            key={`activity_desktop_${i}`}
+                            onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                            onMouseLeave={this.onHoverOffRecord}
+                          >
                             <td>
                               <div className="h-100 text-right table_data_activity">
                                 <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
@@ -93,15 +123,22 @@ class Refunds extends Component {
                             </td>
                             <td className="vertical_middle">
                               <div className="activity_text_two">
-                                {activity.confirmed ? 'Completed' : 'Pending'}
+                                {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                                {firstLetterCaps(activity.state)}
                               </div>
                             </td>
-                            <td className="vertical_top courier_type">
-                              ${activity.usdValue} USD
-                              <div className="activity_text_two mt-3">
-                                + {activity.value} {activity.coin}
-                              </div>
-                            </td>
+                            {
+                              hoveredId === activity.id ?
+                                <td className="vertical_middle">
+                                  <span className="deny_btn p-2">Cancel</span>
+                                </td> :
+                                <td className="vertical_top courier_type">
+                                  ${activity.usdValue} USD
+                                  <div className="activity_text_two mt-3">
+                                    + {activity.value} {activity.coin}
+                                  </div>
+                                </td>
+                            }
                           </tr>
                         ))
                       }
@@ -110,6 +147,9 @@ class Refunds extends Component {
                 </table>
               </div>
               <div className="users_list table-responsive d-block d-md-none d-lg-none">
+                {
+                  isNoDataPresent && <h3>No Data Present</h3>
+                }
                 <table className="table border_top">
                   <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 2 }}>
                     <tbody>
@@ -125,7 +165,8 @@ class Refunds extends Component {
                                   {moment(activity.createdAt).format('MMM dd, YYYY')}
                                 </span>
                                 <span>
-                                  {activity.confirmed ? 'Completed' : 'Pending'}
+                                  {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                                  {firstLetterCaps(activity.state)}
                                 </span>
                                 <br />
                                 <br />

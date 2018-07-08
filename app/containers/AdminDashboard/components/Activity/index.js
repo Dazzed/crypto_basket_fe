@@ -70,11 +70,14 @@ class Activity extends Component {
       onChangeActivityType,
       handleChangePage,
       adminDashboard: {
-        totalActivitiesCount
+        totalActivitiesCount,
+        isFetchingActivities
       },
       searchTerm,
       onSearch
     } = this.props;
+
+    const isNoDataPresent = isFetchingActivities === false && totalActivitiesCount === 0;
 
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section overflow-content">
@@ -82,17 +85,19 @@ class Activity extends Component {
         <div className="row mt-3  bg_white purchase_content">
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
-              <div className="col-lg-3 col-md-3 col-3">
-                <input
-                  type="text"
-                  name="filter_text"
-                  id="filter_text"
-                  className="field_input_activity col-lg-8"
-                  placeholder="Filter by user..."
-                  value={searchTerm}
-                  onChange={onSearch}
-                />
-              </div>
+              {
+                !isNoDataPresent && <div className="col-lg-3 col-md-3 col-3">
+                  <input
+                    type="text"
+                    name="filter_text"
+                    id="filter_text"
+                    className="field_input_activity col-lg-8"
+                    placeholder="Filter by user..."
+                    value={searchTerm}
+                    onChange={onSearch}
+                  />
+                </div>
+              }
               <div className="col-lg-9 col-md-9 col-9">
                 <div className="row">
                   <div className="col-lg-2 col-md-2 col-2 col_act_6">
@@ -114,46 +119,53 @@ class Activity extends Component {
                       <option value={0}>Status: All</option>
                     </select>
                   </div>
-                  <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
-                    <div className="input-group">
-                      <span>
-                        <DateRangePicker
-                          startDateId="fromDateforAdmin"
-                          startDate={this.props.startDate}
-                          endDateId="toDateforAdmin"
-                          endDate={this.props.endDate}
-                          onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
-                          focusedInput={this.state.focusedInput}
-                          onFocusChange={focusedInput => this.setState({ focusedInput })}
-                          showDefaultInputIcon
-                          inputIconPosition="after"
-                          hideKeyboardShortcutsPanel
-                          displayFormat="YYYY-MM-DD"
-                          daySize={35}
-                          isOutsideRange={() => false}
-                        />
-                      </span>
-                      <span className="clear-date-container">
-                        <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
-                      </span>
+                  {
+                    !isNoDataPresent &&
+                    <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
+                      <div className="input-group">
+                        <span>
+                          <DateRangePicker
+                            startDateId="fromDateforAdmin"
+                            startDate={this.props.startDate}
+                            endDateId="toDateforAdmin"
+                            endDate={this.props.endDate}
+                            onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
+                            focusedInput={this.state.focusedInput}
+                            onFocusChange={focusedInput => this.setState({ focusedInput })}
+                            showDefaultInputIcon
+                            inputIconPosition="after"
+                            hideKeyboardShortcutsPanel
+                            displayFormat="YYYY-MM-DD"
+                            daySize={35}
+                            isOutsideRange={() => false}
+                          />
+                        </span>
+                        <span className="clear-date-container">
+                          <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  }
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-lg-12 h-100">
-            {['purchase', 'sale'].includes(selectedActivityType) ?
-              <TradeView {...this.props} /> :
-              <TransferView {...this.props} />
-            }
-            <Pagination
-              totalCount={totalActivitiesCount}
-              perPage={10}
-              activePage={this.props.page}
-              changePage={handleChangePage}
-            />
-          </div>
+          {
+            isNoDataPresent ?
+              <h3>No Data Present</h3> :
+              <div className="col-lg-12 h-100">
+                {['purchase', 'sale'].includes(selectedActivityType) ?
+                  <TradeView {...this.props} /> :
+                  <TransferView {...this.props} />
+                }
+                <Pagination
+                  totalCount={totalActivitiesCount}
+                  perPage={10}
+                  activePage={this.props.page}
+                  changePage={handleChangePage}
+                />
+              </div>
+          }
         </div>
       </div>
     );

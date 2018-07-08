@@ -13,6 +13,25 @@ export default class TransferView extends Component {
     isChangingActivityType: PropTypes.bool.isRequired,
   }
 
+  state = {
+    hoveredId: null
+  };
+
+  onHoverRecord = record => {
+    if (this.state.hoveredId === record.id) {
+      return;
+    }
+    if (record.state === 'initiated') {
+      this.setState({ hoveredId: record.id });
+    }
+  }
+
+  onHoverOffRecord = () => {
+    this.setState({
+      hoveredId: null
+    });
+  }
+
   renderDesktop = () => {
     const {
       activities,
@@ -52,7 +71,11 @@ export default class TransferView extends Component {
                 <tbody>
                   {
                     activities.map((activity, index) => (
-                      <tr key={`desktop_activity_${index}`}>
+                      <tr
+                        key={`desktop_activity_${index}`}
+                        onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                        onMouseLeave={this.onHoverOffRecord}
+                      >
                         <td className="vertical_middle">
                           <div className="activity_text_two">
                             {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
@@ -70,7 +93,8 @@ export default class TransferView extends Component {
                         </td>
                         <td className="vertical_middle">
                           <div className="activity_text_two">
-                            {activity.confirmed ? 'Completed' : 'Pending'}
+                            {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                            {firstLetterCaps(activity.state)}
                           </div>
                         </td>
                         <td className="vertical_middle">
@@ -83,10 +107,10 @@ export default class TransferView extends Component {
                             {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
                           </div>
                         </td>
-                        {/* <td className="vertical_middle">
+                        <td className="vertical_middle">
                           <span className="deny_btn p-2">Deny</span>
                           <span className="accept_btn ml-2 p-2">Accept</span>
-                        </td> */}
+                        </td>
                         <td>
                           <div>
                             <div className="activity_text_two mb-3">
@@ -162,7 +186,8 @@ export default class TransferView extends Component {
                         </td>
                         <td className="vertical_top">
                           <div className="activity_text_two text-right">
-                            {activity.confirmed ? 'Completed' : 'Pending'}
+                            {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                            {firstLetterCaps(activity.state)}
                           </div>
                           <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}</div>
                         </td>
@@ -237,7 +262,8 @@ export default class TransferView extends Component {
                           <div className="mt-1">
                             <span className="small_activity_space">
                               {activity.isBuy ? activity.toAsset.name : activity.fromAsset.name}
-                              {activity.confirmed ? 'Completed' : 'Pending'}
+                              {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                              {firstLetterCaps(activity.state)}
                             </span>
                           </div>
                         </td>

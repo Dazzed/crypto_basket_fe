@@ -339,7 +339,7 @@ export default class User extends Component {
               <div className="assets-wrapper">
                 {_.map(user.wallets, wallet => {
                   return (
-                    <Row className="asset-content-row">
+                    <Row className="asset-content-row" key={`user_wallet_${wallet.id}`}>
                       <Col sm={{ size: 1, order: 1, offset: 0 }}>
                         <img src={iconMap[wallet.assetId]} className="crypto-icon" />
                       </Col>

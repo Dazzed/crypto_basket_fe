@@ -23,11 +23,30 @@ class Activity extends Component {
     isChangingActivityType: PropTypes.bool.isRequired,
   }
 
+  state = {
+    hoveredId: null
+  };
+
+  onHoverRecord = record => {
+    if (this.state.hoveredId === record.id) {
+      return;
+    }
+    if (record.state === 'initiated') {
+      this.setState({ hoveredId: record.id });
+    }
+  }
+
+  onHoverOffRecord = () => {
+    this.setState({
+      hoveredId: null
+    });
+  }
+
   renderActivityTypes = () => {
     return (
       <div className="col-lg-12">
         <div className="row mt-4 p-4">
-          <div className="col-lg-2 col-md-12 col-12 col_act_6">
+          <div className="col-lg-2 col-md-12 col-sm-12 col-xs-12 col_act_6 ml-auto">
             <select
               type="text"
               className="field_input_activity"
@@ -52,6 +71,10 @@ class Activity extends Component {
       userActivities,
       userActivitiesCount
     } = this.props.adminDashboard;
+
+    const {
+      hoveredId
+    } = this.state;
     return (
       <div className="row mt-3  bg_white purchase_content">
         {this.renderActivityTypes()}
@@ -65,8 +88,12 @@ class Activity extends Component {
                     <tbody>
                       {
                         userActivities.map((data, i) => (
-                          <tr key={`trade_data_desktop_${i}`}>
-                            <th>
+                          <tr
+                            key={`trade_data_desktop_${i}`}
+                            onMouseEnter={this.onHoverRecord.bind(this, data)}
+                            onMouseLeave={this.onHoverOffRecord}
+                          >
+                            <td>
                               <div className="h-100 text-right table_data_activity">
                                 {/* <img src="assets/img/activity_img1.PNG" className="activity_img" /> */}
                                 {renderImageForAsset(data.toAsset.ticker)}
@@ -83,27 +110,34 @@ class Activity extends Component {
                                   &nbsp;{firstLetterCaps(data.isBuy ? 'purchase' : 'sale')}
                                 </span>
                               </div>
-                            </th>
-                            <th className="vertical_top">
+                            </td>
+                            <td className="vertical_top">
                               Initiated
                               <div className="activity_text_two mt-3">
                                 {moment(data.createdAt).format('MMM DD, YYYY')}
                               </div>
-                            </th>
-                            <th className="vertical_middle">
+                            </td>
+                            <td className="vertical_middle">
                               <div className="activity_text_two">
-                                Pending
-                            </div>
-                            </th>
-                            <th className="vertical_top courier_type">
-                              $12,345.12 USD
-                              <div className="activity_text_two mt-3">
-                                {data.isBuy ?
-                                  `+ ${data.toAssetAmount} ${data.toAsset.ticker.toUpperCase()}` :
-                                  `- ${Number(data.fromAssetAmount)} ${data.fromAsset.ticker.toUpperCase()}`
-                                }
+                                {firstLetterCaps(data.state)}
                               </div>
-                            </th>
+                            </td>
+                            {
+                              hoveredId === data.id ?
+                                <td className="vertical_middle">
+                                  <span className="deny_btn p-2">Deny</span>
+                                  <span className="accept_btn ml-2 p-2">Accept</span>
+                                </td> :
+                                <td className="vertical_top courier_type">
+                                  $12,345.12 USD
+                                  <div className="activity_text_two mt-3">
+                                    {data.isBuy ?
+                                      `+ ${data.toAssetAmount} ${data.toAsset.ticker.toUpperCase()}` :
+                                      `- ${Number(data.fromAssetAmount)} ${data.fromAsset.ticker.toUpperCase()}`
+                                    }
+                                  </div>
+                                </td>
+                            }
                           </tr>
                         ))
                       }
@@ -118,7 +152,7 @@ class Activity extends Component {
                       {
                         userActivities.map((data, i) => (
                           <tr key={`trade_data_mobile_${i}`}>
-                            <th>
+                            <td>
                               <div className="h-100 text-right table_data_activity">
                                 {renderImageForAsset(data.toAsset.ticker)}
                               </div>
@@ -127,7 +161,7 @@ class Activity extends Component {
                                   {moment(data.createdAt).format('MMM DD, YYYY')}
                                 </span>
                                 <span>
-                                  Pending
+                                  {firstLetterCaps(data.state)}
                                 </span>
                                 <br />
                                 <br />
@@ -136,8 +170,8 @@ class Activity extends Component {
                                   &nbsp;{firstLetterCaps(data.isBuy ? 'purchase' : 'sale')}
                                 </span>
                               </div>
-                            </th>
-                            <th className="vertical_top courier_type">
+                            </td>
+                            <td className="vertical_top courier_type">
                               $12,345.12 USD
                               <div className="activity_text_two mt-3">
                                 {data.isBuy ?
@@ -145,7 +179,7 @@ class Activity extends Component {
                                   `- ${Number(data.fromAssetAmount)} ${data.fromAsset.ticker.toUpperCase()}`
                                 }
                               </div>
-                            </th>
+                            </td>
                           </tr>
                         ))
                       }
@@ -175,6 +209,9 @@ class Activity extends Component {
       userActivities,
       userActivitiesCount
     } = this.props.adminDashboard;
+    const {
+      hoveredId
+    } = this.state;
     return (
       <div className="row mt-3  bg_white purchase_content">
         {this.renderActivityTypes()}
@@ -188,7 +225,11 @@ class Activity extends Component {
                     <tbody>
                       {
                         userActivities.map((activity, i) => (
-                          <tr key={`activity_desktop_${i}`}>
+                          <tr
+                            key={`activity_desktop_${i}`}
+                            onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                            onMouseLeave={this.onHoverOffRecord}
+                          >
                             <td>
                               <div className="h-100 text-right table_data_activity">
                                 <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
@@ -205,15 +246,23 @@ class Activity extends Component {
                             </td>
                             <td className="vertical_middle">
                               <div className="activity_text_two">
-                                {activity.confirmed ? 'Completed' : 'Pending'}
+                                {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                                {firstLetterCaps(activity.state)}
                               </div>
                             </td>
-                            <td className="vertical_top courier_type">
-                              ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
-                              <div className="activity_text_two mt-3">
-                                + {Number(activity.value)} {activity.coin}
-                              </div>
-                            </td>
+                            {
+                              hoveredId === activity.id ?
+                                <td className="vertical_middle">
+                                  <span className="deny_btn p-2">Deny</span>
+                                  <span className="accept_btn ml-2 p-2">Accept</span>
+                                </td> :
+                                <td className="vertical_top courier_type">
+                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
+                                  <div className="activity_text_two mt-3">
+                                    + {Number(activity.value)} {activity.coin}
+                                  </div>
+                                </td>
+                            }
                           </tr>
                         ))
                       }
@@ -237,7 +286,8 @@ class Activity extends Component {
                                   {moment(activity.createdAt).format('MMM dd, YYYY')}
                                 </span>
                                 <span>
-                                  {activity.confirmed ? 'Completed' : 'Pending'}
+                                  {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                                  {firstLetterCaps(activity.state)}
                                 </span>
                                 <br />
                                 <br />
@@ -276,6 +326,20 @@ class Activity extends Component {
   render() {
     if (this.props.isChangingActivityType) {
       return null;
+    }
+    const {
+      isFetchingUserActivities,
+      userActivitiesCount
+    } = this.props.adminDashboard;
+    if (isFetchingUserActivities === false && userActivitiesCount === 0) {
+      return (
+        <div className="row mt-3  bg_white purchase_content">
+          {this.renderActivityTypes()}
+          <div className="col-lg-12 h-100">
+            <h3>No Data Present</h3>
+          </div>
+        </div>
+      );
     }
     return (
       <Fragment>

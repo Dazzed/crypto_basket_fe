@@ -13,10 +13,26 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import TradeSortHOC from '../TradeSortHOC';
 
+const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
 class Sales extends Component {
   state = {
-
+    hoveredId: null
   };
+
+  onHoverRecord = record => {
+    if (this.state.hoveredId === record.id) {
+      return;
+    }
+    if (record.state === 'initiated') {
+      this.setState({ hoveredId: record.id });
+    }
+  }
+
+  onHoverOffRecord = () => {
+    this.setState({
+      hoveredId: null
+    });
+  }
 
   render() {
     const {
@@ -24,6 +40,12 @@ class Sales extends Component {
       tradeData,
       isFetchingTradeData
     } = this.props.userDashboard;
+
+    const {
+      hoveredId
+    } = this.state;
+
+    const isNoDataPresent = isFetchingTradeData === false && totalTradeDataCount === 0;
     return (
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
@@ -68,13 +90,20 @@ class Sales extends Component {
             <div className="col-lg-12 col-md-12">
               {/* visible medium and large devices */}
               <div className="users_list table-responsive d-none d-sm-none d-md-block">
+                {
+                  isNoDataPresent && <h3>No Data Present</h3>
+                }
                 <table className="table border_top">
                   <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
                         tradeData.map((data, i) => (
-                          <tr key={`trade_data_desktop_${i}`}>
-                            <th>
+                          <tr
+                            key={`trade_data_desktop_${i}`}
+                            onMouseEnter={this.onHoverRecord.bind(this, data)}
+                            onMouseLeave={this.onHoverOffRecord}
+                          >
+                            <td>
                               <div className="h-100 text-right table_data_activity">
                                 {renderImageForAsset(data.fromAsset.ticker)}
                               </div>
@@ -87,22 +116,30 @@ class Sales extends Component {
                                 </span>
                                 <span className="activity_text_one">{data.toAsset.name}</span>
                               </div>
-                            </th>
-                            <th className="vertical_top">
+                            </td>
+                            <td className="vertical_top">
                               Initiated
                               <div className="activity_text_two mt-3">
                                 {moment(data.createdAt).format('MMM DD, YYYY')}
                               </div>
-                            </th>
-                            <th className="vertical_middle">
+                            </td>
+                            <td className="vertical_middle">
                               <div className="activity_text_two">
-                                Pending
-                            </div>
-                            </th>
-                            <th className="vertical_top courier_type">
-                              $12,345.12 USD
-                              <div className="activity_text_two mt-3">- {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
-                            </th>
+                                {firstLetterCaps(data.state)}
+                              </div>
+                            </td>
+                            {
+                              hoveredId === data.id ?
+                                <td className="vertical_middle">
+                                  <span className="deny_btn p-2">Cancel</span>
+                                </td> :
+                                <td className="vertical_top courier_type">
+                                  $12,345.12 USD
+                                  <div className="activity_text_two mt-3">
+                                    - {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}
+                                  </div>
+                                </td>
+                            }
                           </tr>
                         ))
                       }
@@ -111,13 +148,16 @@ class Sales extends Component {
                 </table>
               </div>
               <div className="users_list table-responsive d-block d-md-none d-lg-none">
+                {
+                  isNoDataPresent && <h3>No Data Present</h3>
+                }
                 <table className="table border_top">
                   <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 2 }}>
                     <tbody>
                       {
                         tradeData.map((data, i) => (
                           <tr key={`trade_data_mobile_${i}`}>
-                            <th>
+                            <td>
                               <div className="h-100 text-right table_data_activity">
                                 {renderImageForAsset(data.fromAsset.ticker)}
                               </div>
@@ -126,17 +166,17 @@ class Sales extends Component {
                                   {moment(data.createdAt).format('MMM DD, YYYY')}
                                 </span>
                                 <span>
-                                  Pending
+                                  {firstLetterCaps(data.state)}
                                 </span>
                                 <br />
                                 <br />
                                 <span className="activity_text_one">{data.fromAsset.name} Sale</span>
                               </div>
-                            </th>
-                            <th className="vertical_top courier_type">
+                            </td>
+                            <td className="vertical_top courier_type">
                               $12,345.12 USD
                               <div className="activity_text_two mt-3">- {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
-                            </th>
+                            </td>
                           </tr>
                         ))
                       }
