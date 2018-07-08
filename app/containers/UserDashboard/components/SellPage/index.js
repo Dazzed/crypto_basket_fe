@@ -21,8 +21,22 @@ export default class BuyPage extends Component {
     fromAssetType: this.props.userDashboard.saleFromAssetType,
     toAssetType: this.props.userDashboard.saleToAssetType,
     fromAssetDropdownOpen: false,
-    toAssetDropdownOpen: false
+    toAssetDropdownOpen: false,
+    toAssetPlaceHolder: 0,
+    fromAssetPlaceHolder: 0
   };
+
+  clearPlaceHolder = stateProp => {
+    this.setState({
+      [stateProp]: null
+    });
+  }
+
+  makePlaceHolderActive = stateProp => {
+    this.setState({
+      [stateProp]: 0
+    });
+  }
 
   componentWillUnmount() {
     this.props.saleCloseTradeSuccessModal();
@@ -180,7 +194,9 @@ export default class BuyPage extends Component {
     } = this.props;
     const {
       fromAssetAmount,
-      toAssetAmount
+      toAssetAmount,
+      fromAssetPlaceHolder,
+      toAssetPlaceHolder
     } = this.state;
     const {
       saleFromAssetType,
@@ -200,7 +216,9 @@ export default class BuyPage extends Component {
                     className="form-control field_inputs"
                     value={fromAssetAmount}
                     onChange={this.onFromAssetAmountChange}
-                    placeholder={0}
+                    placeholder={fromAssetPlaceHolder}
+                    onFocus={this.clearPlaceHolder.bind(this, 'fromAssetPlaceHolder')}
+                    onBlur={this.makePlaceHolderActive.bind(this, 'fromAssetPlaceHolder')}
                   />
                   <div className="input-group-btn">
                     <Dropdown
@@ -235,7 +253,9 @@ export default class BuyPage extends Component {
                     value={toAssetAmount}
                     aria-label="Text input with dropdown button"
                     onChange={this.onToAssetAmountChange}
-                    placeholder={0}
+                    placeholder={toAssetPlaceHolder}
+                    onFocus={this.clearPlaceHolder.bind(this, 'toAssetPlaceHolder')}
+                    onBlur={this.makePlaceHolderActive.bind(this, 'toAssetPlaceHolder')}
                   />
                   <div className="input-group-btn">
                     <Dropdown
