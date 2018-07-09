@@ -14,7 +14,7 @@ import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 class Deposits extends Component {
   state = {
     hoveredId: null

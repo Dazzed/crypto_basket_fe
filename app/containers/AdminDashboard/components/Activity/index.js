@@ -16,7 +16,7 @@ import SortHOC from './SortHOC';
 import TransferView from './components/TransferView';
 import TradeView from './components/TradeView';
 
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 
 class Activity extends Component {
   static propTypes = {

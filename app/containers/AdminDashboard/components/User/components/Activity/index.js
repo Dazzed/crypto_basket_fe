@@ -11,7 +11,7 @@ import ArrowDownImage from 'img/arrow-down.png';
 
 import SortHOC from '../../../Activity/SortHOC';
 
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 
 class Activity extends Component {
   static propTypes = {

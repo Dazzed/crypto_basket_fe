@@ -13,7 +13,7 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import TradeSortHOC from '../TradeSortHOC';
 
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 class Purchases extends Component {
   state = {
     hoveredId: null

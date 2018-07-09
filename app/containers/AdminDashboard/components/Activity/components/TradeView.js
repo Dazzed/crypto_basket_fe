@@ -5,7 +5,7 @@ import moment from 'moment';
 import ArrowDown from 'img/arrow-down.png';
 import WrapLoading from 'components/WrapLoading';
 
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 
 export default class TransferView extends Component {
   static propTypes = {

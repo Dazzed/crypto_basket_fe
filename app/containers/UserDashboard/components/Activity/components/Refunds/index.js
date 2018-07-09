@@ -15,7 +15,7 @@ import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
 
-const firstLetterCaps = str => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+import { firstLetterCaps } from 'utils';
 
 class Refunds extends Component {
   state = {
