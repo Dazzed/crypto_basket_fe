@@ -13,3 +13,11 @@ export const fetchActivitiesSuccess = createAction(
 export const fetchActivitiesError = createAction(
   `${PREFIX}_FETCH_ACTIVITIES_ERROR`
 );
+
+export const approveWithdraw = createAction(
+  `${PREFIX}_APPROVE_WITHDRAWAL`, (id, cb) => ({id, cb})
+);
+
+export const denyWithdraw = createAction(
+  `${PREFIX}_DENY_WITHDRAWAL`, (id, cb) => ({id, cb})
+);

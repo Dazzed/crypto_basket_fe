@@ -29,8 +29,8 @@ class UserDashboard extends React.Component {
     }
     this.props.fetchAllAssets();
   }
-
   render() {
+    console.log('props', this.props);
     const { match } = this.props;
     return (
       <div className="container-fluid">

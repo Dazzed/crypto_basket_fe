@@ -40,6 +40,7 @@ export default class TransferView extends Component {
       activities,
       isFetchingActivities
     } = this.props.adminDashboard;
+    console.log('propsdfsdf', this.props);
     return (
       <div className="row mt-2 p-4  d-none d-sm-none d-md-none d-lg-block">
         <div className="col-lg-12 col-md-12">
@@ -73,72 +74,83 @@ export default class TransferView extends Component {
               <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 7 }}>
                 <tbody>
                   {
-                    activities.map((activity, index) => (
-                      <tr
-                        key={`desktop_activity_${index}`}
-                        onMouseEnter={this.onHoverRecord.bind(this, activity)}
-                        onMouseLeave={this.onHoverOffRecord}
-                      >
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {firstLetterCaps(activity.txType)}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="w-75 text-left table_data_activity ml-2">
-                            {
-                              activity.txType === 'deposit' || activity.txType === 'refund' ?
-                                <p>{activity.coin}</p> :
-                                <Fragment>
-                                  <span className="d-md-none d-lg-block">
-                                    Bitcoin
-                                    <br />
-                                    <img src={ArrowDown} className="activity-down-img" />
-                                    <br />
-                                  </span>
-                                  <span className="activity_text_one">Litecoin</span>
-                                </Fragment>
-                            }
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {activity.email || activity.user.email}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
-                            {firstLetterCaps(activity.state)}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
-                          </div>
-                        </td>
-                        {
-                          hoveredId === activity.id ?
-                            <td className="vertical_middle">
-                              <span className="deny_btn p-2">Deny</span>
-                              <span className="accept_btn ml-2 p-2">Accept</span>
-                            </td> :
-                            <td>
-                              <div>
-                                <div className="activity_text_two mb-3">
-                                  + {Number(activity.value)} {activity.coin}
+                    activities.map((activity, index) => {
+
+                      const cancel = () => {
+                        this.props.denyWithdraw(activity.id, this.props.refetch);
+                      }
+
+                      const approve = () => {
+                        this.props.approveWithdraw(activity.id, this.props.refetch);
+                      }
+                      return (
+                        <tr
+                          key={`desktop_activity_${index}`}
+                          onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                          onMouseLeave={this.onHoverOffRecord}
+                        >
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {firstLetterCaps(activity.txType)}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="w-75 text-left table_data_activity ml-2">
+                              {
+                                activity.txType === 'deposit' || activity.txType === 'refund' ?
+                                  <p>{activity.coin}</p> :
+                                  <Fragment>
+                                    <span className="d-md-none d-lg-block">
+                                      Bitcoin
+                                      <br />
+                                      <img src={ArrowDown} className="activity-down-img" />
+                                      <br />
+                                    </span>
+                                    <span className="activity_text_one">Litecoin</span>
+                                  </Fragment>
+                              }
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {activity.email || activity.user.email}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                              {firstLetterCaps(activity.state)}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
+                            </div>
+                          </td>
+                          {
+                            hoveredId === activity.id && activity.txType === 'withdraw'?
+                              <td className="vertical_middle">
+                                <span className="deny_btn p-2" onClick={cancel}>Deny</span>
+                                <span className="accept_btn ml-2 p-2" onClick={approve}>Accept</span>
+                              </td> :
+                              <td>
+                                <div>
+                                  <div className="activity_text_two mb-3">
+                                    + {Number(activity.value)} {activity.coin}
+                                  </div>
+                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                                 </div>
-                                ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
-                              </div>
-                            </td>
-                        }
-                      </tr>
-                    ))
+                              </td>
+                          }
+                        </tr>
+                        );
+                    }
+                    )
                   }
                 </tbody>
               </WrapLoading>

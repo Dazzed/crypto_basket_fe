@@ -125,18 +125,13 @@ class Deposits extends Component {
                                 {firstLetterCaps(activity.state)}
                               </div>
                             </td>
-                            {
-                              hoveredId === activity.id ?
-                                <td className="vertical_middle">
-                                  <span className="deny_btn p-2">Cancel</span>
-                                </td> :
-                                <td className="vertical_top courier_type">
-                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
-                                  <div className="activity_text_two mt-3">
-                                    + {Number(activity.value)} {activity.coin}
-                                  </div>
-                                </td>
-                            }
+
+                            <td className="vertical_top courier_type">
+                              ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
+                              <div className="activity_text_two mt-3">
+                                + {Number(activity.value)} {activity.coin}
+                              </div>
+                            </td>
                           </tr>
                         ))
                       }

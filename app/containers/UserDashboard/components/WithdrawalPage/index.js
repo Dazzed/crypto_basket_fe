@@ -29,101 +29,13 @@ export default class BuyPage extends Component {
 
   onFromAssetAmountChange = ({ target: { value: fromAssetAmount } }) => {
     this.setState({
-      fromAssetAmount: (fromAssetAmount < 0 || isNaN(fromAssetAmount)) ? 0 : fromAssetAmount
-    }, this.updateLocalValues.bind(this, 'fromAmount'));
+      fromAssetAmount: fromAssetAmount
+    });
   }
   onToAssetAmountChange = ({ target: { value: toAssetAmount } }) => {
     this.setState({
       toAssetAmount: (toAssetAmount < 0 || isNaN(toAssetAmount)) ? 0 : toAssetAmount
-    }, this.updateLocalValues.bind(this, 'toAmount'));
-  }
-
-  updateLocalValues = direction => {
-    const {
-      fromAssetAmount,
-      toAssetAmount,
-      fromAssetType,
-      toAssetType
-    } = this.state;
-    const {
-      userDashboard: {
-        allAssets
-      }
-    } = this.props;
-    const toAsset = allAssets.find(a => a.ticker === toAssetType) || {};
-    const fromAsset = allAssets.find(a => a.ticker === fromAssetType) || {};
-    if (direction === 'fromAmount') {
-      let newToAssetPrice = (() => {
-        try {
-          const numerator = Number(fromAssetAmount);
-          const denominator = Number(toAsset.exchangeRates[fromAsset.ticker] ? toAsset.exchangeRates[fromAsset.ticker].ask : 0);
-          return numerator / denominator;
-        } catch (e) {
-          return 0;
-        }
-      })();
-      if (fromAsset.ticker === 'eth' && toAsset.ticker === 'btc') {
-        try {
-          newToAssetPrice = Number(
-            Number(fromAssetAmount) * (
-              fromAsset.exchangeRates.btc.ask
-            )
-          );
-        } catch (e) {
-          return 0;
-        }
-      }
-      this.setState({
-        toAssetAmount: isFinite(newToAssetPrice) ? newToAssetPrice || '' : ''
-      });
-    } else {
-      let newFromAssetPrice = (() => {
-        try {
-          return Number(
-            Number(toAssetAmount) * (
-              toAsset.exchangeRates[fromAsset.ticker] ?
-                Number(toAsset.exchangeRates[fromAsset.ticker].bid) : 0
-            )
-          );
-        } catch (e) {
-          return 0;
-        }
-      })();
-      if (fromAsset.ticker === 'eth' && toAsset.ticker === 'btc') {
-        try {
-          const numerator = 1 * Number(toAssetAmount);
-          const denominator = Number(fromAsset.exchangeRates.btc.ask);
-          newFromAssetPrice = numerator / denominator;
-        } catch (e) {
-          console.log(e);
-          return 0;
-        }
-      }
-      this.setState({
-        fromAssetAmount: isFinite(newFromAssetPrice) ? newFromAssetPrice || '' : ''
-      });
-    }
-  }
-
-  fromAssetDropdownToggle = evt => {
-    const { value } = evt.target;
-    const fromAssetType = value || null;
-    let toAssetType;
-    if (fromAssetType && this.state.toAssetType === fromAssetType) {
-      toAssetType = fromAssetType === 'btc' ? 'eth' : 'btc';
-    }
-
-    const cb = this.updateLocalValues.bind(this, 'fromAmount');
-
-    this.setState(prevState => ({
-      fromAssetDropdownOpen: !prevState.fromAssetDropdownOpen,
-      ...(fromAssetType ? { fromAssetType } : {}),
-      ...(toAssetType ? { toAssetType } : {})
-    }), fromAssetType ? cb : null);
-    if (fromAssetType) {
-      this.props.setFromAssetType(fromAssetType);
-      this.props.setToAssetType(toAssetType || this.state.toAssetType);
-    }
+    });
   }
 
   toAssetDropdownToggle = evt => {
@@ -134,13 +46,13 @@ export default class BuyPage extends Component {
       fromAssetType = toAssetType === 'btc' ? 'eth' : 'btc';
     }
 
-    const cb = this.updateLocalValues.bind(this, 'toAmount');
+    // const cb = this.updateLocalValues.bind(this, 'toAmount');
 
     this.setState(prevState => ({
       toAssetDropdownOpen: !prevState.toAssetDropdownOpen,
       ...(fromAssetType ? { fromAssetType } : {}),
       ...(toAssetType ? { toAssetType } : {})
-    }), toAssetType ? cb : null);
+    }), toAssetType ? null : null);
     if (toAssetType) {
       this.props.setFromAssetType(fromAssetType || this.state.fromAssetType);
       this.props.setToAssetType(toAssetType);
@@ -156,20 +68,17 @@ export default class BuyPage extends Component {
       fromAssetType,
       toAssetType
     } = this.props.userDashboard;
-    const { performEstimatingTrade, userDashboard } = this.props;
+    const { confirmWithdrawal, userDashboard } = this.props;
     const { allAssets } = userDashboard;
 
     const fromAssetId = allAssets.find(({ ticker }) => ticker === fromAssetType).id;
     const toAssetId = allAssets.find(({ ticker }) => ticker === toAssetType).id;
-    performEstimatingTrade(
-      fromAssetId,
-      toAssetId,
-      Number(fromAssetAmount),
-      Number(toAssetAmount),
-      'buy',
-      null,
-      this.props.showToastError
-    );
+    console.log('state', this.state);
+    confirmWithdrawal({
+      amount: this.state.toAssetAmount,
+      coin: this.state.toAssetType,
+      address: this.state.fromAssetAmount
+    });
   }
 
   render() {
@@ -237,7 +146,7 @@ export default class BuyPage extends Component {
                     type="text"
                     className="form-control field_inputs"
                     value={fromAssetAmount}
-                    aria-label="Text input with dropdown button"
+                    aria-label={"Text input with dropdown button"}
                     onChange={this.onFromAssetAmountChange}
                     placeholder={"Address..."}
                   />

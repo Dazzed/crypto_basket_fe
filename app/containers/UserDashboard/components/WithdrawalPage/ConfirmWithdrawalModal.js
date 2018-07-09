@@ -6,25 +6,31 @@ import Loading from 'components/Loading';
 
 export default class ConfirmWithdrawalModal extends Component {
   static propTypes = {
-    estimateTradeResult: PropTypes.object.isRequired,
+    withdrawalInfo: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    isInitiatingTrade: PropTypes.bool.isRequired,
+    submitWithdrawal: PropTypes.func.isRequired
   };
+  constructor(){
+    super();
+    this.state = { otp: "" };
+  }
+
+  onChange = evt => {
+    this.setState({otp: evt.target.value});
+  }
+
+  submit = () => {
+    this.props.submitWithdrawal({
+      ...this.state,
+      ...this.props.withdrawalInfo
+    });
+  }
 
   render() {
     const {
       onCancel,
-      onConfirm,
-      estimateTradeResult: {
-        fromAssetAmount,
-        toAssetAmount,
-        fromAsset,
-        toAsset
-      },
-      isInitiatingTrade
+      withdrawalInfo
     } = this.props;
-
     return (
       <Modal isOpen>
         <button onClick={onCancel} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
@@ -33,11 +39,11 @@ export default class ConfirmWithdrawalModal extends Component {
         <div className="row">
           <div className="col-lg-12 pb-4 pl-5">
             <p className="create_GA_popup_text">
-              Please confirm purchase
+              Please confirm withdrawal
             </p>
             <div className="col-12">
-              <p style={{ textAlign: 'left', color: 'black' }}>
-                You are about to
+              <p style={{ textAlign: 'middle', color: 'black' }}>
+                Please make sure the address you enter is valid.
               </p>
             </div>
           </div>
@@ -46,46 +52,62 @@ export default class ConfirmWithdrawalModal extends Component {
           <div className="col-12 pl-5 pr-5">
             <div style={{ borderTop: '1px solid #beccc2' }}>
               <span className="float-left mt-2">
-                <p>Buy</p>
+                <p>Withdraw</p>
               </span>
               <span className="float-right">
-                <p>{toAssetAmount} {toAsset.ticker.toUpperCase()}</p>
+                {withdrawalInfo.amount} {withdrawalInfo.coin.toUpperCase()}
               </span>
             </div>
           </div>
           <div className="col-12 pl-5 pr-5">
             <div style={{ borderTop: '1px solid #beccc2' }}>
               <span className="float-left mt-2">
-                <p>Using</p>
+                <p>Address</p>
               </span>
               <span className="float-right">
-                <p>{fromAssetAmount} {fromAsset.ticker.toUpperCase()}</p>
+                {withdrawalInfo.address}
               </span>
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="col-12 pl-5 pr-5">
+            <span className="float-left mt-2">
+                <p>GoogleAuth Code</p>
+            </span>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12 pl-5 pr-5">
+            <span>
+              <input
+                type="text"
+                className="full-width-input"
+                value={this.state.otp}
+                onChange={this.onChange}
+              />
+            </span>
+          </div>
+        </div>
+
         <div className="row pt-5 pb-4">
           <div className="col-md-6">
             <button
               className="btn-create-register naked-green-btn"
               onClick={onCancel}
-              disabled={isInitiatingTrade}
             >
               Cancel
               </button>
           </div>
-          {
-            isInitiatingTrade ?
-              <Loading rightSideButtonLoading /> :
               <div className="col-md-6">
                 <button
-                  onClick={onConfirm}
+                  onClick={this.submit}
                   className="btn-confirm-purchase"
                   style={{width: '75% !important'}}
                 >
                   Confirm Purchase
               </button>
-              </div>}
+              </div>
         </div>
       </Modal>
     );

@@ -74,6 +74,7 @@ export default (TargetComponent, activityType) => {
           handleChangePage={this.handleChangePage}
           clearDates={this.clearDates}
           activePage={this.state.page}
+          refetch={this.fetchData}
         />
       );
     }

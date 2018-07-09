@@ -157,6 +157,7 @@ export default (TargetComponent, fetchPropName) => {
           onChangeActivityType={this.onChangeActivityType}
           handleDatesChange={this.handleDatesChange}
           clearDates={this.clearDates}
+          refetch={this.fetchData}
         />
       );
     }

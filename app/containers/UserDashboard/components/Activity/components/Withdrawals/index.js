@@ -47,7 +47,6 @@ class Withdrawals extends Component {
     } = this.state;
 
     const isNoDataPresent = isFetchingActivities === false && totalActivitiesCount === 0;
-
     return (
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
@@ -99,46 +98,52 @@ class Withdrawals extends Component {
                   <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
-                        activities.map((activity, i) => (
-                          <tr
-                            key={`activity_desktop_${i}`}
-                            onMouseEnter={this.onHoverRecord.bind(this, activity)}
-                            onMouseLeave={this.onHoverOffRecord}
-                          >
-                            <td>
-                              <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
-                              </div>
-                              <div className="w-75 text-left table_data_activity ml-2">
-                                <span className="activity_text_one">{activity.coin}</span>
-                              </div>
-                            </td>
-                            <td className="vertical_top">
-                              {firstLetterCaps(activity.state)}
-                              <div className="activity_text_two mt-3">
-                                {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
-                              </div>
-                            </td>
-                            <td className="vertical_middle">
-                              <div className="activity_text_two">
-                                {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                        activities.map((activity, i) => {
+
+                          const cancel = () => {
+                            this.props.cancelPendingWithdrawal(activity.id, this.props.refetch);
+                          }
+                          return (
+                            <tr
+                              key={`activity_desktop_${i}`}
+                              onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                              onMouseLeave={this.onHoverOffRecord}
+                            >
+                              <td>
+                                <div className="h-100 text-right table_data_activity">
+                                  <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                </div>
+                                <div className="w-75 text-left table_data_activity ml-2">
+                                  <span className="activity_text_one">{activity.coin}</span>
+                                </div>
+                              </td>
+                              <td className="vertical_top">
                                 {firstLetterCaps(activity.state)}
-                              </div>
-                            </td>
-                            {
-                              hoveredId === activity.id ?
-                                <td className="vertical_middle">
-                                  <span className="deny_btn p-2">Cancel</span>
-                                </td> :
-                                <td className="vertical_top courier_type">
-                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
-                                  <div className="activity_text_two mt-3">
-                                    - {Number(activity.value)} {activity.coin}
-                                  </div>
-                                </td>
-                            }
-                          </tr>
-                        ))
+                                <div className="activity_text_two mt-3">
+                                  {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                                </div>
+                              </td>
+                              <td className="vertical_middle">
+                                <div className="activity_text_two">
+                                  {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                                  {firstLetterCaps(activity.state)}
+                                </div>
+                              </td>
+                              {
+                                hoveredId === activity.id ?
+                                  <td className="vertical_middle">
+                                    <span className="deny_btn p-2" onClick={cancel} >Cancel</span>
+                                  </td> :
+                                  <td className="vertical_top courier_type">
+                                    ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
+                                    <div className="activity_text_two mt-3">
+                                      - {Number(activity.value)} {activity.coin}
+                                    </div>
+                                  </td>
+                              }
+                            </tr>
+                          );
+                        })
                       }
                     </tbody>
                   </WrapLoading>

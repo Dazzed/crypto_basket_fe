@@ -6,6 +6,7 @@ import { changePasswordReducer } from './changePasswordReducer';
 import { buyReducer } from './buy';
 import { sellReducer } from './sell';
 import { activitiesReducer } from './activity';
+import { withdrawReducer } from './withdraw';
 
 const initialState = {
   enablingTFALogin: false,
@@ -65,7 +66,12 @@ const initialState = {
   toAssetType: 'btc',
   // Sell properties
   saleFromAssetType: 'eth',
-  saleToAssetType: 'btc'
+  saleToAssetType: 'btc',
+  // withdrawal properties
+  isConfirmWithdrawalModalOpen: false,
+  withdrawalUnsuccessfulModalOpen: false,
+  withdrawalSuccessModalOpen: false,
+  withdrawalInfo: {}
 };
 
 const reducer = {
@@ -74,7 +80,8 @@ const reducer = {
   ...changePasswordReducer,
   ...buyReducer,
   ...sellReducer,
-  ...activitiesReducer
+  ...activitiesReducer,
+  ...withdrawReducer
 };
 
 export default createReducer(reducer, initialState);

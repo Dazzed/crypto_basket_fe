@@ -78,6 +78,12 @@ import {
   changeVerificationStatus
 } from '../App/actions';
 
+import {
+  submitWithdrawal,
+  submitWithdrawalSuccess,
+  cancelPendingWithdrawal
+} from './actions/withdrawActions';
+
 export default function* main() {
   yield fork(tfaLoginEnableWatcherInitial);
   yield fork(tfaLoginEnableWatcherFinal);
@@ -103,6 +109,8 @@ export default function* main() {
 
   yield fork(uploadIdentityWatcher);
   yield fork(uploadProofWatcher);
+  yield fork(submitWithdrawalWatcher);
+  yield fork(cancelWithdrawalWatcher);
 }
 
 function constructErrorMessage(type, minMax, ticker) {
@@ -112,6 +120,43 @@ function constructErrorMessage(type, minMax, ticker) {
   }
   return `We\'re sorry, but this ${type} amount violates ${minMax} trade amount for ` +
     `${ticker}. Please try again with a different amount`;
+}
+
+function* cancelWithdrawalWatcher(){
+  yield takeLatest(cancelPendingWithdrawal, function* handler({ payload: { id, cb }}){
+    try {
+      const requestURL = `/api/transfers/cancelWithdrawal/${id}`;
+
+      const params = {
+        method: 'POST'
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      cb();
+      // yield put(submitWithdrawalSuccess());
+    } catch (error) {
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
+
+function* submitWithdrawalWatcher(){
+  yield takeLatest(submitWithdrawal, function* handler({ payload: data }){
+    try {
+      const requestURL = `/api/transfers/initiateWithdrawal/`;
+
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({
+          ...data,
+          coin: data.coin.toUpperCase()
+        })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(submitWithdrawalSuccess());
+    } catch (error) {
+      // yield put(loginTFAEnableError(error));
+    }
+  });
 }
 
 function* tfaLoginEnableWatcherInitial() {
