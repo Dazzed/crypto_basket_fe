@@ -141,12 +141,12 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticToAsset.minPurchaseAmount} {toAssetType.toUpperCase()}
+                      0 ETH
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticToAsset.maxPurchaseAmount} {toAssetType.toUpperCase()}
+                      0 BTC
                     </span>
                   </div>
                 </div>

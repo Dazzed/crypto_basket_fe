@@ -1095,6 +1095,13 @@ input:checked+.slider:before {
     opacity: 0.3;
     filter: alpha(opacity=30);
 }
+.full-width-input{
+    width: 100%;
+    border: 1px solid #76837b2e;
+    height: 50px;
+    padding: 10px;
+    border-radius: 3px;
+}
 
 @media (max-width: 768px) {
     .col_act_6 {

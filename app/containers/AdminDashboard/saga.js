@@ -53,7 +53,9 @@ import {
 import {
   fetchActivities,
   fetchActivitiesSuccess,
-  fetchActivitiesError
+  fetchActivitiesError,
+  approveWithdraw,
+  denyWithdraw
 } from './actions/activity';
 
 export default function* main() {
@@ -82,10 +84,44 @@ export default function* main() {
       null
     )
   );
+  yield fork(cancelWithdrawalWatcher);
+  yield fork(approveWithdrawalWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
+
+
+function* cancelWithdrawalWatcher(){
+  yield takeLatest(denyWithdraw, function* handler({ payload: { id, cb } }){
+    try {
+      const requestURL = `/api/transfers/cancelWithdrawal/${id}`;
+      const params = {
+        method: 'POST'
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      cb()
+    } catch (error) {
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
+
+function* approveWithdrawalWatcher(){
+  yield takeLatest(approveWithdraw, function* handler({ payload: { id, cb } }){
+    try {
+      const requestURL = `/api/transfers/completeWithdrawal/${id}`;
+
+      const params = {
+        method: 'POST'
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      cb();
+    } catch (error) {
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
 
 function* transferToUserWatcher() {
   yield takeLatest(transferToUser, function* handler({ payload: { id, asset, amount, otp } }) {

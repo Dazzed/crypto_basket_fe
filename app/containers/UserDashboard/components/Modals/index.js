@@ -123,12 +123,12 @@ export default class Modals extends Component {
         saleEstimateTradeResult,
         saleIsTradeSuccessModalOpen,
         saleIsInitiatingTrade,
-        withdrawalEstimateTradeResult,
-        withdrawalIsTradeSuccessModalOpen,
-        withdrawalIsInitiatingTrade,
+        withdrawalSuccessModalOpen,
+        withdrawalInitiating,
         withdrawalUnsuccessfulModalOpen,
         isConfirmWithdrawalModalOpen,
-        depositingCurrency
+        depositingCurrency,
+        withdrawalInfo
       },
       cancelOperation,
       openOTPModal,
@@ -147,14 +147,15 @@ export default class Modals extends Component {
       saleCloseTradeSuccessModal,
       // withdrawal actions
       hideWithdrawalUnsuccessfulModal,
-      hideConfirmWithdrawalModal,
-      withdrawalPerformInitiatingTrade,
-      withdrawalCloseTradeSuccessModal,
+      cancelWithdrawal,
+      submitWithdrawal,
+      withdrawalInitiate,
+      withdrawalCloseSuccessModal,
       // deposit actions
       openDepositModal,
       closeDepositModal
     } = this.props;
-
+    console.log('withdral info', withdrawalInfo, this.props.userDashboard);
     if (isOTPModalOpen) {
       const didUserOptInTFAAlready = twoFactorLoginEnabled || twoFactorWithdrawalEnabled;
       let onCancel;
@@ -304,15 +305,14 @@ export default class Modals extends Component {
     if (isConfirmWithdrawalModalOpen) {
       return (
         <ConfirmWithdrawalModal
-          withdrawalEstimateTradeResult={withdrawalEstimateTradeResult}
-          onCancel={hideConfirmWithdrawalModal}
-          onConfirm={withdrawalPerformInitiatingTrade}
-          withdrawalIsInitiatingTrade={withdrawalIsInitiatingTrade}
+          onCancel={cancelWithdrawal}
+          withdrawalInfo={withdrawalInfo}
+          submitWithdrawal={submitWithdrawal}
         />
       );
     }
 
-    if (withdrawalIsTradeSuccessModalOpen) {
+    if (withdrawalSuccessModalOpen) {
       return (
         <WithdrawalSuccessfulModal
           withdrawalCloseTradeSuccessModal={withdrawalCloseTradeSuccessModal}
