@@ -32,7 +32,9 @@ export const patchUserError = createAction(
 
 export const performUploadingIdentity = createAction(
   `${PREFIX}_PERFORM_UPLOADING_IDENTITY`,
-  file => file
+  (file, toastSuccessCallBack, toastErrorCallBack) => ({
+    file, toastSuccessCallBack, toastErrorCallBack
+  })
 );
 
 export const uploadIdentitySuccess = createAction(
@@ -46,7 +48,9 @@ export const uploadIdentityError = createAction(
 
 export const performUploadingProof = createAction(
   `${PREFIX}_PERFORM_UPLOADING_PROOF`,
-  file => file
+  (file, toastSuccessCallBack, toastErrorCallBack) => ({
+    file, toastSuccessCallBack, toastErrorCallBack
+  })
 );
 
 export const uploadProofSuccess = createAction(

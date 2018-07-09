@@ -31,7 +31,9 @@ class Settings extends Component {
           state,
           dob
         }
-      }
+      },
+      showToastSuccess,
+      showToastError
     } = this.props;
     const originalFieldsData = {
       country,
@@ -48,16 +50,16 @@ class Settings extends Component {
       this.props.performPatchingUser(
         this.props.globalData.currentUser,
         diffInFieldValues,
-        this.props.showToastSuccess,
-        this.props.showToastError
+        showToastSuccess,
+        showToastError
       );
     }
     // 2. Construct file fields
     if (values.identityDocument) {
-      this.props.performUploadingIdentity(values.identityDocument);
+      this.props.performUploadingIdentity(values.identityDocument, showToastSuccess, showToastError);
     }
     if (values.proofDocument) {
-      this.props.performUploadingProof(values.proofDocument);
+      this.props.performUploadingProof(values.proofDocument, showToastSuccess, showToastError);
     }
   }
 

@@ -311,7 +311,12 @@ function* patchUserWatcher() {
       const result = yield call(request, { name: requestURL }, params);
       yield put(patchUserSuccess(result));
       // yield put(destroy('user_verification'));
-      payload.toastSuccessCallBack('Your information is updated successfully!');
+      const {
+        userDashboard
+      } = yield select();
+      if (!userDashboard.isUploadingIdentity && !userDashboard.isUploadingProof) {
+        payload.toastSuccessCallBack('Your information is updated successfully!');
+      }
     } catch (error) {
       yield put(patchUserError());
       // yield put(stopSubmit('change_password', { oldPassword: 'Invalid Old Password' }));
@@ -679,11 +684,17 @@ function* uploadIdentityWatcher() {
         data,
         shouldChangeVerificationStatusToPending,
         newVerificationStatus
-      } = yield call(multipartRequest, { name: requestURL }, payload);
+      } = yield call(multipartRequest, { name: requestURL }, payload.file);
       if (shouldChangeVerificationStatusToPending) {
         yield put(changeVerificationStatus(newVerificationStatus));
       }
       yield put(uploadIdentitySuccess(data));
+      const {
+        userDashboard
+      } = yield select();
+      if (!userDashboard.isUploadingProof) {
+        payload.toastSuccessCallBack('Your information is updated successfully!');
+      }
     } catch (error) {
       yield put(uploadIdentityError());
     }
@@ -698,11 +709,17 @@ function* uploadProofWatcher() {
         data,
         shouldChangeVerificationStatusToPending,
         newVerificationStatus
-      } = yield call(multipartRequest, { name: requestURL }, payload);
+      } = yield call(multipartRequest, { name: requestURL }, payload.file);
       if (shouldChangeVerificationStatusToPending) {
         yield put(changeVerificationStatus(newVerificationStatus));
       }
       yield put(uploadProofSuccess(data));
+      const {
+        userDashboard
+      } = yield select();
+      if (!userDashboard.isUploadingIdentity) {
+        payload.toastSuccessCallBack('Your information is updated successfully!');
+      }
     } catch (error) {
       yield put(uploadProofError());
     }
