@@ -88,7 +88,7 @@ export default class TransferView extends Component {
                         </td>
                         <td className="vertical_middle">
                           <div className="activity_text_two">
-                            {activity.user.email}
+                            {activity.email ? activity.email : activity.user ? activity.user.email : 'N/A'}
                           </div>
                         </td>
                         <td className="vertical_middle">
@@ -181,7 +181,7 @@ export default class TransferView extends Component {
                         </td>
                         <td className="vertical_middle">
                           <div className="activity_text_two">
-                            {activity.user.email}
+                            {activity.email ? activity.email : activity.user ? activity.user.email : 'N/A'}
                           </div>
                         </td>
                         <td className="vertical_top">
@@ -243,7 +243,7 @@ export default class TransferView extends Component {
                       <tr key={`mobile_activity_${index}`}>
                         <td className="vertical_top">
                           <div className="activity_text_two">
-                            {activity.user.email}
+                            {activity.email ? activity.email : activity.user ? activity.user.email : 'N/A'}
                           </div>
                           <div className="mt-1">
                             <small className="small_activity_space">

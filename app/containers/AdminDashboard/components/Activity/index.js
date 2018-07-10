@@ -85,19 +85,17 @@ class Activity extends Component {
         <div className="row mt-3  bg_white purchase_content">
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
-              {
-                !isNoDataPresent && <div className="col-lg-3 col-md-3 col-3">
-                  <input
-                    type="text"
-                    name="filter_text"
-                    id="filter_text"
-                    className="field_input_activity col-lg-8"
-                    placeholder="Filter by user..."
-                    value={searchTerm}
-                    onChange={onSearch}
-                  />
-                </div>
-              }
+              <div className="col-lg-3 col-md-3 col-3">
+                <input
+                  type="text"
+                  name="filter_text"
+                  id="filter_text"
+                  className="field_input_activity col-lg-8"
+                  placeholder="Filter by user..."
+                  value={searchTerm}
+                  onChange={onSearch}
+                />
+              </div>
               <div className="col-lg-9 col-md-9 col-9">
                 <div className="row">
                   <div className="col-lg-2 col-md-2 col-2 col_act_6">
