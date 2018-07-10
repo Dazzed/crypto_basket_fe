@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-
+import { Link } from 'react-router-dom'
 import Stats from './Stats';
 
 export default class BuyPage extends Component {
@@ -16,7 +16,7 @@ export default class BuyPage extends Component {
 
   state = {
     fromAssetAmount: null,
-    toAssetAmount: null,
+    toAssetAmount: 'btc',
     fromAssetType: this.props.userDashboard.fromAssetType,
     toAssetType: this.props.userDashboard.toAssetType,
     fromAssetDropdownOpen: false,
@@ -97,6 +97,35 @@ export default class BuyPage extends Component {
       fromAssetType,
       toAssetType
     } = this.props.userDashboard;
+
+    if(!globalData.currentUser.twoFactorWithdrawalEnabled){
+      return (
+      <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
+        <h2 className="p-4">Withdraw</h2>
+        <div className="row mt-3 h-100 bg_white">
+          <div className="col-md-12">
+            <div className="row mt-5 pl-4 pr-4">
+              <div className="col-md-12 mt-3 withdraw-heading">
+                In order to withdraw, you must first set up GoogleAuth
+              </div>
+              <div className="col-md-6 offset-md-3 withdraw-subheading">
+                Currently, you may only withdraw Bitcoin and Ethereum. All withdrawals will be pending admin approval.
+              </div>
+              <div className="col-md-6 offset-md-3 pt-20">
+                <Link to="/dashboard/settings/my_information">
+                  <button
+                    type="button"
+                    className="btn-create-register w-50">
+                  Go to set this up
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    }
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <h2 className="p-4">Withdraw</h2>

@@ -1103,6 +1103,25 @@ input:checked+.slider:before {
     border-radius: 3px;
 }
 
+.withdraw-heading{
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 18px;
+    color: #76837B;
+    letter-spacing: 0;
+}
+
+.withdraw-subheading{
+    font-family: Lato;
+    font-weight: normal;
+    font-size: 14px;
+    color: #3A3A3A;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 22px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 @media (max-width: 768px) {
     .col_act_6 {
         margin-top: 10px;
