@@ -113,7 +113,7 @@ export default class TransferView extends Component {
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {activity.email || activity.user.email}
+                              {activity.email || activity.user ? activity.user.email : 'N/A'}
                             </div>
                           </td>
                           <td className="vertical_middle">
