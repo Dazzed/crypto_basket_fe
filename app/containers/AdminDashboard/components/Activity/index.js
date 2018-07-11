@@ -31,6 +31,11 @@ class Activity extends Component {
     onSearch: PropTypes.func.isRequired,
     startDate: PropTypes.object,
     endDate: PropTypes.object,
+    onChangeStatus: PropTypes.func.isRequired,
+    state: PropTypes.oneOf([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired
   }
 
   constructor(props) {
@@ -74,7 +79,8 @@ class Activity extends Component {
         isFetchingActivities
       },
       searchTerm,
-      onSearch
+      onSearch,
+      onChangeStatus
     } = this.props;
 
     const isNoDataPresent = isFetchingActivities === false && totalActivitiesCount === 0;
@@ -113,8 +119,17 @@ class Activity extends Component {
                     </select>
                   </div>
                   <div className="col-lg-2 col-md-2 col-2 col_act_6_2">
-                    <select type="text" className="field_input_activity">
-                      <option value={0}>Status: All</option>
+                    <select
+                      type="text"
+                      className="field_input_activity"
+                      value={this.props.state}
+                      onChange={onChangeStatus}
+                    >
+                      <option value={'all'}>Status: All</option>
+                      <option value={'pending'}>Status: Pending</option>
+                      <option value={'initiated'}>Status: In Process</option>
+                      <option value={'complete'}>Status: Completed</option>
+                      <option value={'canceled'}>Status: Cancelled</option>
                     </select>
                   </div>
                   <div className="col-lg-8 col-md-8 col-8 col_act_6_3">

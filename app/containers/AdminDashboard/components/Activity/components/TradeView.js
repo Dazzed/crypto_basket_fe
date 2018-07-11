@@ -89,12 +89,12 @@ export default class TradeView extends Component {
                           onMouseLeave={this.onHoverOffRecord}
                         >
                           <td className="vertical_middle">
-                            <div className="activity_text_two">
+                            <div className="activity_text_one">
                               {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
                             </div>
                           </td>
                           <td>
-                            <div className="w-75 text-left table_data_activity ml-2">
+                            <div className="w-75 text-left table_data_activity">
                               <p>{activity.isBuy ? activity.toAsset.name : activity.fromAsset.name}</p>
                             </div>
                           </td>
@@ -185,7 +185,7 @@ export default class TradeView extends Component {
                     activities.map((activity, index) => (
                       <tr key={`tablet_activity_${index}`}>
                         <td className="vertical_middle">
-                          <div className="activity_text_two">
+                          <div className="activity_text_one">
                             {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
                           </div>
                         </td>

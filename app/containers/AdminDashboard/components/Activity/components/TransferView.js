@@ -90,12 +90,12 @@ export default class TransferView extends Component {
                           onMouseLeave={this.onHoverOffRecord}
                         >
                           <td className="vertical_middle">
-                            <div className="activity_text_two">
+                            <div className="activity_text_one">
                               {firstLetterCaps(activity.txType)}
                             </div>
                           </td>
                           <td>
-                            <div className="w-75 text-left table_data_activity ml-2">
+                            <div className="w-75 text-left table_data_activity">
                               {
                                 activity.txType === 'deposit' || activity.txType === 'refund' ?
                                   <p>{activity.coin}</p> :
@@ -196,7 +196,7 @@ export default class TransferView extends Component {
                     activities.map((activity, index) => (
                       <tr key={`tablet_activity_${index}`}>
                         <td className="vertical_middle">
-                          <div className="activity_text_two">
+                          <div className="activity_text_one">
                             {firstLetterCaps(activity.txType)}
                           </div>
                         </td>

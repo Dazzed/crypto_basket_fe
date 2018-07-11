@@ -17,7 +17,8 @@ export default (TargetComponent, fetchPropName) => {
       activityType: this.props.defaultActivityType || 'deposit',
       startDate: null,
       endDate: null,
-      isChangingActivityType: false
+      isChangingActivityType: false,
+      state: 'all' // status of the transaction (Pending, In Process, Completed, and Cancelled)
     };
 
     componentDidMount() {
@@ -78,7 +79,8 @@ export default (TargetComponent, fetchPropName) => {
         })(),
         // *isBuy* column is boolean in trade table and *txType* is string in transfer table
         ...(isTradeModel ? { isBuy: activityType === 'purchase' } : { txType: activityType }),
-        ...(this.props.targetUserId ? { userId: Number(this.props.targetUserId) } : {})
+        ...(this.props.targetUserId ? { userId: Number(this.props.targetUserId) } : {}),
+        ...(this.state.state !== 'all' ? { state: this.state.state } : {})
       };
       const URL_TO_FETCH = isTradeModel ? '/api/trades' : '/api/transfers';
       this.props[fetchPropName]({
@@ -125,7 +127,6 @@ export default (TargetComponent, fetchPropName) => {
       }
       // reset state on Search
       return this.setState({
-        rowsPerPage: 10,
         page: 1,
         searchTerm
       }, this.fetchData);
@@ -135,6 +136,13 @@ export default (TargetComponent, fetchPropName) => {
       this.setState({
         activityType: evt.target.value,
         isChangingActivityType: true
+      }, this.fetchData);
+    }
+
+    onChangeStatus = evt => {
+      this.setState({
+        page: 1,
+        state: evt.target.value
       }, this.fetchData);
     }
 
@@ -149,6 +157,7 @@ export default (TargetComponent, fetchPropName) => {
           handleDatesChange={this.handleDatesChange}
           clearDates={this.clearDates}
           refetch={this.fetchData}
+          onChangeStatus={this.onChangeStatus}
         />
       );
     }
