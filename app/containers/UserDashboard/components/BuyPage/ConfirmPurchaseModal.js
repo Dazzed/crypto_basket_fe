@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'reactstrap';
-
+import _ from 'lodash';
 import Loading from 'components/Loading';
 
 export default class ConfirmPurchaseModal extends Component {
@@ -49,7 +49,7 @@ export default class ConfirmPurchaseModal extends Component {
                 <p>Buy</p>
               </span>
               <span className="float-right">
-                <p>{toAssetAmount} {toAsset.ticker.toUpperCase()}</p>
+                <p>{_.round(parseFloat(toAssetAmount), 4)} {toAsset.ticker.toUpperCase()}</p>
               </span>
             </div>
           </div>
@@ -59,7 +59,7 @@ export default class ConfirmPurchaseModal extends Component {
                 <p>Using</p>
               </span>
               <span className="float-right">
-                <p>{fromAssetAmount} {fromAsset.ticker.toUpperCase()}</p>
+                <p>{_.round(parseFloat(fromAssetAmount), 4)} {fromAsset.ticker.toUpperCase()}</p>
               </span>
             </div>
           </div>
