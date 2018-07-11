@@ -87,7 +87,7 @@ export default class Asset extends Component {
   }
 
   changeQuantity = () => {
-    this.setState({modalField: "quantity", modalOpen: true});
+    this.setState({modalField: "indivisibleQuantity", modalOpen: true});
   }
 
   closeModal = () => {
@@ -150,7 +150,7 @@ export default class Asset extends Component {
               Total Asset Quantity
               </Col>
               <Col sm={{ size: 8, order: 2, offset: 0 }} className="right">
-                {asset.quantity}
+                {asset.indivisibleQuantity}
               </Col>
               <Col sm={{ size: 1, order: 3, offset: 0 }}> 
                 <Button onClick={this.changeQuantity}>Change</Button>
