@@ -152,7 +152,7 @@ function* submitWithdrawalWatcher(){
         })
       };
       const result = yield call(request, { name: requestURL }, params);
-      yield put(submitWithdrawalSuccess());
+      yield put(submitWithdrawalSuccess(result));
     } catch (error) {
       // yield put(loginTFAEnableError(error));
     }

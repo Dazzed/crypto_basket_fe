@@ -21,3 +21,20 @@ export const approveWithdraw = createAction(
 export const denyWithdraw = createAction(
   `${PREFIX}_DENY_WITHDRAWAL`, (id, cb) => ({id, cb})
 );
+
+export const denyTrade = createAction(
+  `${PREFIX}_DENY_TRADE`, (id, cb) => ({id, cb})
+);
+
+export const confirmTrade = createAction(
+  `${PREFIX}_CONFIRM_TRADE`, (id, cb) => ({id, cb})
+);
+
+export const completeTrade = createAction(
+  `${PREFIX}_COMPLETE_TRADE`, (id, cb) => ({id, cb})
+);
+
+export const replaceActivity = createAction(
+  `${PREFIX}_REPLACE_ACTIVITY`, data => data
+);
+

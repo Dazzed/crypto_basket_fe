@@ -1013,6 +1013,7 @@ input:checked+.slider:before {
     color: #ffffff;
     /*width:100px; */
     padding: 2px 5px;
+    margin-left: 10px;
 }
 
 .small_activity_space {

@@ -55,7 +55,11 @@ import {
   fetchActivitiesSuccess,
   fetchActivitiesError,
   approveWithdraw,
-  denyWithdraw
+  denyWithdraw,
+  denyTrade,
+  confirmTrade,
+  completeTrade,
+  replaceActivity
 } from './actions/activity';
 
 export default function* main() {
@@ -86,11 +90,68 @@ export default function* main() {
   );
   yield fork(cancelWithdrawalWatcher);
   yield fork(approveWithdrawalWatcher);
+  yield fork(completeTradeWatcher);
+  yield fork(confirmTradeWatcher);
+  yield fork(cancelTradeWatcher);
 }
 
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
 
+function* completeTradeWatcher(){
+  yield takeLatest(completeTrade, function* handler({ payload: { id, cb } }){
+    try {
+      const requestURL = `/api/trades/completeTrade/`;
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ id: id })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      console.log('result', result);
+      yield put(replaceActivity(result));
+    } catch (error) {
+      console.log('error', error);
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
+
+function* confirmTradeWatcher(){
+  yield takeLatest(confirmTrade, function* handler({ payload: { id, cb } }){
+    try {
+      const requestURL = `/api/trades/confirmTrade/`;
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ id: id })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      console.log('result', result);
+      yield put(replaceActivity(result));
+    } catch (error) {
+      console.log('error', error);
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
+
+function* cancelTradeWatcher(){
+  yield takeLatest(denyTrade, function* handler({ payload: { id, cb } }){
+    try {
+      const requestURL = `/api/trades/cancelTrade/`;
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ id: id })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      console.log('result', result);
+      yield put(replaceActivity(result));
+      // put(replaceActivity(result));
+    } catch (error) {
+      console.log('error', error);
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
 
 function* cancelWithdrawalWatcher(){
   yield takeLatest(denyWithdraw, function* handler({ payload: { id, cb } }){
@@ -100,7 +161,7 @@ function* cancelWithdrawalWatcher(){
         method: 'POST'
       };
       const result = yield call(request, { name: requestURL }, params);
-      cb()
+      yield put(replaceActivity(result));
     } catch (error) {
       // yield put(loginTFAEnableError(error));
     }
@@ -116,7 +177,7 @@ function* approveWithdrawalWatcher(){
         method: 'POST'
       };
       const result = yield call(request, { name: requestURL }, params);
-      cb();
+      yield put(replaceActivity(result));
     } catch (error) {
       // yield put(loginTFAEnableError(error));
     }

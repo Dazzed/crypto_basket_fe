@@ -63,6 +63,8 @@ export default class TransferView extends Component {
                     Completed
                   </th>
                   <th>
+                  </th>
+                  <th>
                     Value in USD<i className="fa fa-caret-down ml-2" />
                   </th>
                 </tr>
@@ -70,61 +72,74 @@ export default class TransferView extends Component {
               <WrapLoading loading={isFetchingActivities} loadingProps={{ insideTable: true, colSpan: 7 }}>
                 <tbody>
                   {
-                    activities.map((activity, index) => (
-                      <tr
-                        key={`desktop_activity_${index}`}
-                        onMouseEnter={this.onHoverRecord.bind(this, activity)}
-                        onMouseLeave={this.onHoverOffRecord}
-                      >
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="w-75 text-left table_data_activity ml-2">
-                            <p>{activity.isBuy ? activity.toAsset.name : activity.fromAsset.name}</p>
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {activity.email ? activity.email : activity.user ? activity.user.email : 'N/A'}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
-                            {firstLetterCaps(activity.state)}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <div className="activity_text_two">
-                            {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
-                          </div>
-                        </td>
-                        <td className="vertical_middle">
-                          <span className="deny_btn p-2">Deny</span>
-                          <span className="accept_btn ml-2 p-2">Accept</span>
-                        </td>
-                        <td>
-                          <div>
-                            <div className="activity_text_two mb-3">
-                              {activity.isBuy ?
-                                `+ ${activity.toAssetAmount} ${activity.toAsset.ticker.toUpperCase()}` :
-                                `- ${Number(activity.fromAssetAmount)} ${activity.fromAsset.ticker.toUpperCase()}`
-                              }
+                    activities.map((activity, index) => {
+                      const cancel = () => {
+                        this.props.denyTrade(activity.id, this.props.refetch);
+                      }
+                      const confirm = () => {
+                        this.props.confirmTrade(activity.id, this.props.refetch);
+                      }
+                      const complete = () => {
+                        this.props.completeTrade(activity.id, this.props.refetch);
+                      }
+                      return (
+                        <tr
+                          key={`desktop_activity_${index}`}
+                          onMouseEnter={this.onHoverRecord.bind(this, activity)}
+                          onMouseLeave={this.onHoverOffRecord}
+                        >
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
                             </div>
-                            {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                            $12,345.12 USD
-                          </div>
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td>
+                            <div className="w-75 text-left table_data_activity ml-2">
+                              <p>{activity.isBuy ? activity.toAsset.name : activity.fromAsset.name}</p>
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {activity.email ? activity.email : activity.user ? activity.user.email : 'N/A'}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
+                              {firstLetterCaps(activity.state)}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            <div className="activity_text_two">
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
+                            </div>
+                          </td>
+                          <td className="vertical_middle">
+                            {activity.state === 'pending' ? (<span className="deny_btn p-2" onClick={cancel}>Deny</span>) : null}
+                            {activity.state === 'pending' ? (<span className="accept_btn p-2" onClick={confirm}>Confirm</span>) : null}
+                            {activity.state === 'confirmed' ? (<span className="accept_btn p-2" onClick={complete}>Complete</span>) : null}
+                          </td>
+                          <td>
+                            <div>
+                              <div className="activity_text_two mb-3">
+                                {activity.isBuy ?
+                                  `+ ${activity.toAssetAmount} ${activity.toAsset.ticker.toUpperCase()}` :
+                                  `- ${Number(activity.fromAssetAmount)} ${activity.fromAsset.ticker.toUpperCase()}`
+                                }
+                              </div>
+                              {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
+                              $12,345.12 USD
+                            </div>
+                          </td>
+                        </tr>
+                    );
+                    }
+                  )
                   }
                 </tbody>
               </WrapLoading>

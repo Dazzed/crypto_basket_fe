@@ -1,9 +1,10 @@
 import {
   fetchActivities,
   fetchActivitiesSuccess,
-  fetchActivitiesError
+  fetchActivitiesError,
+  replaceActivity
 } from '../actions/activity';
-
+import _ from 'lodash';
 const spreadState = (state, obj) => ({
   ...state,
   ...(typeof obj === 'function' ? obj() : obj)
@@ -24,5 +25,14 @@ export const activitiesReducer = {
   [fetchActivitiesError]: state => spreadState(state, {
     errorFetchingActivities: true,
     isFetchingActivities: false,
-  })
+  }),
+  [replaceActivity]: (state, data) => {
+    console.log('oldActivities', state.activities);
+    const newActivities = _.unionBy([data], state.activities, 'id');
+    console.log('newActivities', newActivities);
+    return {
+      ...state,
+      activities: newActivities
+    };
+  }
 };
