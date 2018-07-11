@@ -118,7 +118,7 @@ class Refunds extends Component {
                             <td className="vertical_top">
                               {firstLetterCaps(activity.state)}
                               <div className="activity_text_two mt-3">
-                                {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                                {moment(activity.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
                             <td className="vertical_middle">

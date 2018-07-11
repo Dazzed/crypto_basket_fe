@@ -39,7 +39,7 @@ class AdminDashboard extends React.Component {
             <Route
               path={`${match.url}/activity`}
               render={
-                props => <Activity {...this.props} {...props} defaultOrderByProp="id" />
+                props => <Activity {...this.props} {...props} />
               }
             />
           </Switch>

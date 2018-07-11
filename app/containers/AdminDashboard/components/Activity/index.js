@@ -117,33 +117,30 @@ class Activity extends Component {
                       <option value={0}>Status: All</option>
                     </select>
                   </div>
-                  {
-                    !isNoDataPresent &&
-                    <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
-                      <div className="input-group">
-                        <span>
-                          <DateRangePicker
-                            startDateId="fromDateforAdmin"
-                            startDate={this.props.startDate}
-                            endDateId="toDateforAdmin"
-                            endDate={this.props.endDate}
-                            onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
-                            focusedInput={this.state.focusedInput}
-                            onFocusChange={focusedInput => this.setState({ focusedInput })}
-                            showDefaultInputIcon
-                            inputIconPosition="after"
-                            hideKeyboardShortcutsPanel
-                            displayFormat="YYYY-MM-DD"
-                            daySize={35}
-                            isOutsideRange={() => false}
-                          />
-                        </span>
-                        <span className="clear-date-container">
-                          <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
-                        </span>
-                      </div>
+                  <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
+                    <div className="input-group">
+                      <span>
+                        <DateRangePicker
+                          startDateId="fromDateforAdmin"
+                          startDate={this.props.startDate}
+                          endDateId="toDateforAdmin"
+                          endDate={this.props.endDate}
+                          onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
+                          focusedInput={this.state.focusedInput}
+                          onFocusChange={focusedInput => this.setState({ focusedInput })}
+                          showDefaultInputIcon
+                          inputIconPosition="after"
+                          hideKeyboardShortcutsPanel
+                          displayFormat="YYYY-MM-DD"
+                          daySize={35}
+                          isOutsideRange={() => false}
+                        />
+                      </span>
+                      <span className="clear-date-container">
+                        <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
+                      </span>
                     </div>
-                  }
+                  </div>
                 </div>
               </div>
             </div>

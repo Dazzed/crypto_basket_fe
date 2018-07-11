@@ -7,7 +7,7 @@ import WrapLoading from 'components/WrapLoading';
 
 import { firstLetterCaps } from 'utils';
 
-export default class TransferView extends Component {
+export default class TradeView extends Component {
   static propTypes = {
     adminDashboard: PropTypes.object.isRequired,
     isChangingActivityType: PropTypes.bool.isRequired,
@@ -111,12 +111,12 @@ export default class TransferView extends Component {
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                              {moment(activity.createdAt).format('MMM DD, YYYY')}
                             </div>
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : 'N/A'}
                             </div>
                           </td>
                           <td className="vertical_middle">
@@ -204,7 +204,7 @@ export default class TransferView extends Component {
                             {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
                             {firstLetterCaps(activity.state)}
                           </div>
-                          <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}</div>
+                          <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : moment(activity.createdAt).format('MMM DD, YYYY')}</div>
                         </td>
                         <td className="vertical_top courier_type text-right">
                           <div>
@@ -262,7 +262,7 @@ export default class TransferView extends Component {
                           </div>
                           <div className="mt-1">
                             <small className="small_activity_space">
-                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}&nbsp;
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : moment(activity.createdAt).format('MMM DD, YYYY')}&nbsp;
                               {firstLetterCaps(activity.isBuy ? 'purchase' : 'sale')}
                             </small>
                           </div>

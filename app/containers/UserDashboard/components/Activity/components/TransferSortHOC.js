@@ -51,7 +51,7 @@ export default (TargetComponent, activityType) => {
       this.props.fetchActivities({
         limit: this.state.limit,
         offset: this.state.limit * (this.state.page - 1),
-        order: 'createdAt DESC',
+        // order: 'createdAt DESC',
         where: {
           txType: activityType,
           userId: this.props.globalData.currentUser.id
@@ -62,7 +62,7 @@ export default (TargetComponent, activityType) => {
             end_range
           }
         } : {})
-      }, '/api/transfers');
+      }, '/api/transfers/custom_find?pendingFirst=true&inProgress=true');
     }
 
     render() {

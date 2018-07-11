@@ -51,10 +51,8 @@ export default (TargetComponent, isBuy) => {
       this.props.fetchTradeData({
         limit: this.state.limit,
         offset: this.state.limit * (this.state.page - 1),
-        // orderBy: 'createdAt',
-        // order: 'DESC',
-        include: ['fromAsset', 'toAsset'],
-        order: 'createdAt DESC',
+        // include: ['fromAsset', 'toAsset'],
+        // order: 'createdAt DESC',
         where: {
           isBuy: this.state.isBuy,
           userId: this.props.globalData.currentUser.id
@@ -65,7 +63,7 @@ export default (TargetComponent, isBuy) => {
             end_range
           }
         } : {})
-      }, '/api/trades');
+      }, '/api/trades/custom_find?pendingFirst=true&inProgress=true');
     }
 
     render() {
