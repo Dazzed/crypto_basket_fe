@@ -140,10 +140,12 @@ function* cancelWithdrawalWatcher(){
 }
 
 function* submitWithdrawalWatcher(){
-  yield takeLatest(submitWithdrawal, function* handler({ payload: data }){
+  yield takeLatest(submitWithdrawal, function* handler({ payload: {data, showError} }){
     try {
       const requestURL = `/api/transfers/initiateWithdrawal/`;
-
+      if(!data.otp || data.otp === '' || data.otp === null){
+        throw({message: "You must provide an OTP"});
+      }
       const params = {
         method: 'POST',
         body: JSON.stringify({
@@ -154,7 +156,8 @@ function* submitWithdrawalWatcher(){
       const result = yield call(request, { name: requestURL }, params);
       yield put(submitWithdrawalSuccess(result));
     } catch (error) {
-      // yield put(loginTFAEnableError(error));
+      if(error.message)
+        showError(error.message);
     }
   });
 }

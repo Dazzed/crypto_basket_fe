@@ -20,10 +20,8 @@ export default class ConfirmWithdrawalModal extends Component {
   }
 
   submit = () => {
-    this.props.submitWithdrawal({
-      ...this.state,
-      ...this.props.withdrawalInfo
-    });
+    console.log('this.props.showToastError', this.props);
+    this.props.submitWithdrawal({...this.state, ...this.props.withdrawalInfo}, this.props.showToastError);
   }
 
   render() {

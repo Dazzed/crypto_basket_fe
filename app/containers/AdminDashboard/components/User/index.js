@@ -109,7 +109,7 @@ export default class User extends Component {
       this.props.archiveUser(this.props.adminDashboard.editingUser.id);
     } else if (this.state.modalField === 'transferBTC' || this.state.modalField === 'transferETH') {
       console.log('in transfer if');
-      this.props.transferToUser(this.props.adminDashboard.editingUser.id, this.state.modalField === 'transferBTC' ? 'btc' : 'eth', this.state.modalField === 'transferBTC' ? data.transferBTC : data.transferETH, data.OTP);
+      this.props.transferToUser(this.props.adminDashboard.editingUser.id, this.state.modalField === 'transferBTC' ? 'btc' : 'eth', this.state.modalField === 'transferBTC' ? data.transferBTC : data.transferETH, data.OTP, this.props.showToastError);
     } else {
       this.props.updateUser(data, this.props.adminDashboard.editingUser.id);
     }
@@ -176,6 +176,7 @@ export default class User extends Component {
       accumulator[elem.assetId] = elem.balance;
       return accumulator;
     }, {});
+    console.log('this.props', this.props);
     const user = this.props.adminDashboard.editingUser;
     const role = this.props.globalData.currentUser.roleMapping && this.props.globalData.currentUser.roleMapping.role ? this.props.globalData.currentUser.roleMapping.role.name : "";
     const isSuperAdmin = (role === 'super_admin');

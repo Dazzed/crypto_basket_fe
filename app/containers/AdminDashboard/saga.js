@@ -185,7 +185,7 @@ function* approveWithdrawalWatcher() {
 }
 
 function* transferToUserWatcher() {
-  yield takeLatest(transferToUser, function* handler({ payload: { id, asset, amount, otp } }) {
+  yield takeLatest(transferToUser, function* handler({ payload: { id, asset, amount, otp, showError} }) {
     try {
       const baseRequestURL = `/api/transfers/refund/`;
       console.log('building request', id, asset, amount, otp);
@@ -206,6 +206,8 @@ function* transferToUserWatcher() {
       console.log('after result', updateResult);
       yield put(fetchUser(id));
     } catch (error) {
+      console.log('showError', showError);
+      showError("Could not complete transfer");
       yield put(fetchAssetsError(error));
     }
   });

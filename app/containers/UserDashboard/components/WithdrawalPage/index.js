@@ -198,6 +198,7 @@ export default class BuyPage extends Component {
             userDashboard={userDashboard}
             fromAssetType={'btc'}
             toAssetType={'eth'}
+            getUser={this.props.getUser}
           />
         </div>
       </div>

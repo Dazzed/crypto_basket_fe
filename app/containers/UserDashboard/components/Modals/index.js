@@ -308,6 +308,7 @@ export default class Modals extends Component {
           onCancel={cancelWithdrawal}
           withdrawalInfo={withdrawalInfo}
           submitWithdrawal={submitWithdrawal}
+          showToastError={this.props.showToastError}
         />
       );
     }

@@ -84,7 +84,7 @@ export const updateUser = createAction(
 
 export const transferToUser = createAction(
   `${PREFIX}_TRANSFER_TO_USER`,
-  (id, asset, amount, otp) => ({ id, asset, amount, otp})
+  (id, asset, amount, otp, showError) => ({ id, asset, amount, otp, showError})
 );
 // END actions related to admin managing users
 

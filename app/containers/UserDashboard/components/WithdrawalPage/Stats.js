@@ -11,6 +11,10 @@ export default class Stats extends Component {
     toAssetType: PropTypes.string.isRequired,
   }
 
+  componentDidMount(){
+    this.props.getUser(this.props.globalData.currentUser);
+  }
+
   getFromAssetMinMaxValue = type => {
     const {
       userDashboard: {
@@ -86,10 +90,9 @@ export default class Stats extends Component {
       );
     }
     const currentUser = this.props.globalData.currentUser;
-    const myFromAssetWallet = myWallets.find(({ assetId }) => assetId === fromAssetType) || {};
-    const myToAssetWallet = myWallets.find(({ assetId }) => assetId === toAssetType) || {};
-    const meloticFromAsset = allAssets.find(({ ticker }) => ticker === fromAssetType) || {};
-    const meloticToAsset = allAssets.find(({ ticker }) => ticker === toAssetType) || {};
+    console.log('currentUser', currentUser);
+    const btcWallet = myWallets.find(({ assetId }) => assetId === 'btc') || {};
+    const ethWallet = myWallets.find(({ assetId }) => assetId === 'eth') || {};
     return (
       <div className="col-md-5">
         <div className="row mt-3 pl-3 border_buy">
@@ -104,24 +107,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {myToAssetWallet.balance} {toAssetType.toUpperCase()}
+                      {btcWallet.balance} BTC
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myToAssetWallet.usdPrice ? myToAssetWallet.usdPrice.toFixed(2) : 0} USD
+                      ${btcWallet.usdPrice ? btcWallet.usdPrice.toFixed(2) : 0} USD
                     </span>
                   </div>
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {myFromAssetWallet.balance} {fromAssetType.toUpperCase()}
+                      {ethWallet.balance} ETH
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myFromAssetWallet.usdPrice ? myFromAssetWallet.usdPrice.toFixed(2) : 0} USD
+                      ${ethWallet.usdPrice ? ethWallet.usdPrice.toFixed(2) : 0} USD
                     </span>
                   </div>
                 </div>

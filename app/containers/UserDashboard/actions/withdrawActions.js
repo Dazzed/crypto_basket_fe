@@ -13,7 +13,7 @@ export const cancelWithdrawal = createAction(
 
 
 export const submitWithdrawal = createAction(
-  `${PREFIX}_SUBMIT_WITHDRAWAL`, data => data
+  `${PREFIX}_SUBMIT_WITHDRAWAL`, (data, showError) => ({ data, showError })
 );
 
 
