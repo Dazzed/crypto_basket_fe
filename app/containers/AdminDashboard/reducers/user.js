@@ -16,7 +16,7 @@ import {
   fetchUserActivitiesSuccess,
   fetchUserActivitiesError
 } from '../actions/user';
-
+import _ from 'lodash';
 export const userReducer = {
   [fetchUsers]: state => ({
     ...state,
@@ -62,7 +62,7 @@ export const userReducer = {
   }),
   [fetchUserSuccess]: (state, action) => ({
     ...state,
-    editingUser: action.user
+    editingUser: _.extend(state.editingUser, action.user)
   }),
   [startCreatingUser]: (state) => ({
     ...state,
