@@ -85,6 +85,7 @@ export default class Stats extends Component {
         </div>
       );
     }
+    const currentUser = this.props.globalData.currentUser;
     const myFromAssetWallet = myWallets.find(({ assetId }) => assetId === fromAssetType) || {};
     const myToAssetWallet = myWallets.find(({ assetId }) => assetId === toAssetType) || {};
     const meloticFromAsset = allAssets.find(({ ticker }) => ticker === fromAssetType) || {};
@@ -141,26 +142,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      0 ETH
+                      {currentUser.withdrawMinimumETH} ETH
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      0 BTC
+                      {currentUser.withdrawMinimumBTC} BTC
                     </span>
                   </div>
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {/* {meloticFromAsset.minPurchaseAmount} {fromAssetType.toUpperCase()} */}
-                      {this.getFromAssetMinMaxValue('minimum')} {fromAssetType.toUpperCase()}
+                      {currentUser.withdrawLimitETH} ETH
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {/* {meloticFromAsset.maxPurchaseAmount} {fromAssetType.toUpperCase()} */}
-                      {this.getFromAssetMinMaxValue('maximum')} {fromAssetType.toUpperCase()}
+                      {currentUser.withdrawLimitBTC} BTC
                     </span>
                   </div>
                 </div>

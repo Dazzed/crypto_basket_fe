@@ -4,7 +4,17 @@ import moment from 'moment';
 
 import ArrowDown from 'img/arrow-down.png';
 import WrapLoading from 'components/WrapLoading';
-
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Row,
+  Col
+} from 'reactstrap';
 import { firstLetterCaps } from 'utils';
 
 export default class TransferView extends Component {
@@ -14,7 +24,9 @@ export default class TransferView extends Component {
   }
 
   state = {
-    hoveredId: null
+    hoveredId: null,
+    valueIn: 'usd',
+    dropdownOpen: false
   };
 
   onHoverRecord = record => {
@@ -31,7 +43,26 @@ export default class TransferView extends Component {
       hoveredId: null
     });
   }
-
+  setBTC = () => {
+    this.setState({
+      valueIn: 'btc'
+    });
+  }
+  setETH = () => {
+    this.setState({
+      valueIn: 'eth'
+    });
+  }
+  setUSD = () => {
+    this.setState({
+      valueIn: 'usd'
+    });
+  }
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
   renderDesktop = () => {
     const {
       activities,
@@ -64,8 +95,18 @@ export default class TransferView extends Component {
                   </th>
                   <th>
                   </th>
-                  <th>
-                    Value in USD<i className="fa fa-caret-down ml-2" />
+
+                  <th className="text-center">
+                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
+                      <DropdownToggle caret>
+                        Value in {this.state.valueIn.toUpperCase()}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={this.setUSD}>USD</DropdownItem>
+                        <DropdownItem onClick={this.setETH}>ETH</DropdownItem>
+                        <DropdownItem onClick={this.setBTC}>BTC</DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
                   </th>
                 </tr>
               </thead>
@@ -120,7 +161,7 @@ export default class TransferView extends Component {
                             </div>
                           </td>
                           <td className="vertical_middle">
-                            {activity.state === 'pending' ? (<span className="deny_btn p-2" onClick={cancel}>Deny</span>) : null}
+                            {activity.state === 'pending' || activity.state === 'confirmed' ? (<span className="deny_btn p-2" onClick={cancel}>Deny</span>) : null}
                             {activity.state === 'pending' ? (<span className="accept_btn p-2" onClick={confirm}>Confirm</span>) : null}
                             {activity.state === 'confirmed' ? (<span className="accept_btn p-2" onClick={complete}>Complete</span>) : null}
                           </td>
@@ -133,7 +174,7 @@ export default class TransferView extends Component {
                                 }
                               </div>
                               {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                              $12,345.12 USD
+                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                             </div>
                           </td>
                         </tr>

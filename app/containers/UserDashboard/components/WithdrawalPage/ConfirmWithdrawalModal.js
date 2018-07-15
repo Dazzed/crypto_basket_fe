@@ -91,23 +91,15 @@ export default class ConfirmWithdrawalModal extends Component {
         </div>
 
         <div className="row pt-5 pb-4">
-          <div className="col-md-6">
+          <div className="col-md-6 col-offset-3">
             <button
-              className="btn-create-register naked-green-btn"
-              onClick={onCancel}
+              onClick={this.submit}
+              className="btn-confirm-purchase"
+              style={{width: '75% !important'}}
             >
-              Cancel
-              </button>
+              Confirm Withdrawal
+          </button>
           </div>
-              <div className="col-md-6">
-                <button
-                  onClick={this.submit}
-                  className="btn-confirm-purchase"
-                  style={{width: '75% !important'}}
-                >
-                  Confirm Purchase
-              </button>
-              </div>
         </div>
       </Modal>
     );
