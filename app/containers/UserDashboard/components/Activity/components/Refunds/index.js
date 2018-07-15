@@ -18,7 +18,8 @@ import { firstLetterCaps } from 'utils';
 
 class Refunds extends Component {
   state = {
-    hoveredId: null
+    hoveredId: null,
+    valueIn: 'usd'
   };
 
   onHoverRecord = record => {
@@ -34,6 +35,9 @@ class Refunds extends Component {
     this.setState({
       hoveredId: null
     });
+  }
+  onChange = evt => {
+    this.setState({valueIn: evt.target.value});
   }
 
   render() {
@@ -56,8 +60,10 @@ class Refunds extends Component {
             <div className="col-lg-9 col-md-9 col-12 ml-auto">
               <div className="row">
                 <div className="col-lg-3 col-md-3 col-3">
-                  <select type="text" className="field_input_activity">
-                    <option value={0}>Show in USD</option>
+                  <select type="text" className="field_input_activity" onChange={this.onChange}>
+                    <option value={'usd'}>Show in USD</option>
+                    <option value={'btc'}>Show in BTC</option>
+                    <option value={'eth'}>Show in ETH</option>
                   </select>
                 </div>
                 <div className="col-lg-6 col-md-6 col-6">
@@ -132,7 +138,7 @@ class Refunds extends Component {
                                   <span className="deny_btn p-2">Cancel</span>
                                 </td> :
                                 <td className="vertical_top courier_type">
-                                  ${activity.usdValue} USD
+                                  ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                                   <div className="activity_text_two mt-3">
                                     + {activity.value} {activity.coin}
                                   </div>
@@ -173,7 +179,7 @@ class Refunds extends Component {
                               </div>
                             </td>
                             <td className="vertical_top courier_type">
-                              ${activity.usdValue} USD
+                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {activity.value} {activity.coin}
                               </div>
