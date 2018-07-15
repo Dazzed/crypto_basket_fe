@@ -98,8 +98,8 @@ export default function* main() {
 export const getSearch = state => state.adminDashboard.usersSearch;
 export const getFilter = state => state.adminDashboard.usersFilter;
 
-function* completeTradeWatcher(){
-  yield takeLatest(completeTrade, function* handler({ payload: { id, cb } }){
+function* completeTradeWatcher() {
+  yield takeLatest(completeTrade, function* handler({ payload: { id, cb } }) {
     try {
       const requestURL = `/api/trades/completeTrade/`;
       const params = {
@@ -116,8 +116,8 @@ function* completeTradeWatcher(){
   });
 }
 
-function* confirmTradeWatcher(){
-  yield takeLatest(confirmTrade, function* handler({ payload: { id, cb } }){
+function* confirmTradeWatcher() {
+  yield takeLatest(confirmTrade, function* handler({ payload: { id, cb } }) {
     try {
       const requestURL = `/api/trades/confirmTrade/`;
       const params = {
@@ -134,8 +134,8 @@ function* confirmTradeWatcher(){
   });
 }
 
-function* cancelTradeWatcher(){
-  yield takeLatest(denyTrade, function* handler({ payload: { id, cb } }){
+function* cancelTradeWatcher() {
+  yield takeLatest(denyTrade, function* handler({ payload: { id, cb } }) {
     try {
       const requestURL = `/api/trades/cancelTrade/`;
       const params = {
@@ -153,8 +153,8 @@ function* cancelTradeWatcher(){
   });
 }
 
-function* cancelWithdrawalWatcher(){
-  yield takeLatest(denyWithdraw, function* handler({ payload: { id, cb } }){
+function* cancelWithdrawalWatcher() {
+  yield takeLatest(denyWithdraw, function* handler({ payload: { id, cb } }) {
     try {
       const requestURL = `/api/transfers/cancelWithdrawal/${id}`;
       const params = {
@@ -168,8 +168,8 @@ function* cancelWithdrawalWatcher(){
   });
 }
 
-function* approveWithdrawalWatcher(){
-  yield takeLatest(approveWithdraw, function* handler({ payload: { id, cb } }){
+function* approveWithdrawalWatcher() {
+  yield takeLatest(approveWithdraw, function* handler({ payload: { id, cb } }) {
     try {
       const requestURL = `/api/transfers/completeWithdrawal/${id}`;
 
@@ -475,9 +475,8 @@ function* fetchActivitiesWatcher() {
       if (filter.custom_filter) {
         transformedFilter.custom_filter = filter.custom_filter;
       }
-
       const requestURL = payload.url || '/api/transfers';
-      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const targetURL = `${requestURL}${requestURL.includes('?') ? '&' : '?'}filter=${encodeURI(JSON.stringify(transformedFilter))}`;
       const params = {
         method: 'GET'
       };

@@ -628,7 +628,7 @@ function* fetchActivitiesWatcher() {
       }
       const requestURL = payload.url;
       if (!requestURL) throw new Error('payload.url is required');
-      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const targetURL = `${requestURL}${requestURL.includes('?') ? '&' : '?'}filter=${encodeURI(JSON.stringify(transformedFilter))}`;
       const params = {
         method: 'GET'
       };
@@ -663,7 +663,7 @@ function* fetchTradeDataWatcher() {
       }
       const requestURL = payload.url;
       if (!requestURL) throw new Error('payload.url is required');
-      const targetURL = `${requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+      const targetURL = `${requestURL}${requestURL.includes('?') ? '&' : '?'}filter=${encodeURI(JSON.stringify(transformedFilter))}`;
       const params = {
         method: 'GET'
       };

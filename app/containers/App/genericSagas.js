@@ -39,8 +39,8 @@ export function genericFetcher(ACTION, SUCCESS_ACTION, ERROR_ACTION, requestURL)
         if (filter.custom_filter) {
           transformedFilter.custom_filter = filter.custom_filter;
         }
-
-        const targetURL = `${payload.url || requestURL}?filter=${encodeURI(JSON.stringify(transformedFilter))}`;
+        const apiPath = payload.url || requestURL;
+        const targetURL = `${apiPath}${apiPath.includes('?') ? '&' : '?'}filter=${encodeURI(JSON.stringify(transformedFilter))}`;
         const params = {
           method: 'GET'
         };

@@ -5,22 +5,20 @@ import moment from 'moment';
 export default (TargetComponent, fetchPropName) => {
   return class SortHOC extends Component {
     static propTypes = {
-      defaultOrderByProp: PropTypes.string.isRequired,
       // searchableColumns: PropTypes.array.isRequired,
       targetUserId: PropTypes.string,
       defaultActivityType: PropTypes.string,
     };
 
     state = {
-      // orderBy: this.props.defaultOrderByProp,
-      order: `${this.props.defaultOrderByProp} desc`,
       rowsPerPage: 10,
       page: 1,
       searchTerm: '',
       activityType: this.props.defaultActivityType || 'deposit',
       startDate: null,
       endDate: null,
-      isChangingActivityType: false
+      isChangingActivityType: false,
+      state: 'all' // status of the transaction (Pending, In Process, Completed, and Cancelled)
     };
 
     componentDidMount() {
@@ -41,7 +39,7 @@ export default (TargetComponent, fetchPropName) => {
 
     fetchData = () => {
       const {
-        order, rowsPerPage, page, searchTerm, activityType
+        rowsPerPage, page, searchTerm, activityType
       } = this.state;
       const {
         startDate,
@@ -79,17 +77,15 @@ export default (TargetComponent, fetchPropName) => {
           }
           return {};
         })(),
-        // txType: activityType || 'deposit'
-        // isBuy column is boolean in trade table and txType is string in transfer table
+        // *isBuy* column is boolean in trade table and *txType* is string in transfer table
         ...(isTradeModel ? { isBuy: activityType === 'purchase' } : { txType: activityType }),
-        ...(this.props.targetUserId ? { userId: Number(this.props.targetUserId) } : {})
+        ...(this.props.targetUserId ? { userId: Number(this.props.targetUserId) } : {}),
+        ...(this.state.state !== 'all' ? { state: this.state.state } : {})
       };
       const URL_TO_FETCH = isTradeModel ? '/api/trades' : '/api/transfers';
       this.props[fetchPropName]({
-        include: isTradeModel ? ['fromAsset', 'toAsset', 'user'] : 'user',
         offset: rowsPerPage * (page - 1),
         limit: this.state.rowsPerPage,
-        order,
         ...(where ? { where } : {}),
         ...(start_range && end_range ? {
           custom_filter: {
@@ -97,7 +93,7 @@ export default (TargetComponent, fetchPropName) => {
             end_range
           }
         } : {})
-      }, searchTerm ? `${URL_TO_FETCH}/searchByUser/${searchTerm}` : URL_TO_FETCH);
+      }, searchTerm ? `${URL_TO_FETCH}/searchByUser/${searchTerm}` : `${URL_TO_FETCH}/custom_find?pendingFirst=true&inProgress=true`);
       if (this.state.isChangingActivityType) {
         this.setState({ isChangingActivityType: false });
       }
@@ -131,9 +127,6 @@ export default (TargetComponent, fetchPropName) => {
       }
       // reset state on Search
       return this.setState({
-        // orderBy: this.props.defaultOrderByProp,
-        // order: 'desc',
-        rowsPerPage: 10,
         page: 1,
         searchTerm
       }, this.fetchData);
@@ -146,18 +139,25 @@ export default (TargetComponent, fetchPropName) => {
       }, this.fetchData);
     }
 
+    onChangeStatus = evt => {
+      this.setState({
+        page: 1,
+        state: evt.target.value
+      }, this.fetchData);
+    }
+
     render() {
       return (
         <TargetComponent
           {...this.props}
           {...this.state}
-          // handleRequestSort={this.handleRequestSort}
           handleChangePage={this.handleChangePage}
           onSearch={this.onSearch}
           onChangeActivityType={this.onChangeActivityType}
           handleDatesChange={this.handleDatesChange}
           clearDates={this.clearDates}
           refetch={this.fetchData}
+          onChangeStatus={this.onChangeStatus}
         />
       );
     }

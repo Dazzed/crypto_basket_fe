@@ -232,7 +232,7 @@ class Activity extends Component {
                           >
                             <td>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span className="activity_text_one">{activity.coin}</span>
@@ -241,11 +241,11 @@ class Activity extends Component {
                             <td className="vertical_top">
                               Initiated
                               <div className="activity_text_two mt-3">
-                                {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                                {moment(activity.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
                             <td className="vertical_middle">
-                              <div className="activity_text_two">
+                              <div className="activity_text_one">
                                 {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
                                 {firstLetterCaps(activity.state)}
                               </div>
@@ -279,7 +279,7 @@ class Activity extends Component {
                           <tr key={`mobile_activity_${i}`}>
                             <td>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span>

@@ -257,7 +257,7 @@ export default class Modals extends Component {
       return (
         <PurchaseSuccessfulModal
           closeTradeSuccessModal={closeTradeSuccessModal}
-          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity/purchases')}
         />
       );
     }
@@ -287,7 +287,7 @@ export default class Modals extends Component {
       return (
         <SaleSuccessfulModal
           saleCloseTradeSuccessModal={saleCloseTradeSuccessModal}
-          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity/sales')}
         />
       );
     }

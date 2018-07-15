@@ -5,8 +5,7 @@ import moment from 'moment';
 import Pagination from 'components/Pagination';
 import WrapLoading from 'components/WrapLoading';
 
-import BtcIcon from 'img/icon_btc.png';
-import ETHIcon from 'img/icon_eth.png';
+import renderImageForAsset from 'helpers/renderImageForAsset';
 
 
 import 'react-dates/initialize';
@@ -107,16 +106,16 @@ class Deposits extends Component {
                           >
                             <td>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span className="activity_text_one">{activity.coin}</span>
                               </div>
                             </td>
                             <td className="vertical_top">
-                              {firstLetterCaps(activity.state)}
+                              Initiated
                               <div className="activity_text_two mt-3">
-                                {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                                {moment(activity.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
                             <td className="vertical_middle">
@@ -151,11 +150,11 @@ class Deposits extends Component {
                           <tr key={`mobile_activity_${i}`}>
                             <td>
                               <div className="h-100 text-right table_data_activity">
-                                <img src={activity.coin.toLowerCase() === 'eth' ? ETHIcon : BtcIcon} className="activity_img" />
+                                {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span>
-                                  {moment(activity.createdAt).format('MMM dd, YYYY')}
+                                  {moment(activity.createdAt).format('MMM DD, YYYY')}
                                 </span>
                                 <span>
                                   {/* {activity.confirmed ? 'Completed' : 'Pending'} */}

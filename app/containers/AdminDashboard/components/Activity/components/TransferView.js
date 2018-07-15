@@ -130,12 +130,12 @@ export default class TransferView extends Component {
                           onMouseLeave={this.onHoverOffRecord}
                         >
                           <td className="vertical_middle">
-                            <div className="activity_text_two">
+                            <div className="activity_text_one">
                               {firstLetterCaps(activity.txType)}
                             </div>
                           </td>
                           <td>
-                            <div className="w-75 text-left table_data_activity ml-2">
+                            <div className="w-75 text-left table_data_activity">
                               {
                                 activity.txType === 'deposit' || activity.txType === 'refund' ?
                                   <p>{activity.coin}</p> :
@@ -164,16 +164,16 @@ export default class TransferView extends Component {
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+                              {moment(activity.createdAt).format('MMM DD, YYYY')}
                             </div>
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : 'N/A'}
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : 'N/A'}
                             </div>
                           </td>
                           {
-                            hoveredId === activity.id && activity.txType === 'withdraw'?
+                            hoveredId === activity.id && activity.txType === 'withdraw' ?
                               <td className="vertical_middle">
                                 <span className="deny_btn p-2" onClick={cancel}>Deny</span>
                                 <span className="accept_btn ml-2 p-2" onClick={approve}>Accept</span>
@@ -188,7 +188,7 @@ export default class TransferView extends Component {
                               </td>
                           }
                         </tr>
-                        );
+                      );
                     }
                     )
                   }
@@ -236,7 +236,7 @@ export default class TransferView extends Component {
                     activities.map((activity, index) => (
                       <tr key={`tablet_activity_${index}`}>
                         <td className="vertical_middle">
-                          <div className="activity_text_two">
+                          <div className="activity_text_one">
                             {firstLetterCaps(activity.txType)}
                           </div>
                         </td>
@@ -253,7 +253,7 @@ export default class TransferView extends Component {
                             {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
                             {firstLetterCaps(activity.state)}
                           </div>
-                          <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}</div>
+                          <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : moment(activity.createdAt).format('MMM DD, YYYY')}</div>
                         </td>
                         <td className="vertical_top courier_type text-right">
                           <div>
@@ -305,7 +305,7 @@ export default class TransferView extends Component {
                           </div>
                           <div className="mt-1">
                             <small className="small_activity_space">
-                              {activity.confirmedTime ? moment(activity.confirmedTime).format('YYYY-MM-DD hh:mm:ss') : moment(activity.createdAt).format('YYYY-MM-DD hh:mm:ss')}&nbsp;
+                              {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : moment(activity.createdAt).format('MMM DD, YYYY')}&nbsp;
                               {firstLetterCaps(activity.txType)}
                             </small>
                           </div>
