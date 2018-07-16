@@ -33,3 +33,9 @@ export const fetchTradeDataError = createAction(
 );
 // ***************************************************************
 // End Actions related to fetching data from trade api (Purchase/Sale)
+
+export const replaceActivity = createAction(
+  `${PREFIX}_REPLACE_ACTIVITY`, data => data
+);
+
+

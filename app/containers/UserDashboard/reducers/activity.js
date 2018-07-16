@@ -4,8 +4,10 @@ import {
   fetchActivitiesError,
   fetchTradeData,
   fetchTradeDataSuccess,
-  fetchTradeDataError
+  fetchTradeDataError,
+  replaceActivity
 } from '../actions/activity';
+import _ from 'lodash'; 
 
 const spreadState = (state, obj) => ({
   ...state,
@@ -42,5 +44,12 @@ export const activitiesReducer = {
   [fetchTradeDataError]: state => spreadState(state, {
     errorFetchingTradeData: true,
     isFetchingTradeData: false
-  })
+  }),
+  [replaceActivity]: (state, data) => {
+    const newActivities = _.unionBy([data], state.tradeData, 'id');
+    return {
+      ...state,
+      tradeData: newActivities
+    };
+  }
 };

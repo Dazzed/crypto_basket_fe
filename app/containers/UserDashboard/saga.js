@@ -34,7 +34,8 @@ import {
   estimateTradeError,
   performInitiatingTrade,
   initiateTradeSuccess,
-  initiateTradeError
+  initiateTradeError,
+  cancelTrade
 } from './actions/buyActions';
 
 import {
@@ -70,7 +71,8 @@ import {
   fetchActivitiesError,
   fetchTradeData,
   fetchTradeDataSuccess,
-  fetchTradeDataError
+  fetchTradeDataError,
+  replaceActivity
 } from './actions/activity';
 
 import {
@@ -111,6 +113,7 @@ export default function* main() {
   yield fork(uploadProofWatcher);
   yield fork(submitWithdrawalWatcher);
   yield fork(cancelWithdrawalWatcher);
+  yield fork(cancelTradeWatcher);
 }
 
 function constructErrorMessage(type, minMax, ticker) {
@@ -138,6 +141,25 @@ function* cancelWithdrawalWatcher(){
     }
   });
 }
+
+function* cancelTradeWatcher() {
+  yield takeLatest(cancelTrade, function* handler({ payload: id  }) {
+    try {
+      const requestURL = `/api/trades/cancelTrade/`;
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ id: id })
+      };
+      const result = yield call(request, { name: requestURL }, params);
+      yield put(replaceActivity(result));
+      // put(replaceActivity(result));
+    } catch (error) {
+      console.log('error', error);
+      // yield put(loginTFAEnableError(error));
+    }
+  });
+}
+
 
 function* submitWithdrawalWatcher(){
   yield takeLatest(submitWithdrawal, function* handler({ payload: {data, showError} }){

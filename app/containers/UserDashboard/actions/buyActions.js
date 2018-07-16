@@ -67,3 +67,7 @@ export const initiateTradeError = createAction(
 export const closeTradeSuccessModal = createAction(
   `${PREFIX}_CLOSE_TRADE_SUCCESS_MODAL`
 );
+
+export const cancelTrade = createAction(
+  `${PREFIX}_CANCEL_TRADE`, id => id
+);

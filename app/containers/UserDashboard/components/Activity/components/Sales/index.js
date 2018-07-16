@@ -24,7 +24,7 @@ class Sales extends Component {
     if (this.state.hoveredId === record.id) {
       return;
     }
-    if (record.state === 'initiated') {
+    if (record.state === 'pending') {
       this.setState({ hoveredId: record.id });
     }
   }
@@ -103,7 +103,11 @@ class Sales extends Component {
                   <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
-                        tradeData.map((data, i) => (
+                        tradeData.map((data, i) => {
+                          const cancel = () => {
+                              this.props.cancelTrade(data.id);
+                          }
+                          return (
                           <tr
                             key={`trade_data_desktop_${i}`}
                             onMouseEnter={this.onHoverRecord.bind(this, data)}
@@ -137,7 +141,7 @@ class Sales extends Component {
                             {
                               hoveredId === data.id ?
                                 <td className="vertical_middle">
-                                  <span className="deny_btn p-2">Cancel</span>
+                                  <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
                                 </td> :
                                 <td className="vertical_top courier_type">
                                   ${data[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
@@ -147,7 +151,8 @@ class Sales extends Component {
                                 </td>
                             }
                           </tr>
-                        ))
+                        );
+                        })
                       }
                     </tbody>
                   </WrapLoading>
