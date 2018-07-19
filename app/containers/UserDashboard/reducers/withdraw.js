@@ -1,7 +1,8 @@
 import {
   confirmWithdrawal,
   cancelWithdrawal,
-  submitWithdrawalSuccess
+  submitWithdrawalSuccess,
+  closeWithdrawalSuccessModal
 } from '../actions/withdrawActions';
 
 export const withdrawReducer = {

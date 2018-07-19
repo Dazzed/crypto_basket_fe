@@ -49,7 +49,7 @@ export default class WithdrawalSuccessfulModal extends Component {
           </div>
           <div className="col-md-6">
             <button
-              onClick={closeTradeSuccessModal}
+              onClick={closeSuccessModal}
               className="btn-confirm-purchase"
             >
               OK

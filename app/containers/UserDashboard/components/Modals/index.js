@@ -296,7 +296,7 @@ export default class Modals extends Component {
     if (withdrawalUnsuccessfulModalOpen) {
       return (
         <WithdrawalUnsuccessfulModal
-          onCancel={hideWithdrawalUnsuccessfulModal}
+          onCancel={closeWithdrawalSuccessModal}
           withdrawalUnsuccessfulModalContent={withdrawalUnsuccessfulModalContent}
         />
       );
