@@ -155,7 +155,7 @@ export default class TradeView extends Component {
                           </td>
                           <td className="vertical_middle">
                             <div className="activity_text_two">
-                              {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : 'N/A'}
+                              {activity.updatedAt && activity.state === 'completed' ? moment(activity.updatedAt).format('MMM DD, YYYY') : 'N/A'}
                             </div>
                           </td>
                           {this.state.hoveredId === activity.id ? (<td className="vertical_middle">
