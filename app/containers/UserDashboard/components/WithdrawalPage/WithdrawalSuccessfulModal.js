@@ -7,10 +7,12 @@ import ImgCheck_2X from 'img/img_check@2x.png';
 
 export default class WithdrawalSuccessfulModal extends Component {
   static propTypes = {
-    closeTradeSuccessModal: PropTypes.func.isRequired,
     onNavigateToActivity: PropTypes.func.isRequired,
   };
-
+  navigate = () => {
+    this.props.closeSuccessModal();
+    this.props.onNavigateToActivity();
+  }
   render() {
     const {
       closeSuccessModal,
@@ -42,7 +44,7 @@ export default class WithdrawalSuccessfulModal extends Component {
           <div className="col-md-6">
             <button
               className="btn-create-register naked-green-btn"
-              onClick={onNavigateToActivity}
+              onClick={this.navigate}
             >
               Check Activity
             </button>

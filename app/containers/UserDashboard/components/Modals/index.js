@@ -317,7 +317,7 @@ export default class Modals extends Component {
       return (
         <WithdrawalSuccessfulModal
           closeSuccessModal={closeWithdrawalSuccessModal}
-          onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
+          onNavigateToActivity={() => this.props.history.push('/dashboard/activity/withdrawals')}
         />
       );
     }
