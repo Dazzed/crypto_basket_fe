@@ -33,7 +33,7 @@ export default class TradeView extends Component {
     if (this.state.hoveredId === record.id) {
       return;
     }
-    if (record.state === 'initiated') {
+    if (record.state === 'pending' || record.state === 'confirmed') {
       this.setState({ hoveredId: record.id });
     }
   }
@@ -68,6 +68,7 @@ export default class TradeView extends Component {
       activities,
       isFetchingActivities
     } = this.props.adminDashboard;
+    console.log('this.hoveredId', this.state.hoveredId);
     return (
       <div className="row mt-2 p-4  d-none d-sm-none d-md-none d-lg-block">
         <div className="col-lg-12 col-md-12">
@@ -93,9 +94,6 @@ export default class TradeView extends Component {
                   <th>
                     Completed
                   </th>
-                  <th>
-                  </th>
-
                   <th className="text-center">
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
                       <DropdownToggle caret>
@@ -160,12 +158,11 @@ export default class TradeView extends Component {
                               {activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : 'N/A'}
                             </div>
                           </td>
-                          <td className="vertical_middle">
+                          {this.state.hoveredId === activity.id ? (<td className="vertical_middle">
                             {activity.state === 'pending' || activity.state === 'confirmed' ? (<span className="deny_btn p-2" onClick={cancel}>Deny</span>) : null}
                             {activity.state === 'pending' ? (<span className="accept_btn p-2" onClick={confirm}>Confirm</span>) : null}
                             {activity.state === 'confirmed' ? (<span className="accept_btn p-2" onClick={complete}>Complete</span>) : null}
-                          </td>
-                          <td>
+                          </td>) : (<td>
                             <div>
                               <div className="activity_text_two mb-3">
                                 {activity.isBuy ?
@@ -176,7 +173,7 @@ export default class TradeView extends Component {
                               {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
                               ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                             </div>
-                          </td>
+                          </td>) }
                         </tr>
                     );
                     }
