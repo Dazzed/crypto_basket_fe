@@ -134,11 +134,17 @@ class Purchases extends Component {
                                 {moment(data.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
+                            {data.state==='completed' || data.state==='canceled'? (<td className="vertical_top">
+                              {firstLetterCaps(data.state)}
+                              <div className="activity_text_two mt-3">
+                                {moment(data.updatedAt).format('MMM DD, YYYY')}
+                              </div>
+                            </td>):(
                             <td className="vertical_middle">
                               <div className="activity_text_two">
                                 {firstLetterCaps(data.state)}
                               </div>
-                            </td>
+                            </td>)}
                             {
                               hoveredId === data.id ?
                                 <td className="vertical_middle">

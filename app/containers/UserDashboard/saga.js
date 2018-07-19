@@ -134,7 +134,7 @@ function* cancelWithdrawalWatcher(){
         method: 'POST'
       };
       const result = yield call(request, { name: requestURL }, params);
-      cb();
+      yield put(replaceActivity(result));
       // yield put(submitWithdrawalSuccess());
     } catch (error) {
       // yield put(loginTFAEnableError(error));

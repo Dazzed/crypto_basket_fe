@@ -46,7 +46,8 @@ export const activitiesReducer = {
     isFetchingTradeData: false
   }),
   [replaceActivity]: (state, data) => {
-    let newActivities = sate.tradeData;
+    console.log('replace activity');
+    let newActivities = state.tradeData;
     const index = _.findIndex(state.tradeData, {id: data.id});
     newActivities.splice(index, 1, data);
     return {

@@ -123,12 +123,17 @@ class Deposits extends Component {
                                 {moment(activity.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
+                            {activity.state==='failed' || activity.state==='complete'? (<td className="vertical_top">
+                              {firstLetterCaps(activity.state)}
+                              <div className="activity_text_two mt-3">
+                                {moment(activity.confirmedTime).format('MMM DD, YYYY')}
+                              </div>
+                            </td>):(
                             <td className="vertical_middle">
                               <div className="activity_text_two">
-                                {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
                                 {firstLetterCaps(activity.state)}
                               </div>
-                            </td>
+                            </td>)}
 
                             <td className="vertical_top courier_type">
                               ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}

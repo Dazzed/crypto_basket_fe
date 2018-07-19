@@ -17,14 +17,15 @@ export default class BuyPage extends Component {
   state = {
     fromAssetAmount: '',
     toAssetAmount: null,
-    fromAssetType: this.props.userDashboard.fromAssetType,
-    toAssetType: this.props.userDashboard.toAssetType,
+    toAssetType: 'btc',
     fromAssetDropdownOpen: false,
     toAssetDropdownOpen: false,
     toAssetPlaceHolder: 0,
     fromAssetPlaceHolder: "Address"
   };
-
+  componentWillMount(){
+    this.props.setToAssetType('btc');
+  }
   componentWillUnmount() {
     this.props.closeTradeSuccessModal();
   }
@@ -67,7 +68,6 @@ export default class BuyPage extends Component {
       ...(toAssetType ? { toAssetType } : {})
     }), toAssetType ? null : null);
     if (toAssetType) {
-      this.props.setFromAssetType(fromAssetType || this.state.fromAssetType);
       this.props.setToAssetType(toAssetType);
     }
   }
