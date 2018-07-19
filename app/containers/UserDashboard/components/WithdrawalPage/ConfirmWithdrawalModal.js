@@ -37,7 +37,7 @@ export default class ConfirmWithdrawalModal extends Component {
         <div className="row">
           <div className="col-lg-12 pb-4 pl-5">
             <p className="create_GA_popup_text">
-              Please confirm withdrawal
+              Withdraw {withdrawalInfo.coin.toUpperCase()}
             </p>
             <div className="col-12">
               <p style={{ textAlign: 'middle', color: 'black' }}>
@@ -52,7 +52,7 @@ export default class ConfirmWithdrawalModal extends Component {
               <span className="float-left mt-2">
                 <p>Withdraw</p>
               </span>
-              <span className="float-right">
+              <span className="float-right withdraw-modal-padding">
                 {withdrawalInfo.amount} {withdrawalInfo.coin.toUpperCase()}
               </span>
             </div>
@@ -62,7 +62,7 @@ export default class ConfirmWithdrawalModal extends Component {
               <span className="float-left mt-2">
                 <p>Address</p>
               </span>
-              <span className="float-right">
+              <span className="float-right withdraw-modal-padding">
                 {withdrawalInfo.address}
               </span>
             </div>
@@ -89,7 +89,7 @@ export default class ConfirmWithdrawalModal extends Component {
         </div>
 
         <div className="row pt-5 pb-4">
-          <div className="col-md-6 col-offset-3">
+          <div className="col-md-6 button-offset">
             <button
               onClick={this.submit}
               className="btn-confirm-purchase"

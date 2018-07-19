@@ -20,7 +20,9 @@ export default class BuyPage extends Component {
     fromAssetType: this.props.userDashboard.fromAssetType,
     toAssetType: this.props.userDashboard.toAssetType,
     fromAssetDropdownOpen: false,
-    toAssetDropdownOpen: false
+    toAssetDropdownOpen: false,
+    toAssetPlaceHolder: 0,
+    fromAssetPlaceHolder: "Address"
   };
 
   componentWillUnmount() {
@@ -35,6 +37,17 @@ export default class BuyPage extends Component {
   onToAssetAmountChange = ({ target: { value: toAssetAmount } }) => {
     this.setState({
       toAssetAmount: (toAssetAmount < 0 || isNaN(toAssetAmount)) ? 0 : toAssetAmount
+    });
+  }
+  clearPlaceHolder = stateProp => {
+    this.setState({
+      [stateProp]: null
+    });
+  }
+
+  makePlaceHolderActive = stateProp => {
+    this.setState({
+      [stateProp]: 0
     });
   }
 
@@ -97,7 +110,7 @@ export default class BuyPage extends Component {
       fromAssetType,
       toAssetType
     } = this.props.userDashboard;
-
+    console.log('!this.state.fromAssetAmount', !this.state.fromAssetAmount);
     if(!globalData.currentUser.twoFactorWithdrawalEnabled){
       return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
@@ -140,7 +153,9 @@ export default class BuyPage extends Component {
                     className="form-control field_inputs"
                     value={toAssetAmount}
                     onChange={this.onToAssetAmountChange}
-                    placeholder={0}
+                    placeholder={this.state.toAssetPlaceHolder}
+                    onFocus={this.clearPlaceHolder.bind(this, 'toAssetPlaceHolder')}
+                    onBlur={this.makePlaceHolderActive.bind(this, 'toAssetPlaceHolder')}
                   />
                   <div className="input-group-btn">
                     <Dropdown
@@ -177,7 +192,9 @@ export default class BuyPage extends Component {
                     value={fromAssetAmount}
                     aria-label={"Text input with dropdown button"}
                     onChange={this.onFromAssetAmountChange}
-                    placeholder={"Address..."}
+                    placeholder={this.state.fromAssetPlaceHolder}
+                    onFocus={this.clearPlaceHolder.bind(this, 'fromAssetPlaceHolder')}
+                    onBlur={this.makePlaceHolderActive.bind(this, 'fromAssetPlaceHolder')}
                   />
                   <div className="input-group-btn">
                     
@@ -189,6 +206,7 @@ export default class BuyPage extends Component {
                   type="button"
                   className="btn-create-register w-100"
                   onClick={this.estimateTrade}
+                  disabled={!this.state.fromAssetAmount}
                 >Withdraw</button>
               </div>
             </div>
