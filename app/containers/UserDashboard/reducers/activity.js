@@ -46,7 +46,9 @@ export const activitiesReducer = {
     isFetchingTradeData: false
   }),
   [replaceActivity]: (state, data) => {
-    const newActivities = _.unionBy([data], state.tradeData, 'id');
+    let newActivities = sate.tradeData;
+    const index = _.findIndex(state.tradeData, {id: data.id});
+    newActivities.splice(index, 1, data);
     return {
       ...state,
       tradeData: newActivities

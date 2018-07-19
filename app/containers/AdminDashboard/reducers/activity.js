@@ -27,9 +27,9 @@ export const activitiesReducer = {
     isFetchingActivities: false,
   }),
   [replaceActivity]: (state, data) => {
-    console.log('oldActivities', state.activities);
-    const newActivities = _.unionBy([data], state.activities, 'id');
-    console.log('newActivities', newActivities);
+    let newActivities = state.activities;
+    const index = _.findIndex(state.activities, {id: data.id});
+    newActivities.splice(index, 1, data);
     return {
       ...state,
       activities: newActivities

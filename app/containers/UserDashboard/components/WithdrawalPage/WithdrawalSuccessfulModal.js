@@ -13,12 +13,12 @@ export default class WithdrawalSuccessfulModal extends Component {
 
   render() {
     const {
-      closeTradeSuccessModal,
+      closeSuccessModal,
       onNavigateToActivity
     } = this.props;
     return (
       <Modal isOpen>
-        <button onClick={closeTradeSuccessModal} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
+        <button onClick={closeSuccessModal} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
         <div className="row">

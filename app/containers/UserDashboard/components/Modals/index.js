@@ -150,7 +150,7 @@ export default class Modals extends Component {
       cancelWithdrawal,
       submitWithdrawal,
       withdrawalInitiate,
-      withdrawalCloseSuccessModal,
+      closeWithdrawalSuccessModal,
       // deposit actions
       openDepositModal,
       closeDepositModal
@@ -316,7 +316,7 @@ export default class Modals extends Component {
     if (withdrawalSuccessModalOpen) {
       return (
         <WithdrawalSuccessfulModal
-          withdrawalCloseTradeSuccessModal={withdrawalCloseTradeSuccessModal}
+          closeSuccessModal={closeWithdrawalSuccessModal}
           onNavigateToActivity={() => this.props.history.push('/dashboard/activity')}
         />
       );

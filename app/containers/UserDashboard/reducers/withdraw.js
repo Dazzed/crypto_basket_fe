@@ -20,5 +20,9 @@ export const withdrawReducer = {
     isConfirmWithdrawalModalOpen: false,
     withdrawalInfo: {},
     withdrawalSuccessModalOpen: true
+  }),
+  [closeWithdrawalSuccessModal]: state => ({
+    ...state,
+    withdrawalSuccessModalOpen: false
   })
 };

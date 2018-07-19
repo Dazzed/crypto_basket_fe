@@ -24,6 +24,12 @@ export const submitWithdrawalSuccess = createAction(
 export const cancelPendingWithdrawal = createAction(
   `${PREFIX}_CANCEL_PENDING_WITHDRAWAL`, (id, cb) => ({id, cb})
 );
+
+
+export const closeWithdrawalSuccessModal = createAction(
+  `${PREFIX}_CLOSE_SUCCESS_MODAL`
+);
+
 // export const setToAssetType = createAction(
 //   `${PREFIX}_SET_TO_ASSET_TYPE`,
 //   ticker => ticker
