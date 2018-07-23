@@ -57,7 +57,7 @@ export default class Deposit extends Component {
                           </div>
                         </th>
                         <th className="vertical_top courier_type">
-                          <div className="mt-3 float-right">{myBTCWallet.balance} BTC</div>
+                          <div className="mt-3 float-right">{myBTCWallet.balance ? myBTCWallet.balance.formatWithCommas() : myBTCWallet.balance} BTC</div>
                         </th>
                       </tr>
                       <tr onClick={this.props.openDepositModal.bind(this, myETHWallet.assetId)}>
@@ -70,7 +70,7 @@ export default class Deposit extends Component {
                           </div>
                         </th>
                         <th className="vertical_top courier_type">
-                          <div className="mt-3 float-right">{myETHWallet.balance} ETH</div>
+                          <div className="mt-3 float-right">{myETHWallet.balance ? myETHWallet.balance.formatWithCommas() : myETHWallet.balance} ETH</div>
                         </th>
                       </tr>
                     </tbody>

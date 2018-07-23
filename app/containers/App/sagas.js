@@ -30,7 +30,7 @@ export function* getCurrentUser() {
         custom_include: ['all_details'],
         include: [{
           roleMapping: 'role',
-        }, 'documents']
+        }, 'documents', 'wallets']
       });
       const requestURL = `/api/users/${authDetails.userId}?filter=${filter}`;
       const params = {
@@ -62,7 +62,9 @@ function* logOutWatcher() {
       yield put(logOutSuccess());
       window.location.pathname = '/';
     } catch (error) {
-      yield put(logOutFailure());
+      removeAuthDetails();
+      yield put(logOutSuccess());
+      window.location.pathname = '/';
     }
   });
 }

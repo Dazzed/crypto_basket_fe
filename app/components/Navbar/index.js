@@ -130,7 +130,7 @@ class AppNavbar extends React.Component {
           <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <Link to="/" className="navbar-brand">MELOTIC ADMIN</Link>
             <div className="collapse navbar-collapse" id="navbarText">
-              <ul className="nav navbar-nav ml-auto mr-5">
+              <ul className="nav navbar-nav ml-auto mr-5 mr-4-5-p">
                 <li className="nav-item">
                   <img src={AvatarPng} className="avatar_logo" />
                 </li>

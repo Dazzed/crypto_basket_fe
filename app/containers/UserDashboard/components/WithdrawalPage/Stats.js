@@ -107,24 +107,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {btcWallet.balance} BTC
+                      {btcWallet.balance ? btcWallet.balance.formatWithCommas() : btcWallet.balance} BTC
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${btcWallet.usdPrice ? btcWallet.usdPrice.toFixed(2) : 0} USD
+                      ${btcWallet.usdPrice ? Number(btcWallet.usdPrice.toFixed(2)).formatWithCommas() : 0} USD
                     </span>
                   </div>
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {ethWallet.balance} ETH
+                      {ethWallet.balance ? ethWallet.balance.formatWithCommas() : ethWallet.balance} ETH
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${ethWallet.usdPrice ? ethWallet.usdPrice.toFixed(2) : 0} USD
+                      ${ethWallet.usdPrice ? Number(ethWallet.usdPrice.toFixed(2)).formatWithCommas() : 0} USD
                     </span>
                   </div>
                 </div>

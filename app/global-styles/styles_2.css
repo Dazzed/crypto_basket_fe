@@ -164,3 +164,11 @@
 .melotic-green {
   color: #00b34a !important;
 }
+
+.pr-5per {
+  padding-right: 5%;
+}
+
+.header .navbar-nav.mr-4-5-p {
+  margin-right: 4.5% !important;
+}

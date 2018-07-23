@@ -68,7 +68,7 @@ class Settings extends Component {
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <h2 className="p-4">Settings</h2>
-        <div className="text-left tab_settings mt-3 pb-0 pt-0 pl-5">
+        <div className="text-left tab_settings mt-3 pb-0 pt-0 pl-4">
           <span className={`pb-3 ${location.pathname.includes('my_information') ? 'active_tab_title' : 'tab_title'}`}>
             <NavLink exact to={`${match.url}/my_information`}>My Information</NavLink>
           </span>

@@ -16,6 +16,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import _ from 'lodash';
 
+import { formatNumberWithCommas } from 'utils';
 const upGlyph = (
   <FontAwesome
     name='caret-up'
@@ -82,9 +83,9 @@ export default class Assets extends Component {
                             </td>
                             <td>{elem.ticker === 'btc' ? round(elem.totalValueInUSD / elem.quantity, 2) : round(elem.quantity / elem.totalValueInBTC, 2)} {elem.ticker.toUpperCase()}/{elem.ticker === 'btc' ? 'USD' : 'BTC'}</td>
                             <td>{elem.quantity - elem.availableQuantityWithCommunity}</td>
-                            <td>{elem.quantity}</td>
-                            <td>{elem.availableQuantityWithCommunity}</td>
-                            <td>{elem.totalValueInUSD}</td>
+                            <td>{formatNumberWithCommas(elem.quantity)}</td>
+                            <td>{formatNumberWithCommas(elem.availableQuantityWithCommunity)}</td>
+                            <td>{formatNumberWithCommas(elem.totalValueInUSD)}</td>
                           </tr>
                         );
                       })}

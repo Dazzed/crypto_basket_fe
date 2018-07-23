@@ -10,10 +10,10 @@ import ArrowDownImage from 'img/arrow-down.png';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
 import TradeSortHOC from '../TradeSortHOC';
 
-import { firstLetterCaps } from 'utils';
 class Purchases extends Component {
   state = {
     hoveredId: null,
@@ -36,7 +36,7 @@ class Purchases extends Component {
   }
 
   onChange = evt => {
-    this.setState({valueIn: evt.target.value});
+    this.setState({ valueIn: evt.target.value });
   }
   render() {
     const {
@@ -48,22 +48,22 @@ class Purchases extends Component {
     const {
       hoveredId
     } = this.state;
-    console.log('props', this.props);
+
     const isNoDataPresent = isFetchingTradeData === false && totalTradeDataCount === 0;
     return (
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
           <div className="row mt-4 p-4">
-            <div className="col-lg-9 col-md-9 col-12 ml-auto">
+            <div className="col-lg-9 col-12 ml-auto">
               <div className="row">
-                <div className="col-lg-3 col-md-3 col-3">
+                <div className="col-lg-3 col-3">
                   <select type="text" className="field_input_activity" onChange={this.onChange}>
                     <option value={'usd'}>Show in USD</option>
                     <option value={'btc'}>Show in BTC</option>
                     <option value={'eth'}>Show in ETH</option>
                   </select>
                 </div>
-                <div className="col-lg-6 col-md-6 col-6">
+                <div className="col-lg-6 col-9">
                   <div className="input-group">
                     <span>
                       <DateRangePicker
@@ -80,6 +80,7 @@ class Purchases extends Component {
                         displayFormat="YYYY-MM-DD"
                         daySize={35}
                         isOutsideRange={() => false}
+                        showClearDate
                       />
                     </span>
                     <span className="clear-date-container">
@@ -103,60 +104,60 @@ class Purchases extends Component {
                   <WrapLoading loading={isFetchingTradeData} loadingProps={{ insideTable: true, colSpan: 4 }}>
                     <tbody>
                       {
-                        tradeData.map((data, i) =>{
+                        tradeData.map((data, i) => {
                           const cancel = () => {
-                              this.props.cancelTrade(data.id);
+                            this.props.cancelTrade(data.id);
                           }
                           return (
-                          <tr
-                            key={`trade_data_desktop_${i}`}
-                            onMouseEnter={this.onHoverRecord.bind(this, data)}
-                            onMouseLeave={this.onHoverOffRecord}
-                          >
-                            <td>
-                              <div className="h-100 text-right table_data_activity">
-                                {/* <img src="assets/img/activity_img1.PNG" className="activity_img" /> */}
-                                {renderImageForAsset(data.toAsset.ticker)}
-                              </div>
-                              <div className="w-75 text-left table_data_activity ml-2">
-                                <span className="d-md-none d-lg-block">
-                                  {data.fromAsset.name}
-                                  <br />
-                                  <img src={ArrowDownImage} className="activity-down-img" />
-                                  <br />
-                                </span>
-                                <span className="activity_text_one">{data.toAsset.name} Purchase</span>
-                              </div>
-                            </td>
-                            <td className="vertical_top">
-                              Initiated
+                            <tr
+                              key={`trade_data_desktop_${i}`}
+                              onMouseEnter={this.onHoverRecord.bind(this, data)}
+                              onMouseLeave={this.onHoverOffRecord}
+                            >
+                              <td>
+                                <div className="h-100 text-right table_data_activity">
+                                  {/* <img src="assets/img/activity_img1.PNG" className="activity_img" /> */}
+                                  {renderImageForAsset(data.toAsset.ticker)}
+                                </div>
+                                <div className="w-75 text-left table_data_activity ml-2">
+                                  <span className="d-md-none d-lg-block">
+                                    {data.fromAsset.name}
+                                    <br />
+                                    <img src={ArrowDownImage} className="activity-down-img" />
+                                    <br />
+                                  </span>
+                                  <span className="activity_text_one">{data.toAsset.name} Purchase</span>
+                                </div>
+                              </td>
+                              <td className="vertical_top">
+                                Initiated
                               <div className="activity_text_two mt-3">
-                                {moment(data.createdAt).format('MMM DD, YYYY')}
-                              </div>
-                            </td>
-                            {data.state==='completed' || data.state==='canceled'? (<td className="vertical_top">
-                              {firstLetterCaps(data.state)}
-                              <div className="activity_text_two mt-3">
-                                {moment(data.updatedAt).format('MMM DD, YYYY')}
-                              </div>
-                            </td>):(
-                            <td className="vertical_middle">
-                              <div className="activity_text_two">
+                                  {moment(data.createdAt).format('MMM DD, YYYY')}
+                                </div>
+                              </td>
+                              {data.state === 'completed' || data.state === 'canceled' ? (<td className="vertical_top">
                                 {firstLetterCaps(data.state)}
-                              </div>
-                            </td>)}
-                            {
-                              hoveredId === data.id ?
-                                <td className="vertical_middle">
-                                  <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
-                                </td> :
-                                <td className="vertical_top courier_type">
-                                  ${data[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
-                                  <div className="activity_text_two mt-3">+ {data.toAssetAmount} {data.toAsset.ticker.toUpperCase()}</div>
-                                </td>
-                            }
-                          </tr>
-                        );
+                                <div className="activity_text_two mt-3">
+                                  {moment(data.updatedAt).format('MMM DD, YYYY')}
+                                </div>
+                              </td>) : (
+                                  <td className="vertical_middle">
+                                    <div className="activity_text_two">
+                                      {firstLetterCaps(data.state)}
+                                    </div>
+                                  </td>)}
+                              {
+                                hoveredId === data.id ?
+                                  <td className="vertical_middle">
+                                    <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
+                                  </td> :
+                                  <td className="vertical_top courier_type">
+                                    ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                                    <div className="activity_text_two mt-3">+ {formatNumberWithCommas(data.toAssetAmount)} {data.toAsset.ticker.toUpperCase()}</div>
+                                  </td>
+                              }
+                            </tr>
+                          );
                         })
                       }
                     </tbody>
@@ -190,8 +191,8 @@ class Purchases extends Component {
                               </div>
                             </td>
                             <td className="vertical_top courier_type">
-                                  ${data[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
-                              <div className="activity_text_two mt-3">+ {data.toAssetAmount} {data.toAsset.ticker.toUpperCase()}</div>
+                              ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              <div className="activity_text_two mt-3">+ {formatNumberWithCommas(data.toAssetAmount)} {data.toAsset.ticker.toUpperCase()}</div>
                             </td>
                           </tr>
                         ))

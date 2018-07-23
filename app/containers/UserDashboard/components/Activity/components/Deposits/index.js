@@ -6,6 +6,7 @@ import Pagination from 'components/Pagination';
 import WrapLoading from 'components/WrapLoading';
 
 import renderImageForAsset from 'helpers/renderImageForAsset';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
 
 import 'react-dates/initialize';
@@ -13,7 +14,7 @@ import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
 import SortHOC from '../TransferSortHOC';
-import { firstLetterCaps } from 'utils';
+
 class Deposits extends Component {
   state = {
     hoveredId: null,
@@ -136,7 +137,7 @@ class Deposits extends Component {
                             </td>)}
 
                             <td className="vertical_top courier_type">
-                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                              ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>
@@ -176,7 +177,7 @@ class Deposits extends Component {
                               </div>
                             </td>
                             <td className="vertical_top courier_type">
-                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                            ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>

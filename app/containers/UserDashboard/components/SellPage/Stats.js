@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Loading from 'components/Loading';
+import { formatNumberWithCommas } from 'utils';
 
 export default class Stats extends Component {
   static propTypes = {
@@ -104,24 +105,24 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {myFromAssetWallet.balance} {fromAssetType.toUpperCase()}
+                      {formatNumberWithCommas(myFromAssetWallet.balance)} {fromAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myFromAssetWallet.usdPrice ? myFromAssetWallet.usdPrice.toFixed(2) : 0} USD
+                      ${myFromAssetWallet.usdPrice ? formatNumberWithCommas(myFromAssetWallet.usdPrice.toFixed(2)) : 0} USD
                     </span>
                   </div>
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {myToAssetWallet.balance} {toAssetType.toUpperCase()}
+                      {formatNumberWithCommas(myToAssetWallet.balance)} {toAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      ${myToAssetWallet.usdPrice ? myToAssetWallet.usdPrice.toFixed(2) : 0} USD
+                      ${myToAssetWallet.usdPrice ? formatNumberWithCommas(myToAssetWallet.usdPrice.toFixed(2)) : 0} USD
                     </span>
                   </div>
                 </div>
@@ -142,12 +143,12 @@ export default class Stats extends Component {
                 <div className="row mt-3">
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticFromAsset.minSaleAmount} {fromAssetType.toUpperCase()}
+                      {formatNumberWithCommas(meloticFromAsset.minSaleAmount)} {fromAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
-                      {meloticFromAsset.maxSaleAmount} {fromAssetType.toUpperCase()}
+                      {formatNumberWithCommas(meloticFromAsset.maxSaleAmount)} {fromAssetType.toUpperCase()}
                     </span>
                   </div>
                 </div>
@@ -155,13 +156,13 @@ export default class Stats extends Component {
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
                       {/* {meloticToAsset.minSaleAmount} {toAssetType.toUpperCase()} */}
-                      {this.getToAssetMinMaxValue('minimum')} {toAssetType.toUpperCase()}
+                      {formatNumberWithCommas(this.getToAssetMinMaxValue('minimum'))} {toAssetType.toUpperCase()}
                     </span>
                   </div>
                   <div className="col-md-6 col-6">
                     <span className="buy_assets_text">
                       {/* {meloticToAsset.maxSaleAmount} {toAssetType.toUpperCase()} */}
-                      {this.getToAssetMinMaxValue('maximum')} {toAssetType.toUpperCase()}
+                      {formatNumberWithCommas(this.getToAssetMinMaxValue('maximum'))} {toAssetType.toUpperCase()}
                     </span>
                   </div>
                 </div>

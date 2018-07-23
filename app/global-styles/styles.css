@@ -1233,3 +1233,9 @@ input:checked+.slider:before {
 @media (max-width: 992px) {}
 
 @media (max-width: 1200px) {}
+
+@media (max-width: 376px) {
+    .DateRangePicker_picker {
+      left: -120px !important;
+    }  
+  }

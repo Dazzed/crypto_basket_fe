@@ -15,7 +15,7 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import { firstLetterCaps } from 'utils';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
 export default class TradeView extends Component {
   static propTypes = {
@@ -171,13 +171,13 @@ export default class TradeView extends Component {
                                 }
                               </div>
                               {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                              ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                             </div>
-                          </td>) }
+                          </td>)}
                         </tr>
-                    );
+                      );
                     }
-                  )
+                    )
                   }
                 </tbody>
               </WrapLoading>
@@ -253,8 +253,8 @@ export default class TradeView extends Component {
                               }
                             </div>
                             {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                            $12,345.12 USD
-                      {/* <div className="mt-2">
+                            ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                            {/* <div className="mt-2">
                         <span className="deny_btn p-2">Deny</span>
                         <span className="accept_btn ml-2 p-2">Accept</span>
                       </div> */}

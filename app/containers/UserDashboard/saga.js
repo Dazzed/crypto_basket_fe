@@ -429,13 +429,13 @@ function* estimateTradeWatcher() {
       //     )
       //   );
       // }
-      if (toAssetAmount < toAsset.minPurchaseAmount) {
+      if ((toAssetAmount || 0) < toAsset.minPurchaseAmount) {
         return yield put(
           showPurchaseUnsuccessfulModal(
             constructErrorMessage('purchase', 'minimum', toAsset.ticker.toUpperCase())
           )
         );
-      } else if (toAssetAmount > toAsset.maxPurchaseAmount) {
+      } else if ((toAssetAmount || 0) > toAsset.maxPurchaseAmount) {
         return yield put(
           showPurchaseUnsuccessfulModal(
             constructErrorMessage('purchase', 'maximum', toAsset.ticker.toUpperCase())
@@ -548,13 +548,13 @@ function* estimateTradeWatcherForSale() {
       //     )
       //   );
       // }
-      if (fromAssetAmount < Number(fromAsset.minSaleAmount)) {
+      if ((fromAssetAmount || 0) < Number(fromAsset.minSaleAmount)) {
         return yield put(
           showSaleUnsuccessfulModal(
             constructErrorMessage('sale', 'minimum', fromAsset.ticker.toUpperCase())
           )
         );
-      } else if (fromAssetAmount > Number(fromAsset.maxSaleAmount)) {
+      } else if ((fromAssetAmount || 0) > Number(fromAsset.maxSaleAmount)) {
         return yield put(
           showSaleUnsuccessfulModal(
             constructErrorMessage('sale', 'maximum', fromAsset.ticker.toUpperCase())

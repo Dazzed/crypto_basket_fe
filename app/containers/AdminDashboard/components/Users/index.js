@@ -157,15 +157,15 @@ export default class Users extends Component {
     const page = this.props.adminDashboard.usersPage;
     const users = this.props.adminDashboard.users ? _.slice(this.props.adminDashboard.users, (page - 1) * 10, page * 10) : []
     return (
-      <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
-        <div className="row">
+      <div className="col-12 col-lg-9 col-md-12 h-100 bg_white">
+        <div className="row content_section pr-5per">
           <div className="col-md-8 col-4">
             <h2 className="p-4">Users</h2>
           </div>
           {this.renderCreateUserButton()}
           {this.renderCreateAdminButton()}
         </div>
-        <div className="row mt-3  bg_white">
+        <div className="row mt-3 pr-4">
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
               <div className="col-lg-6 col-md-12">
@@ -186,7 +186,7 @@ export default class Users extends Component {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>User ID</th>
-                        <th className="text-center">
+                        <th className="text-right">
                           <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="verification-dropdown">
                             <DropdownToggle caret>
                               Verification Status: {this.getVerificationString(this.props.adminDashboard.usersVerification)}
@@ -216,7 +216,7 @@ export default class Users extends Component {
                             <td>{elem.firstName}</td>
                             <td>{elem.lastName}</td>
                             <td>{elem.username}</td>
-                            <td className="text-center">
+                            <td className="text-right">
                               <span className={this.getColor(elem.verificationStatus)}>
                                 {this.getVerificationString(elem.verificationStatus)}
                               </span>

@@ -111,7 +111,7 @@ export default class BuyPage extends Component {
       toAssetType
     } = this.props.userDashboard;
     console.log('!this.state.fromAssetAmount', !this.state.fromAssetAmount);
-    if(!globalData.currentUser.twoFactorWithdrawalEnabled){
+    if(globalData.currentUser.twoFactorWithdrawalEnabled){
       return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
         <h2 className="p-4">Withdraw</h2>

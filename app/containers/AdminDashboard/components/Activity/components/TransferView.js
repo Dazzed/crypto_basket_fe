@@ -15,7 +15,7 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import { firstLetterCaps } from 'utils';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
 export default class TransferView extends Component {
   static propTypes = {
@@ -183,7 +183,7 @@ export default class TransferView extends Component {
                                   <div className="activity_text_two mb-3">
                                     + {Number(activity.value)} {activity.coin}
                                   </div>
-                                  ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                                  ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                                 </div>
                               </td>
                           }
@@ -258,7 +258,7 @@ export default class TransferView extends Component {
                         <td className="vertical_top courier_type text-right">
                           <div>
                             <div className="activity_text_two mb-3 text-right">+ {Number(activity.value)} {activity.coin.toUpperCase()}</div>
-                            ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
+                            ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                       {/* <div className="mt-2">
                         <span className="deny_btn p-2">Deny</span>
                         <span className="accept_btn ml-2 p-2">Accept</span>

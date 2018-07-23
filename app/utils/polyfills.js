@@ -60,3 +60,13 @@ Array.prototype.find = Array.prototype.find || function (callback) {
     }
   }
 };
+
+Number.prototype.formatWithCommas = function () {
+  const formatted = this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (formatted.includes('.')) {
+    const split = formatted.split('.');
+    return split[0] + '.' + split[1].replace(/,/g, '');
+  } else {
+    return formatted;
+  }
+};

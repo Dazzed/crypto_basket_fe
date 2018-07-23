@@ -10,10 +10,10 @@ import ArrowDownImage from 'img/arrow-down.png';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
 import TradeSortHOC from '../TradeSortHOC';
 
-import { firstLetterCaps } from 'utils';
 class Sales extends Component {
   state = {
     hoveredId: null,
@@ -35,7 +35,7 @@ class Sales extends Component {
     });
   }
   onChange = evt => {
-    this.setState({valueIn: evt.target.value});
+    this.setState({ valueIn: evt.target.value });
   }
 
   render() {
@@ -105,59 +105,59 @@ class Sales extends Component {
                       {
                         tradeData.map((data, i) => {
                           const cancel = () => {
-                              this.props.cancelTrade(data.id);
+                            this.props.cancelTrade(data.id);
                           }
                           return (
-                          <tr
-                            key={`trade_data_desktop_${i}`}
-                            onMouseEnter={this.onHoverRecord.bind(this, data)}
-                            onMouseLeave={this.onHoverOffRecord}
-                          >
-                            <td>
-                              <div className="h-100 text-right table_data_activity">
-                                {renderImageForAsset(data.fromAsset.ticker)}
-                              </div>
-                              <div className="w-75 text-left table_data_activity ml-2">
-                                <span className="d-md-none d-lg-block">
-                                  {data.fromAsset.name} Sale
+                            <tr
+                              key={`trade_data_desktop_${i}`}
+                              onMouseEnter={this.onHoverRecord.bind(this, data)}
+                              onMouseLeave={this.onHoverOffRecord}
+                            >
+                              <td>
+                                <div className="h-100 text-right table_data_activity">
+                                  {renderImageForAsset(data.fromAsset.ticker)}
+                                </div>
+                                <div className="w-75 text-left table_data_activity ml-2">
+                                  <span className="d-md-none d-lg-block">
+                                    {data.fromAsset.name} Sale
                                   <br />
-                                  <img src={ArrowDownImage} className="activity-down-img" />
-                                  <br />
-                                </span>
-                                <span className="activity_text_one">{data.toAsset.name}</span>
-                              </div>
-                            </td>
-                            <td className="vertical_top">
-                              Initiated
+                                    <img src={ArrowDownImage} className="activity-down-img" />
+                                    <br />
+                                  </span>
+                                  <span className="activity_text_one">{data.toAsset.name}</span>
+                                </div>
+                              </td>
+                              <td className="vertical_top">
+                                Initiated
                               <div className="activity_text_two mt-3">
-                                {moment(data.createdAt).format('MMM DD, YYYY')}
-                              </div>
-                            </td>
-                            {data.state==='completed' || data.state==='canceled'? (<td className="vertical_top">
-                              {firstLetterCaps(data.state)}
-                              <div className="activity_text_two mt-3">
-                                {moment(data.updatedAt).format('MMM DD, YYYY')}
-                              </div>
-                            </td>):(
-                            <td className="vertical_middle">
-                              <div className="activity_text_two">
+                                  {moment(data.createdAt).format('MMM DD, YYYY')}
+                                </div>
+                              </td>
+                              {data.state === 'completed' || data.state === 'canceled' ? (<td className="vertical_top">
                                 {firstLetterCaps(data.state)}
-                              </div>
-                            </td>)}
-                            {
-                              hoveredId === data.id ?
-                                <td className="vertical_middle">
-                                  <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
-                                </td> :
-                                <td className="vertical_top courier_type">
-                                  ${data[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
-                                  <div className="activity_text_two mt-3">
-                                    - {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}
-                                  </div>
-                                </td>
-                            }
-                          </tr>
-                        );
+                                <div className="activity_text_two mt-3">
+                                  {moment(data.updatedAt).format('MMM DD, YYYY')}
+                                </div>
+                              </td>) : (
+                                  <td className="vertical_middle">
+                                    <div className="activity_text_two">
+                                      {firstLetterCaps(data.state)}
+                                    </div>
+                                  </td>)}
+                              {
+                                hoveredId === data.id ?
+                                  <td className="vertical_middle">
+                                    <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
+                                  </td> :
+                                  <td className="vertical_top courier_type">
+                                    ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                                    <div className="activity_text_two mt-3">
+                                      - {formatNumberWithCommas(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}
+                                    </div>
+                                  </td>
+                              }
+                            </tr>
+                          );
                         })
                       }
                     </tbody>
@@ -191,8 +191,8 @@ class Sales extends Component {
                               </div>
                             </td>
                             <td className="vertical_top courier_type">
-                              ${data[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
-                              <div className="activity_text_two mt-3">- {Number(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
+                              ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              <div className="activity_text_two mt-3">- {formatNumberWithCommas(data.fromAssetAmount)} {data.fromAsset.ticker.toUpperCase()}</div>
                             </td>
                           </tr>
                         ))

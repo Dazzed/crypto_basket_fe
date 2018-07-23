@@ -162,7 +162,7 @@ export default class AssetsPage extends Component {
         <div className="row">
           <div className="col-md-8 col-4">
             <div className="dashboard-heading">Total Balance </div>
-            <div className="dashboard-value">${walletValues.total} {this.state.showIn.toUpperCase()}</div>
+            <div className="dashboard-value">${walletValues.total ? Number(walletValues.total.toFixed(2)).formatWithCommas() : walletValues.total} {this.state.showIn.toUpperCase()}</div>
           </div>
         </div>
         <div className="row mt-3  bg_white clear-top-padding">

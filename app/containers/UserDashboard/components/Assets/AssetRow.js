@@ -110,10 +110,10 @@ export default class AssetsRow extends Component {
               <Button className="asset-row-button" onClick={this.goToSell}>Sell</Button></Col>) : null}
         </Col>
         <Col sm={{ size: 2, order: 4, offset: 0 }} className="asset-row-usd right">
-          ${round(wallet[showIn + 'Price'], 2)} {showIn.toUpperCase()}
+          ${round(wallet[showIn + 'Price'], 2).formatWithCommas()} {showIn.toUpperCase()}
         </Col>
         <Col sm={{ size: 3, order: 5, offset: 0 }} className="asset-row-btc">
-          {round(wallet.balance, 3)} {wallet.assetId.toUpperCase()}
+          {round(wallet.balance, 3).formatWithCommas()} {wallet.assetId.toUpperCase()}
         </Col>
       </Row>);
   }

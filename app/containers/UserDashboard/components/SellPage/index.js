@@ -16,8 +16,8 @@ export default class BuyPage extends Component {
   }
 
   state = {
-    fromAssetAmount: null,
-    toAssetAmount: null,
+    fromAssetAmount: undefined,
+    toAssetAmount: undefined,
     fromAssetType: this.props.userDashboard.saleFromAssetType,
     toAssetType: this.props.userDashboard.saleToAssetType,
     fromAssetDropdownOpen: false,
@@ -204,7 +204,7 @@ export default class BuyPage extends Component {
     } = this.props.userDashboard;
     return (
       <div className="col-12 col-lg-9 col-md-12 h-100 content_section">
-        <h2 className="p-4">Sell Assets</h2>
+        <h2 className="p-4">Sell Asset</h2>
         <div className="row mt-3 h-100 bg_white">
           <div className="col-md-6">
             <div className="row mt-5 pl-4 pr-4">
@@ -244,7 +244,7 @@ export default class BuyPage extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-12 mt-3">
+              <div className="col-md-12 mt-5">
                 <label htmlFor="name" className="label_input">For</label>
                 <div className="input-group buy_margin">
                   <input
@@ -273,7 +273,7 @@ export default class BuyPage extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-5 col-12 mt-3 ml-auto">
+              <div className="col-md-5 col-12 mt-5 ml-auto">
                 <button
                   type="button"
                   className="btn-create-register w-100"

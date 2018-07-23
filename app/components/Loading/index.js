@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import LoadingSpinner from 'img/loading.gif';
+// import LoadingSpinner from 'img/loading.gif';
+import LoadingSpinner from 'img/melotic_spinner.gif';
+// import LoadingSpinner from 'img/melotic_spinner_non_trans.gif';
 
 export default class Loading extends Component {
   static propTypes = {
