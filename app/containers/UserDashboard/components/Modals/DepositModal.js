@@ -35,8 +35,8 @@ export default class DepositModal extends Component {
 
     const { copyState } = this.state;
 
-    const { qrCode, address } = globalData.currentUser.wallets.find(w => w.assetId === depositingCurrency);
-    if (address.slice(0, 2) === '0x') {
+    const { qrCode, address, assetId } = globalData.currentUser.wallets.find(w => w.assetId === depositingCurrency);
+    if (assetId === 'eth' && address.slice(0, 2) !== '0x') {
       return (
         <Fragment>
           <button onClick={onCancel} type="button" className="close_google_auth close text-right ml-auto mr-3" aria-label="Close">
@@ -47,7 +47,7 @@ export default class DepositModal extends Component {
               <p className="create_GA_popup_text">
                 Deposit {depositingCurrency.toUpperCase()} to Melotic
             </p>
-              <p className="popup_para_text" style={{textAlign: 'center'}}>
+              <p className="popup_para_text" style={{ textAlign: 'center' }}>
                 We're sorry but your {depositingCurrency.toUpperCase()} wallet has not yet been generated. Please check back again in 10-15 minutes
             </p>
               <button
