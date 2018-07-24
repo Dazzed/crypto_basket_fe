@@ -39,12 +39,15 @@ export class AdminSetup extends React.Component {
     if (queryParams.token) {
       const { token } = queryParams;
       this.props.initiateOnboarding(token);
+    } else if (queryParams.aolmail_token) {
+      const { aolmail_token: token } = queryParams;
+      this.props.initiateOnboarding(token);
     } else {
       this.props.history.replace('/');
     }
   }
 
-  onSubmit = ({username, password, otp}) => {
+  onSubmit = ({ username, password, otp }) => {
     const {
       adminSetup: {
         hasSeenTfaModal,
