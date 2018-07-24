@@ -172,3 +172,11 @@
 .header .navbar-nav.mr-4-5-p {
   margin-right: 4.5% !important;
 }
+
+input:-moz-placeholder {
+  box-shadow:none;
+}
+
+input:invalid {
+  box-shadow: none;
+}
