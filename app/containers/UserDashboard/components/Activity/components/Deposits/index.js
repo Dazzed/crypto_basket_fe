@@ -90,7 +90,7 @@ class Deposits extends Component {
                   </span>
                 </div>
               </div>
-            </div>            
+            </div>
           </div>
         </div>
         <div className="col-lg-12 h-100">
@@ -138,7 +138,7 @@ class Deposits extends Component {
                                 </td>)}
 
                             <td className="vertical_top courier_type">
-                              ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>
@@ -178,7 +178,7 @@ class Deposits extends Component {
                               </div>
                             </th>
                             <th className="vertical_top courier_type">
-                              ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>

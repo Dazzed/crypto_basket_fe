@@ -170,8 +170,7 @@ export default class TradeView extends Component {
                                   `- ${Number(activity.fromAssetAmount)} ${activity.fromAsset.ticker.toUpperCase()}`
                                 }
                               </div>
-                              {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                              ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                             </div>
                           </td>)}
                         </tr>
@@ -252,12 +251,7 @@ export default class TradeView extends Component {
                                 `- ${Number(activity.fromAssetAmount)} ${activity.fromAsset.ticker.toUpperCase()}`
                               }
                             </div>
-                            {/* ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD */}
-                            ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
-                            {/* <div className="mt-2">
-                        <span className="deny_btn p-2">Deny</span>
-                        <span className="accept_btn ml-2 p-2">Accept</span>
-                      </div> */}
+                            {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                           </div>
                         </td>
                       </tr>
@@ -315,8 +309,7 @@ export default class TradeView extends Component {
                           <div className="mt-1">
                             <span className="small_activity_space">
                               {activity.isBuy ? activity.toAsset.name : activity.fromAsset.name}
-                              {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
-                              {firstLetterCaps(activity.state)}
+                              &nbsp;{firstLetterCaps(activity.state)}
                             </span>
                           </div>
                         </td>

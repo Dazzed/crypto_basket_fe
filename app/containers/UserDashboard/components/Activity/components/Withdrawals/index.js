@@ -148,7 +148,7 @@ class Withdrawals extends Component {
                                     <span className="deny_btn p-2" onClick={cancel} >Cancel</span>
                                   </td> :
                                   <td className="vertical_top courier_type">
-                                    ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                                    {this.state.valueIn === 'usd' && '$'}{activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                                     <div className="activity_text_two mt-3">
                                       - {Number(activity.value)} {activity.coin}
                                     </div>
@@ -190,7 +190,7 @@ class Withdrawals extends Component {
                               </div>
                             </th>
                             <th className="vertical_top courier_type">
-                              ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
+                              {this.state.valueIn === 'usd' && '$'}{activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 - {Number(activity.value)} {activity.coin}
                               </div>

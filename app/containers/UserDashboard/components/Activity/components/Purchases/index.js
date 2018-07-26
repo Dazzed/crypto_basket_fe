@@ -154,7 +154,7 @@ class Purchases extends Component {
                                     <span className="deny_btn p-2" onClick={cancel}>Cancel</span>
                                   </td> :
                                   <td className="vertical_top courier_type">
-                                    ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                                    {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                                     <div className="activity_text_two mt-3">+ {formatNumberWithCommas(data.toAssetAmount)} {data.toAsset.ticker.toUpperCase()}</div>
                                   </td>
                               }
@@ -193,7 +193,7 @@ class Purchases extends Component {
                               </div>
                             </th>
                             <th className="vertical_top courier_type">
-                              ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                              {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">+ {formatNumberWithCommas(data.toAssetAmount)} {data.toAsset.ticker.toUpperCase()}</div>
                             </th>
                           </tr>

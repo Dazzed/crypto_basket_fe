@@ -183,7 +183,7 @@ export default class TransferView extends Component {
                                   <div className="activity_text_two mb-3">
                                     + {Number(activity.value)} {activity.coin}
                                   </div>
-                                  ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                                  {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                                 </div>
                               </td>
                           }
@@ -250,7 +250,6 @@ export default class TransferView extends Component {
                         </td>
                         <td className="vertical_top">
                           <div className="activity_text_two text-right">
-                            {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
                             {firstLetterCaps(activity.state)}
                           </div>
                           <div className="mt-3 text-right">{activity.confirmedTime ? moment(activity.confirmedTime).format('MMM DD, YYYY') : moment(activity.createdAt).format('MMM DD, YYYY')}</div>
@@ -258,8 +257,8 @@ export default class TransferView extends Component {
                         <td className="vertical_top courier_type text-right">
                           <div>
                             <div className="activity_text_two mb-3 text-right">+ {Number(activity.value)} {activity.coin.toUpperCase()}</div>
-                            ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
-                      {/* <div className="mt-2">
+                            {this.state.valueIn === 'usd' && '$'}{formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                            {/* <div className="mt-2">
                         <span className="deny_btn p-2">Deny</span>
                         <span className="accept_btn ml-2 p-2">Accept</span>
                       </div> */}
@@ -314,8 +313,7 @@ export default class TransferView extends Component {
                           <div className="activity_text_two courier_type">+ {Number(activity.value)} {activity.coin.toUpperCase()}</div>
                           <div className="mt-1">
                             <span className="small_activity_space">{activity.coin.toUpperCase()}
-                              {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
-                              {firstLetterCaps(activity.state)}
+                              &nbsp;{firstLetterCaps(activity.state)}
                             </span>
                           </div>
                         </td>
