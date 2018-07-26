@@ -74,7 +74,7 @@ export default class Users extends Component {
       startCreatingUser
     } = this.props;
     return (
-      <div className="col-md-2 col-4 mt-3">
+      <div className={`col-md-2 col-4 mt-3 ${this.props.isAdmin ? 'offset-md-2 offset-4' : ''}`}>
         <button
           type="button"
           className="btn-create-admin w-100"
