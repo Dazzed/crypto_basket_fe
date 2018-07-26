@@ -11,6 +11,7 @@ import Withdrawals from './components/Withdrawals';
 export default class componentName extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
+    globalData: PropTypes.object.isRequired,
   }
 
   render() {

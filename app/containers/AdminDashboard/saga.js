@@ -354,10 +354,9 @@ function* fetchUsersWatcher() {
       const requestURL = searchQuery ? `/api/users/search/` + searchQuery : baseRequestURL;
       const args = '?' + (filterQuery.where ? `filter[where][verificationStatus]=${filterQuery.where.verificationStatus}&` : "") + (filterQuery.order ? `filter[order]=${filterQuery.order}` : "")
       const params = {
-        method: 'GET',
-        headers: { 'Authorization': window.access_token }
+        method: 'GET'
       };
-      const result = yield call(request, { name: requestURL + args }, params);
+      const result = yield call(request, { name: requestURL + args + '&filter[include][roleMapping]=role' }, params);
       yield put(fetchUsersSuccess(result));
     } catch (error) {
       yield put(fetchUsersError(error));

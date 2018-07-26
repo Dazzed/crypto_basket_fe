@@ -36,7 +36,8 @@ import {
   submitFeedback,
   submitFeedbackSuccess,
   submitFeedbackError,
-  changeVerificationStatus
+  changeVerificationStatus,
+  onResizeWindow
 } from './actions';
 
 const initialState = {
@@ -45,10 +46,15 @@ const initialState = {
   isAuthenticating: true,
   isLoggingOut: false,
   feedbackModalOpen: false,
-  isSubmittingFeedback: false
+  isSubmittingFeedback: false,
+  windowInnerWidth: window.innerWidth
 };
 
 const reducer = {
+  [onResizeWindow]: state => ({
+    ...state,
+    windowInnerWidth: window.innerWidth
+  }),
   [authFailure]: state => ({
     ...state,
     isAuthenticating: false,

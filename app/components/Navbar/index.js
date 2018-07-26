@@ -46,17 +46,25 @@ class AppNavbar extends React.Component {
     }
   }
 
+  renderActiveClassName = path => {
+    if (this.props.location.pathname.includes(path)) {
+      return 'melotic-green';
+    }
+    return 'regular-navbar-item-color';
+  }
+
   renderRegularUser = () => {
     const {
       currentUser
     } = this.props;
+    const renderActiveClassName = this.renderActiveClassName;
     return (
       <Fragment>
         <div>
           <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
             <NavbarBrand href="/">MELOTIC</NavbarBrand>
             <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children" style={{ zIndex: 2 }}>
+            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
               <Nav className="text-left pl-5" navbar>
                 {/* <NavItem>
                   <NavLink href="/components/" className="black">Components</NavLink>
@@ -76,45 +84,45 @@ class AppNavbar extends React.Component {
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard" style={{ color: '#76837B' }}>Dashboard</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard" className={renderActiveClassName('/dashboard')}>Dashboard</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/buy" style={{ color: '#76837B' }}>Buy</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/buy" className={renderActiveClassName('/dashboard/buy')}>Buy</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/sell" style={{ color: '#76837B' }}>Sell</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/sell" className={renderActiveClassName('/dashboard/sell')}>Sell</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/deposit" style={{ color: '#76837B' }}>Deposit</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/deposit" className={renderActiveClassName('/dashboard/deposit')}>Deposit</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/withdraw" style={{ color: '#76837B' }}>Withdraw</Link>
-                </NavItem>
-                <br />
-                <br />
-                <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/activity" style={{ color: '#76837B' }}>Activity</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/withdraw" className={renderActiveClassName('/dashboard/withdraw')}>Withdraw</Link>
                 </NavItem>
                 <br />
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/settings" style={{ color: '#76837B' }}>Settings</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/activity" className={renderActiveClassName('/dashboard/activity')}>Activity</Link>
+                </NavItem>
+                <br />
+                <br />
+                <NavItem>
+                  <Link onClick={this.toggleMobile} to="/dashboard/settings" className={renderActiveClassName('/dashboard/settings')}>Settings</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/dashboard/faqs" style={{ color: '#76837B' }}>FAQs</Link>
+                  <Link onClick={this.toggleMobile} to="/dashboard/faqs" className={renderActiveClassName('/dashboard/faqs')}>FAQs</Link>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <a onClick={() => { this.toggleMobile(); this.props.openFeedbackModal(); }} style={{ color: '#76837B' }}>Send Feedback</a>
+                  <a onClick={() => { this.toggleMobile(); this.props.openFeedbackModal(); }} className={renderActiveClassName('/send_feedback')}>Send Feedback</a>
                 </NavItem>
                 <br />
                 <NavItem>
-                  <a onClick={() => { this.toggleMobile(); this.props.logOutRequest(); }} style={{ color: '#76837B' }}>Logout</a>
+                  <a onClick={() => { this.toggleMobile(); this.props.logOutRequest(); }} className={renderActiveClassName('/logout')}>Logout</a>
                 </NavItem>
               </Nav>
             </Collapse>
@@ -152,27 +160,28 @@ class AppNavbar extends React.Component {
     const {
       currentUser
     } = this.props;
+    const renderActiveClassName = this.renderActiveClassName;
     return (
       <Fragment>
         <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
           <NavbarBrand href="/">MELOTIC</NavbarBrand>
           <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-          <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children" style={{ zIndex: 2 }}>
+          <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
             <Nav className="text-left pl-5" navbar>
               <NavItem>
-                <Link onClick={this.toggleMobile} to="/dashboard/users" style={{ color: '#76837B' }}>Users</Link>
+                <Link onClick={this.toggleMobile} to="/dashboard/users" className={renderActiveClassName('/dashboard/users')}>Users</Link>
               </NavItem>
               <br />
               <NavItem>
-                <Link onClick={this.toggleMobile} to="/dashboard/activity" style={{ color: '#76837B' }}>Activity</Link>
+                <Link onClick={this.toggleMobile} to="/dashboard/activity" className={renderActiveClassName('/dashboard/activity')}>Activity</Link>
               </NavItem>
               <br />
               <NavItem>
-                <Link onClick={this.toggleMobile} to="/dashboard/assets" style={{ color: '#76837B' }}>Assets</Link>
+                <Link onClick={this.toggleMobile} to="/dashboard/assets" className={renderActiveClassName('/dashboard/assets')}>Assets</Link>
               </NavItem>
               <br />
               <NavItem>
-                <a onClick={() => { this.toggleMobile(); this.props.logOutRequest(); }} style={{ color: '#76837B' }}>Logout</a>
+                <a onClick={() => { this.toggleMobile(); this.props.logOutRequest(); }} className={renderActiveClassName('/logout')}>Logout</a>
               </NavItem>
             </Nav>
           </Collapse>
@@ -205,19 +214,20 @@ class AppNavbar extends React.Component {
     const {
       currentUser
     } = this.props;
+    const renderActiveClassName = this.renderActiveClassName;
     if (!currentUser) {
       return (
         <Fragment>
           <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
             <NavbarBrand href="/">MELOTIC</NavbarBrand>
             <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children" style={{ zIndex: 2 }}>
-              <Nav className="ml-auto" navbar>
+            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
+              <Nav className="text-left pl-5" navbar>
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/user_login" className="black">Log In</Link>
+                  <Link onClick={this.toggleMobile} to="/user_login" className={renderActiveClassName('/user_login')}>Log In</Link>
                 </NavItem>
                 <NavItem>
-                  <Link onClick={this.toggleMobile} to="/user_register" className="black">Create Account</Link>
+                  <Link onClick={this.toggleMobile} to="/user_register" className={renderActiveClassName('/user_register')}>Create Account</Link>
                 </NavItem>
               </Nav>
             </Collapse>

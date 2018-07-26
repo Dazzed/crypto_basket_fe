@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import RenderField from 'components/RenderField';
 import Loading from 'components/Loading';
-import StepOne from 'img/step_one.png';
+import StepOne from 'img/enrollment_step_1.png';
 import validate from './validate';
 import asyncValidate from './asyncValidate';
 

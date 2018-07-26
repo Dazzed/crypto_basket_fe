@@ -32,10 +32,11 @@ class Activity extends Component {
     startDate: PropTypes.object,
     endDate: PropTypes.object,
     onChangeStatus: PropTypes.func.isRequired,
-    state: PropTypes.oneOf([
+    state: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ]).isRequired
+    ]).isRequired,
+    globalData: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -80,7 +81,8 @@ class Activity extends Component {
       },
       searchTerm,
       onSearch,
-      onChangeStatus
+      onChangeStatus,
+      globalData
     } = this.props;
 
     const isNoDataPresent = isFetchingActivities === false && totalActivitiesCount === 0;
@@ -91,7 +93,7 @@ class Activity extends Component {
         <div className="row mt-3  bg_white purchase_content">
           <div className="col-lg-12">
             <div className="row mt-4 p-4">
-              <div className="col-lg-3 col-md-3 col-3">
+              <div className="col-lg-3 col-md-3 col-12">
                 <input
                   type="text"
                   name="filter_text"
@@ -102,9 +104,9 @@ class Activity extends Component {
                   onChange={onSearch}
                 />
               </div>
-              <div className="col-lg-9 col-md-9 col-9">
+              <div className="col-lg-9 col-md-9 col-12">
                 <div className="row">
-                  <div className="col-lg-2 col-md-2 col-2 col_act_6">
+                  <div className="col-lg-2 col-md-2 col-12 col_act_6">
                     <select
                       type="text"
                       className="field_input_activity"
@@ -118,7 +120,7 @@ class Activity extends Component {
                       <option value="refund">Type: Refund</option>
                     </select>
                   </div>
-                  <div className="col-lg-2 col-md-2 col-2 col_act_6_2">
+                  <div className="col-lg-2 col-md-2 col-12 col_act_6_2">
                     <select
                       type="text"
                       className="field_input_activity"
@@ -132,7 +134,7 @@ class Activity extends Component {
                       <option value={'canceled'}>Status: Cancelled</option>
                     </select>
                   </div>
-                  <div className="col-lg-8 col-md-8 col-8 col_act_6_3">
+                  <div className="col-lg-8 col-md-8 col-12 col_act_6_3">
                     <div className="input-group">
                       <span>
                         <DateRangePicker
@@ -149,6 +151,7 @@ class Activity extends Component {
                           displayFormat="YYYY-MM-DD"
                           daySize={35}
                           isOutsideRange={() => false}
+                          orientation={globalData.windowInnerWidth < 576 ? 'vertical' : 'horizontal'}
                         />
                       </span>
                       <span className="clear-date-container">

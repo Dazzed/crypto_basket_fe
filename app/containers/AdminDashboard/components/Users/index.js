@@ -12,7 +12,6 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import { BrowserRouter as Router } from 'react-router-dom'
 
 import _ from 'lodash';
 
@@ -31,6 +30,7 @@ export default class Users extends Component {
     super(props);
     this.state = { dropdownOpen: false };
   }
+
   componentWillMount() {
     this.props.fetchUsers();
   }
@@ -204,26 +204,36 @@ export default class Users extends Component {
                     </thead>
                     <tbody>
 
-                      {users.map((elem, index) => {
-                        const changeUser = () => {
-                          this.openUser(elem);
-                        };
-                        return (
-                          <tr onClick={changeUser} key={`user_${index}`}>
-                            <td>
-                              {elem.email}
-                            </td>
-                            <td>{elem.firstName}</td>
-                            <td>{elem.lastName}</td>
-                            <td>{elem.username}</td>
-                            <td className="text-right">
-                              <span className={this.getColor(elem.verificationStatus)}>
-                                {this.getVerificationString(elem.verificationStatus)}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {users
+                        .map((elem, index) => {
+                          const changeUser = () => {
+                            this.openUser(elem);
+                          };
+                          return (
+                            <tr onClick={changeUser} key={`user_${index}`}>
+                              <td>
+                                <span>
+                                  {elem.email}
+                                  {elem.roleMapping ?
+                                    <span>
+                                      &nbsp;<span className="melotic-circular-font">
+                                        {elem.roleMapping.role.name === 'admin' ? 'A' : 'SA'}
+                                      </span>
+                                    </span> : null
+                                  }
+                                </span>
+                              </td>
+                              <td>{elem.firstName}</td>
+                              <td>{elem.lastName}</td>
+                              <td>{elem.username}</td>
+                              <td className="text-right">
+                                <span className={this.getColor(elem.verificationStatus)}>
+                                  {this.getVerificationString(elem.verificationStatus)}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>

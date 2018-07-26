@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import StepThreeImage from 'img/step_three.png';
+import StepThreeImage from 'img/enrollment_step_3.png';
 
 export default class StepTwo extends Component {
   static propTypes = {

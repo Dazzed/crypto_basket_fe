@@ -14,6 +14,7 @@ import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
+import { onResizeWindow } from 'containers/App/actions';
 
 
 // Load the favicon, the manifest.json file and the .htaccess file
@@ -63,3 +64,5 @@ if (module.hot) {
 }
 
 render();
+
+window.onresize = () => store.dispatch(onResizeWindow());

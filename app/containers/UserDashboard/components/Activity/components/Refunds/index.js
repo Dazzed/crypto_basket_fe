@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
-import Pagination from 'components/Pagination';
-import WrapLoading from 'components/WrapLoading';
-
-import renderImageForAsset from 'helpers/renderImageForAsset';
-
-
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 
-import SortHOC from '../TransferSortHOC';
-
+import Pagination from 'components/Pagination';
+import WrapLoading from 'components/WrapLoading';
+import renderImageForAsset from 'helpers/renderImageForAsset';
 import { firstLetterCaps } from 'utils';
+import SortHOC from '../TransferSortHOC';
 
 class Refunds extends Component {
   state = {
@@ -37,10 +32,13 @@ class Refunds extends Component {
     });
   }
   onChange = evt => {
-    this.setState({valueIn: evt.target.value});
+    this.setState({ valueIn: evt.target.value });
   }
 
   render() {
+    const {
+      globalData
+    } = this.props;
     const {
       totalActivitiesCount,
       activities,
@@ -57,38 +55,38 @@ class Refunds extends Component {
       <div className="row mt-3  bg_white purchase_content">
         <div className="col-lg-12">
           <div className="row mt-4 p-4">
-            <div className="col-lg-9 col-md-9 col-12 ml-auto">
-              <div className="row">
-                <div className="col-lg-3 col-md-3 col-3">
-                  <select type="text" className="field_input_activity" onChange={this.onChange}>
-                    <option value={'usd'}>Show in USD</option>
-                    <option value={'btc'}>Show in BTC</option>
-                    <option value={'eth'}>Show in ETH</option>
-                  </select>
-                </div>
-                <div className="col-lg-6 col-md-6 col-6">
-                  <div className="input-group">
-                    <span>
-                      <DateRangePicker
-                        startDateId="fromDateforUser"
-                        startDate={this.props.startDate}
-                        endDateId="toDateforUser"
-                        endDate={this.props.endDate}
-                        onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
-                        focusedInput={this.state.focusedInput}
-                        onFocusChange={focusedInput => this.setState({ focusedInput })}
-                        showDefaultInputIcon
-                        inputIconPosition="after"
-                        hideKeyboardShortcutsPanel
-                        displayFormat="YYYY-MM-DD"
-                        daySize={35}
-                        isOutsideRange={() => false}
-                      />
-                    </span>
-                    <span className="clear-date-container">
-                      <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
-                    </span>
-                  </div>
+            <div className="row">
+              <div className="col-lg-3 col-md-3 col-12">
+                <select type="text" className="field_input_activity" onChange={this.onChange}>
+                  <option value={'usd'}>Show in USD</option>
+                  <option value={'btc'}>Show in BTC</option>
+                  <option value={'eth'}>Show in ETH</option>
+                </select>
+              </div>
+              <div className="col-lg-9 col-md-9 col-12 mobile-pt-5">
+                <div className="input-group">
+                  <span>
+                    <DateRangePicker
+                      startDateId="fromDateforUser"
+                      startDate={this.props.startDate}
+                      endDateId="toDateforUser"
+                      endDate={this.props.endDate}
+                      onDatesChange={({ startDate, endDate }) => this.props.handleDatesChange(startDate, endDate)}
+                      focusedInput={this.state.focusedInput}
+                      onFocusChange={focusedInput => this.setState({ focusedInput })}
+                      showDefaultInputIcon
+                      inputIconPosition="after"
+                      hideKeyboardShortcutsPanel
+                      displayFormat="YYYY-MM-DD"
+                      daySize={35}
+                      isOutsideRange={() => false}
+                      showClearDate
+                      orientation={globalData.windowInnerWidth < 576 ? 'vertical' : 'horizontal'}
+                    />
+                  </span>
+                  <span className="clear-date-container">
+                    <a className="red cursor-pointer" onClick={this.props.clearDates}>Clear</a>
+                  </span>
                 </div>
               </div>
             </div>
@@ -126,17 +124,17 @@ class Refunds extends Component {
                                 {moment(activity.createdAt).format('MMM DD, YYYY')}
                               </div>
                             </td>
-                            {activity.state==='failed' || activity.state==='complete'? (<td className="vertical_top">
+                            {activity.state === 'failed' || activity.state === 'complete' ? (<td className="vertical_top">
                               {firstLetterCaps(activity.state)}
                               <div className="activity_text_two mt-3">
                                 {moment(activity.confirmedTime).format('MMM DD, YYYY')}
                               </div>
-                            </td>):(
-                            <td className="vertical_middle">
-                              <div className="activity_text_two">
-                                {firstLetterCaps(activity.state)}
-                              </div>
-                            </td>)}
+                            </td>) : (
+                                <td className="vertical_middle">
+                                  <div className="activity_text_two">
+                                    {firstLetterCaps(activity.state)}
+                                  </div>
+                                </td>)}
                             {
                               hoveredId === activity.id ?
                                 <td className="vertical_middle">
@@ -166,11 +164,11 @@ class Refunds extends Component {
                       {
                         activities.map((activity, i) => (
                           <tr key={`mobile_activity_${i}`}>
-                            <td>
+                            <th>
                               <div className="h-100 text-right table_data_activity">
                                 {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
-                              <div className="w-75 text-left table_data_activity ml-2">
+                              <div className="text-left table_data_activity ml-2">
                                 <span>
                                   {moment(activity.createdAt).format('MMM dd, YYYY')}
                                 </span>
@@ -182,13 +180,13 @@ class Refunds extends Component {
                                 <br />
                                 <span className="activity_text_one">{activity.coin}</span>
                               </div>
-                            </td>
-                            <td className="vertical_top courier_type">
+                            </th>
+                            <th className="vertical_top courier_type">
                               ${activity[this.state.valueIn + 'Value']} {this.state.valueIn.toUpperCase()}
                               <div className="activity_text_two mt-3">
                                 + {activity.value} {activity.coin}
                               </div>
-                            </td>
+                            </th>
                           </tr>
                         ))
                       }
@@ -221,6 +219,7 @@ Refunds.propTypes = {
   activePage: PropTypes.number.isRequired,
   startDate: PropTypes.object,
   endDate: PropTypes.object,
+  globalData: PropTypes.object.isRequired,
 };
 
 export default SortHOC(Refunds, 'refund');

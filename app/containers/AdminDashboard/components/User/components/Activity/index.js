@@ -9,9 +9,9 @@ import BtcIcon from 'img/icon_btc.png';
 import ETHIcon from 'img/icon_eth.png';
 import ArrowDownImage from 'img/arrow-down.png';
 
-import SortHOC from '../../../Activity/SortHOC';
+import { firstLetterCaps, formatNumberWithCommas } from 'utils';
 
-import { firstLetterCaps } from 'utils';
+import SortHOC from '../../../Activity/SortHOC';
 
 class Activity extends Component {
   static propTypes = {
@@ -24,7 +24,8 @@ class Activity extends Component {
   }
 
   state = {
-    hoveredId: null
+    hoveredId: null,
+    valueIn: 'usd',
   };
 
   onHoverRecord = record => {
@@ -76,10 +77,10 @@ class Activity extends Component {
       hoveredId
     } = this.state;
     return (
-      <div className="row mt-3  bg_white purchase_content">
+      <div className="row mt-3 bg_white purchase_content">
         {this.renderActivityTypes()}
-        <div className="col-lg-12 h-100">
-          <div className="row mt-2 p-4">
+        <div className="col-12 h-100">
+          <div className="row mt-2 p-4 d-none d-sm-none d-md-none d-lg-block">
             <div className="col-lg-12 col-md-12">
               {/* visible medium and large devices */}
               <div className="users_list table-responsive d-none d-sm-none d-md-block">
@@ -145,49 +146,49 @@ class Activity extends Component {
                   </WrapLoading>
                 </table>
               </div>
-              <div className="users_list table-responsive d-block d-md-none d-lg-none">
-                <table className="table border_top">
-                  <WrapLoading loading={isFetchingUserActivities} loadingProps={{ insideTable: true, colSpan: 2 }}>
-                    <tbody>
-                      {
-                        userActivities.map((data, i) => (
-                          <tr key={`trade_data_mobile_${i}`}>
-                            <td>
-                              <div className="h-100 text-right table_data_activity">
-                                {renderImageForAsset(data.toAsset.ticker)}
-                              </div>
-                              <div className="w-75 text-left table_data_activity ml-2">
-                                <span>
-                                  {moment(data.createdAt).format('MMM DD, YYYY')}
-                                </span>
-                                <span>
-                                  {firstLetterCaps(data.state)}
-                                </span>
-                                <br />
-                                <br />
-                                <span className="activity_text_one">
-                                  {data.isBuy ? data.toAsset.name : data.fromAsset.name}
-                                  &nbsp;{firstLetterCaps(data.isBuy ? 'purchase' : 'sale')}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="vertical_top courier_type">
-                              $12,345.12 USD
-                              <div className="activity_text_two mt-3">
-                                {data.isBuy ?
-                                  `+ ${data.toAssetAmount} ${data.toAsset.ticker.toUpperCase()}` :
-                                  `- ${Number(data.fromAssetAmount)} ${data.fromAsset.ticker.toUpperCase()}`
-                                }
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      }
-                    </tbody>
-                  </WrapLoading>
-                </table>
-              </div>
             </div>
+          </div>
+          <div className="users_list table-responsive d-block d-lg-none">
+            <table className="table border_top">
+              <WrapLoading loading={isFetchingUserActivities} loadingProps={{ insideTable: true, colSpan: 2 }}>
+                <tbody>
+                  {
+                    userActivities.map((data, i) => (
+                      <tr key={`trade_data_mobile_${i}`}>
+                        <th>
+                          <div className="h-100 text-right table_data_activity">
+                            {renderImageForAsset(data.toAsset.ticker)}
+                          </div>
+                          <div className="w-75 text-left table_data_activity ml-2">
+                            <span>
+                              {moment(data.createdAt).format('MMM DD, YYYY')}
+                            </span>
+                            <span>
+                              &nbsp;{firstLetterCaps(data.state)}
+                            </span>
+                            <br />
+                            <br />
+                            <span className="activity_text_one">
+                              {data.isBuy ? data.toAsset.name : data.fromAsset.name}
+                              &nbsp;{firstLetterCaps(data.isBuy ? 'purchase' : 'sale')}
+                            </span>
+                          </div>
+                        </th>
+                        <th className="vertical_top courier_type">
+                          ${formatNumberWithCommas(Number(data[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
+                          <div className="activity_text_two mt-3">
+                            {data.isBuy ?
+                              `+ ${data.toAssetAmount} ${data.toAsset.ticker.toUpperCase()}` :
+                              `- ${Number(data.fromAssetAmount)} ${data.fromAsset.ticker.toUpperCase()}`
+                            }
+                          </div>
+                        </th>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </WrapLoading>
+            </table>
           </div>
         </div>
         <div className="col-lg-12">
@@ -257,7 +258,7 @@ class Activity extends Component {
                                   <span className="accept_btn ml-2 p-2">Accept</span>
                                 </td> :
                                 <td className="vertical_top courier_type">
-                                  ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
+                                  ${formatNumberWithCommas(Number(activity[this.state.valueIn + 'Value']).toFixed(2))} {this.state.valueIn.toUpperCase()}
                                   <div className="activity_text_two mt-3">
                                     + {Number(activity.value)} {activity.coin}
                                   </div>
@@ -277,29 +278,29 @@ class Activity extends Component {
                       {
                         userActivities.map((activity, i) => (
                           <tr key={`mobile_activity_${i}`}>
-                            <td>
+                            <th>
                               <div className="h-100 text-right table_data_activity">
                                 {renderImageForAsset(activity.coin.toLowerCase())}
                               </div>
                               <div className="w-75 text-left table_data_activity ml-2">
                                 <span>
-                                  {moment(activity.createdAt).format('MMM dd, YYYY')}
+                                  {moment(activity.createdAt).format('MMM DD, YYYY')}
                                 </span>
                                 <span>
                                   {/* {activity.confirmed ? 'Completed' : 'Pending'} */}
-                                  {firstLetterCaps(activity.state)}
+                                  &nbsp;{firstLetterCaps(activity.state)}
                                 </span>
                                 <br />
                                 <br />
                                 <span className="activity_text_one">{activity.coin}</span>
                               </div>
-                            </td>
-                            <td className="vertical_top courier_type">
+                            </th>
+                            <th className="vertical_top courier_type">
                               ${Number.prototype.toFixed.call(Number(activity.usdValue), 2)} USD
                               <div className="activity_text_two mt-3">
                                 + {Number(activity.value)} {activity.coin}
                               </div>
-                            </td>
+                            </th>
                           </tr>
                         ))
                       }

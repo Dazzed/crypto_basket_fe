@@ -70,7 +70,7 @@ export default class TradeView extends Component {
     } = this.props.adminDashboard;
     console.log('this.hoveredId', this.state.hoveredId);
     return (
-      <div className="row mt-2 p-4  d-none d-sm-none d-md-none d-lg-block">
+      <div className="row mt-2 p-4 d-none d-sm-none d-md-none d-lg-block">
         <div className="col-lg-12 col-md-12">
           <div className="users_list table-responsive pr-5">
             <table className="table">
@@ -278,7 +278,7 @@ export default class TradeView extends Component {
       isFetchingActivities
     } = this.props.adminDashboard;
     return (
-      <div className="row mt-2  d-block d-md-none d-lg-none">
+      <div className="row mt-2 d-block d-md-none d-lg-none">
         <div className="col-lg-12 col-md-12">
           <div className="users_list table-responsive">
             <table className="table">

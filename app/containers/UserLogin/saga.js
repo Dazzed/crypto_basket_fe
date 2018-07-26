@@ -45,7 +45,10 @@ function* loginFormWatcher() {
         const requestURL = '/api/users/login';
         const params = {
           method: 'POST',
-          body: JSON.stringify(credentials)
+          body: JSON.stringify({
+            email: credentials.email.toLowerCase(),
+            password: credentials.password
+          })
         };
         const loginResponse = yield call(request, { name: requestURL }, params);
         if (loginResponse.twoFactorRequired) {

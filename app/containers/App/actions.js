@@ -46,3 +46,7 @@ export const changeVerificationStatus = createAction(
   `${PREFIX}_CHANGE_VERIFICATION_STATUS`,
   verificationStatus => verificationStatus
 );
+
+export const onResizeWindow = createAction(
+  `${PREFIX}_ON_RESIZE_WINDOW`
+);
