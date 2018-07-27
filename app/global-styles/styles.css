@@ -161,7 +161,6 @@ p {
 }
 
 input::placeholder {
-  font-size: 16px;
   text-align: left;
   color: #acb6b0;
 }
@@ -1235,6 +1234,16 @@ input:checked+.slider:before {
     }*/
   #pickers_one {
     margin-left: 75 !important;
+  }
+
+  input::placeholder {
+    font-size: 12px !important;
+  }
+}
+
+@media (min-width: 321px) {
+  input::placeholder {
+    font-size: 14px !important;
   }
 }
 
