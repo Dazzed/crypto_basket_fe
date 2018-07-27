@@ -174,7 +174,7 @@
 }
 
 input:-moz-placeholder {
-  box-shadow:none;
+  box-shadow: none;
 }
 
 input:invalid {
@@ -183,20 +183,19 @@ input:invalid {
 
 @media (max-width: 768px) {
   .mobile-pt-5 {
-    padding-top: 3rem!important;
+    padding-top: 3rem !important;
   }
 }
 
 .melotic-circular-font {
-  height: 25px;
-  width: 25px;
-  display: table-cell;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
   text-align: center;
   vertical-align: middle;
   border-radius: 50%;
   background: red;
   color: white;
-  top: 5%;
 }
 
 .regular-navbar-item-color {

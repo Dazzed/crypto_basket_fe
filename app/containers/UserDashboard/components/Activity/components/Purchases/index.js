@@ -84,6 +84,7 @@ class Purchases extends Component {
                       isOutsideRange={() => false}
                       showClearDate
                       orientation={globalData.windowInnerWidth < 576 ? 'vertical' : 'horizontal'}
+                      small={globalData.windowInnerWidth < 576}
                     />
                   </span>
                   <span className="clear-date-container">

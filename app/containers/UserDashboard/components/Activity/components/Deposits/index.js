@@ -83,6 +83,7 @@ class Deposits extends Component {
                       daySize={35}
                       isOutsideRange={() => false}
                       orientation={globalData.windowInnerWidth < 576 ? 'vertical' : 'horizontal'}
+                      small={globalData.windowInnerWidth < 576}
                     />
                   </span>
                   <span className="clear-date-container">

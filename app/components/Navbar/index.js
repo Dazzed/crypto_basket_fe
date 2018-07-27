@@ -64,7 +64,7 @@ class AppNavbar extends React.Component {
           <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
             <NavbarBrand href="/">MELOTIC</NavbarBrand>
             <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
+            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4 mt-2" style={{ zIndex: 2 }}>
               <Nav className="text-left pl-5" navbar>
                 {/* <NavItem>
                   <NavLink href="/components/" className="black">Components</NavLink>
@@ -166,7 +166,7 @@ class AppNavbar extends React.Component {
         <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
           <NavbarBrand href="/">MELOTIC</NavbarBrand>
           <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-          <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
+          <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-5 mt-2" style={{ zIndex: 2 }}>
             <Nav className="text-left pl-5" navbar>
               <NavItem>
                 <Link onClick={this.toggleMobile} to="/dashboard/users" className={renderActiveClassName('/dashboard/users')}>Users</Link>
@@ -221,7 +221,7 @@ class AppNavbar extends React.Component {
           <Navbar color="light" light expand="" className="d-lg-none d-md-block navbar-dark bg-dark">
             <NavbarBrand href="/">MELOTIC</NavbarBrand>
             <NavbarToggler className="float-right" onClick={this.toggleMobile} />
-            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-4" style={{ zIndex: 2 }}>
+            <Collapse isOpen={this.state.dropdownMobileOpen} navbar className="hamburger-children pt-5 mt-2" style={{ zIndex: 2 }}>
               <Nav className="text-left pl-5" navbar>
                 <NavItem>
                   <Link onClick={this.toggleMobile} to="/user_login" className={renderActiveClassName('/user_login')}>Log In</Link>
